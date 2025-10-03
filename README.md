@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LMS Project - Learning Management System
 
-## Getting Started
+A modern Learning Management System (LMS) built with Next.js 15, React 19, and TypeScript. This application provides a comprehensive platform for managing educational content, courses, and student interactions.
 
-First, run the development server:
+## 🚀 Project Overview
+
+This LMS project is designed to provide a scalable and modern learning management solution with the following key features:
+
+- **Modern Tech Stack**: Built with Next.js 15, React 19, and TypeScript
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Internationalization**: Multi-language support with locale-based routing
+- **Component Library**: Reusable UI components with shadcn/ui
+- **State Management**: Redux for global state management
+- **Type Safety**: Full TypeScript support for better development experience
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS 4, CSS Modules
+- **UI Components**: shadcn/ui, Lucide React icons
+- **State Management**: Redux Toolkit
+- **Development**: ESLint, TypeScript, Turbopack
+- **Package Manager**: npm
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed on your development machine:
+
+- **Node.js**: Version 18.17 or later ([Download here](https://nodejs.org/))
+- **npm**: Version 9.0 or later (comes with Node.js)
+- **Git**: For version control ([Download here](https://git-scm.com/))
+
+### System Requirements
+
+- **Operating System**: Windows 10/11, macOS 10.15+, or Linux
+- **RAM**: Minimum 4GB (8GB recommended)
+- **Disk Space**: At least 2GB free space
+- **Browser**: Chrome 90+, Firefox 88+, Safari 14+, or Edge 90+
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd lms_project
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Environment Setup
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a `.env.local` file in the root d
