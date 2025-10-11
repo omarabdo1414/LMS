@@ -5,7 +5,7 @@ import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import { forgetPasswodSchema } from "@/validations/validations";
 import { IForgetPass } from "@/constants/interfaces";
 import { useFormik } from "formik";
-import { forgetPassword } from "@/Apis/auth/forgetPassword";
+import { forgetPassword } from "@/app/apis/auth/forgetPassword";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 

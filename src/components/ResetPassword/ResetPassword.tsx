@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { IResetPass } from "@/constants/interfaces";
 import { resetPasswodSchema } from "@/validations/validations";
 import { useRouter } from "next/navigation";
-import { resetPassword } from "@/Apis/auth/resetPassword";
+import { resetPassword } from "@/app/apis/auth/resetPassword";
 import toast from "react-hot-toast";
 import { EyeIcon, EyeOff } from "lucide-react";
 

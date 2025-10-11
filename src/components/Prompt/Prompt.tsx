@@ -2,6 +2,9 @@
 import React, { useEffect, useState } from "react";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import { X } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { roles } from "@/constants/enums";
 /**
  * service => service name(ex:payment,delete)
  * data => data of item that action it
@@ -27,6 +30,11 @@ export default function Prompt({
   handleFunc,
   setPrompt,
 }: TpromptProps) {
+  let { userData } = useSelector((state: RootState) => state.user);
+  if(userData?.role === roles.ADMIN || userData?.role === roles.SUPER_ADMIN ){
+
+  }
+  userData?.role
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key == "Escape") {
@@ -41,10 +49,10 @@ export default function Prompt({
           <div className="contain my-5">
             {/* service and close icon */}
             <div className="flex justify-between">
-            {/* service  */}
+              {/* service  */}
               <h3 className="font-semibold text-xl">{service}</h3>
 
-            {/* close icon */}
+              {/* close icon */}
               <div
                 onClick={() => {
                   setPrompt(false);
@@ -57,7 +65,11 @@ export default function Prompt({
 
             {/* sure */}
             <p className="my-6">
-              Sure to {service} to <span className="text-primary font-semibold capitalize">{data.title}</span>?
+              Sure to {service} to{" "}
+              <span className="text-primary font-semibold capitalize">
+                {data.title}
+              </span>
+              ?
             </p>
             <hr className="my-2" />
             {/* closebtn and func */}

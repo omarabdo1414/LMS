@@ -7,9 +7,10 @@ import Link from "next/link";
 import { ILoginForm } from "@/constants/interfaces";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import { loginSchema } from "@/validations/validations";
-import { signin } from "@/Apis/auth/signin";
+import { signin } from "@/app/apis/auth/signin";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 export default function LoginForm() {
   let router = useRouter();
   // loadingBtn
@@ -23,8 +24,13 @@ export default function LoginForm() {
     setLoading(false);
     console.log(data);
     if (data.success === true) {
-      //1-store token in localstorage
-      localStorage.setItem("token", data.token);
+      //1-store token in cookie
+      Cookies.set("token", data.token, {
+        path: "/",
+        expires: 1,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
       //2-success message
       toast.success(data.message);
       //3-navigate to home
@@ -157,7 +163,10 @@ export default function LoginForm() {
       <div className="my-3 text-center font-semibold">
         <p>
           Don't have an account?{" "}
-          <Link className="underline hover:text-accent hover:font-bold" href="/signup">
+          <Link
+            className="underline hover:text-accent hover:font-bold"
+            href="/signup"
+          >
             Create new account
           </Link>{" "}
         </p>

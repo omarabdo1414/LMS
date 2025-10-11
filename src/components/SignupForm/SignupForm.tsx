@@ -5,7 +5,7 @@ import ErrorMsg from "../ErrorMsg/ErrorMsg";
 import { EyeIcon, EyeOff, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { ISignup, ISignupForm } from "@/constants/interfaces";
-import { createAccount } from "@/Apis/auth/register";
+import { createAccount } from "@/app/apis/auth/register";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
@@ -328,7 +328,10 @@ export default function SignupForm() {
       <div className="my-3 text-center font-semibold">
         <p>
           Already have an account?{" "}
-          <Link className="underline hover:text-accent hover:font-bold" href="/login">
+          <Link
+            className="underline hover:text-accent hover:font-bold"
+            href="/login"
+          >
             login
           </Link>{" "}
         </p>
