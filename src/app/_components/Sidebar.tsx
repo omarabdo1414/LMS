@@ -42,7 +42,7 @@ const Sidebar = () => {
       label: "Courses",
       icon: BookOpenIcon,
       children: [
-        { label: "All Courses", path: "/courses", icon: BookOpenIcon },
+        { label: "All Courses", path: "/lessons", icon: BookOpenIcon },
         { label: "My Courses", path: "/myCourses", icon: BookmarkIcon },
         { label: "Add Course", path: "/addCourse", icon: PlusCircleIcon },
       ],
