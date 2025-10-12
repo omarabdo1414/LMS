@@ -64,3 +64,13 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
+
+export interface ExamForm {
+  title: string;
+  description: string;
+  duration: number;
+  classLevel: string;
+  startDate: string;
+  endDate: string;
+  isPublished: boolean;
+}
