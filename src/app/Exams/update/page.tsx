@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/guard/ProtectPages";
 
 interface ExamForm {
   title: string;
@@ -96,6 +97,7 @@ const EditExamPage = () => {
   };
 
   return (
+    <ProtectedRoute>
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
       <h1 className="text-2xl font-bold mb-6">Edit Exam</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -158,6 +160,7 @@ const EditExamPage = () => {
         </button>
       </form>
     </div>
+    </ProtectedRoute>
   );
 };
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import ProtectedRoute from "@/components/guard/ProtectPages";
 
 interface ExamForm {
   title: string;
@@ -18,7 +19,7 @@ const AddExamPage = () => {
     title: "",
     description: "",
     duration: 0,
-    classLevel: "",
+    classLevel: "Grade 1 Secondary",
     startDate: "",
     endDate: "",
     isPublished: false,
@@ -44,27 +45,36 @@ const AddExamPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         "https://edu-master-psi.vercel.app/exam",
         formData,
         {
           headers: {
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhcmFAZ21haWwuY29tIiwiX2lkIjoiNjcxN2VjNzc3YjI2NTAwOTlmZmE1NzM5IiwiaWF0IjoxNzI5NzAyNTYyLCJleHAiOjE3Mjk3MDYxNjJ9.GOeA21Du8sJ3LOz1oax3pLdywIPapHYmEuTtxQRyPyo",
+            token: token as string,
           },
         }
       );
       alert("✅ Exam added successfully!");
-      console.log(response.data);
+      console.log("Success:", response.data);
     } catch (error: any) {
-      console.error(error);
-      alert("❌ Failed to add exam!");
+      console.error("Full error:", error);
+      console.error("Error response:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      console.error("Error message:", error.message);
+      
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          `Failed to add exam! Status: ${error.response?.status || 'Unknown'}`;
+      
+      alert(`❌ ${errorMessage}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
+     <ProtectedRoute>
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
       <h1 className="text-2xl font-bold mb-6">Add New Exam</h1>
 
@@ -88,12 +98,24 @@ const AddExamPage = () => {
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
-        <input
+        {/* <input
           name="classLevel"
           placeholder="Class Level"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-        />
+        /> */}
+                <select
+                  className="w-full h-10 border rounded-sm bg-input dark:bg-slate-800 focus:outline-none  px-1 text-slate-800 dark:text-slate-300 border-gray-300 dark:border-gray-600 "
+                  name="classLevel"
+                  id="classLevel"
+                  
+                  onChange={handleChange}
+                >
+                  <option value="Grade 1 Secondary">Grade 1 Secondary</option>
+                  <option value="Grade 2 Secondary">Grade 2 Secondary</option>
+                  <option value="Grade 3 Secondary">Grade 3 Secondary</option>
+                </select>
+
         <input
           name="startDate"
           type="date"
@@ -125,6 +147,7 @@ const AddExamPage = () => {
         </button>
       </form>
     </div>
+    </ProtectedRoute>
   );
 };
 
