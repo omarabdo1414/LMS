@@ -35,21 +35,26 @@ const Sidebar = () => {
     return pathname.startsWith(path);
   };
 
+  const coursesChildren = [
+    { label: "All Courses", path: "/lessons", icon: BookOpenIcon },
+    { label: "My Courses", path: "/my-lessons", icon: BookmarkIcon },
+  ];
+
+  if (isAdmin) {
+    coursesChildren.push({
+      label: "Add Lesson",
+      path: "/admin/add-lesson",
+      icon: PlusCircleIcon,
+    });
+  }
+
   const navigationItems = [
     { label: "Dashboard", path: "/dashboard", icon: HomeIcon },
     { label: "Profile", path: "/profile", icon: UserCircleIcon },
-    {
-      label: "Courses",
-      icon: BookOpenIcon,
-      children: [
-        { label: "All Courses", path: "/lessons", icon: BookOpenIcon },
-        { label: "My Courses", path: "/myCourses", icon: BookmarkIcon },
-        { label: "Add Course", path: "/addCourse", icon: PlusCircleIcon },
-      ],
-    },
+    { label: "Courses", icon: BookOpenIcon, children: coursesChildren },
     isAdmin
-      ? { label: "Create Exam", path: "/createExam", icon: PencilSquareIcon }
-      : { label: "Exams", path: "/exams", icon: ClipboardDocumentListIcon },
+      ? { label: "Create Exam", path: "/Exams/add", icon: PencilSquareIcon }
+      : { label: "Exams", path: "/Exams/get", icon: ClipboardDocumentListIcon },
     { label: "Logout", path: "/login", icon: ArrowRightStartOnRectangleIcon },
   ];
 
@@ -59,6 +64,7 @@ const Sidebar = () => {
         isSidebarCollapsed ? "w-20" : "w-64"
       } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
     >
+      {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         {!isSidebarCollapsed && (
           <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
@@ -74,6 +80,7 @@ const Sidebar = () => {
         </button>
       </div>
 
+      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto mt-4 px-2 transition-all duration-300">
         {navigationItems.map((item, index) => {
           const hasChildren = item.children && item.children.length > 0;
