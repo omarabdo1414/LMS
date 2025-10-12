@@ -3,7 +3,6 @@ import { getMyLessons } from "@/app/apis/lessons/getMylessons";
 import LessonsDropDown from "@/components/lessonsDropDown/lessonsDropDown";
 import NotFound from "@/components/NotFound/NotFound";
 import { Ilesson } from "@/constants/interfaces";
-import { MoveRight } from "lucide-react";
 import React from "react";
 type TLessonProps = {
   params: {
@@ -12,17 +11,18 @@ type TLessonProps = {
 };
 export default async function LessonDetailsPage({ params }: TLessonProps) {
   let lessonData = await getLessonByID(params.lessonId);
+  let myLessons = await getMyLessons();
   let lesson: Ilesson = lessonData.data;
 
   return (
     <>
       {lesson ? (
         <section className="h-screen bg-slate-100 dark:bg-[oklch(0.129_0.042_264.695)]">
-          <div className="h-full contain py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full contain py-24">
             {/* video */}
             <div className="space-y-2">
               <iframe
-                className="w-full h-[400px] sm:h-[500px]  rounded-lg"
+                className="w-full h-[400px]  rounded-lg"
                 src={
                   lesson?.video
                     ? lesson.video
@@ -37,19 +37,19 @@ export default async function LessonDetailsPage({ params }: TLessonProps) {
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               ></iframe>
+
               <h1 className="text-3xl font-bold capitalize">
                 {lesson?.title}({lesson?.classLevel})
               </h1>
               <p>{lesson?.description}</p>
             </div>
+            {/* details */}
+
+            <LessonsDropDown lesson={lesson} myLessons={myLessons} />
           </div>
         </section>
       ) : (
-        <NotFound
-          hrefLink="/lessons"
-          btnName="Return Courses"
-          title="Could not find this course"
-        />
+        <NotFound hrefLink="/my-lessons" btnName="Return Courses" title="Could not find this course" />
       )}
     </>
   );

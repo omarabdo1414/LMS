@@ -38,11 +38,7 @@ export default function LessonCard({ lesson, myLessons }: TLessonProps) {
         className="bg-card border rounded-lg p-4 relative cursor-pointer h-full space-y-1.5"
       >
         {/* img and details  */}
-        <div
-          onClick={() => {
-            router.push(`/lessons/${lesson._id}`);
-          }}
-        >
+        <div>
           {/* img */}
           <Image className="w-full" src={img} alt="lesson" />
           {/* detsils */}
@@ -61,16 +57,27 @@ export default function LessonCard({ lesson, myLessons }: TLessonProps) {
             <p className="line-clamp-2">{lesson.description}</p>
           </div>
         </div>
-        {/* enroll btn */}
+        {/* enroll or view course btn */}
         {myLessons.find((item) => item._id === lesson._id) ||
         lesson.isPaid === false ? (
-          ""
+          <button
+            onClick={() => {
+              router.push(
+                myLessons.find((item) => item._id === lesson._id)
+                  ? `/my-lessons/${lesson._id}`
+                  : `/lessons/${lesson._id}`
+              );
+            }}
+            className="w-full btn h-9"
+          >
+            View Course
+          </button>
         ) : (
           <button
             onClick={() => {
               setPrompt(true);
             }}
-            className="w-full btn "
+            className="w-full btn h-9"
           >
             Enroll: {lesson.price}EGP
           </button>
@@ -90,7 +97,7 @@ export default function LessonCard({ lesson, myLessons }: TLessonProps) {
           <div className="bg-white w-2 h-2 rounded-full"></div>
           <span className="text-white">
             {lesson.isPaid && !myLessons.find((item) => item._id === lesson._id)
-              ? "paid"
+              ? "Paid"
               : myLessons.find((item) => item._id === lesson._id)
               ? "Owned"
               : lesson.isPaid === false

@@ -142,7 +142,7 @@ p {
 }
 /* buttons */
 .btn {
-  @apply bg-accent disabled:bg-accent/60 h-10 text-white rounded-lg cursor-pointer hover:bg-accent/90 flex justify-center items-center space-x-1;
+  @apply bg-accent disabled:bg-accent/60  text-white rounded-lg cursor-pointer hover:bg-accent/90 flex justify-center items-center space-x-1;
 }
 /* container in all pages */
 .contain {

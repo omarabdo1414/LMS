@@ -21,7 +21,7 @@ export default function SubmitBtn({
     <button
       type="submit"
       disabled={isLoading ? true : false}
-      className={`${className} btn`}
+      className={`${className} btn h-10`}
     >
       {isLoading ? (
         <>
