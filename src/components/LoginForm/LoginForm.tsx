@@ -10,12 +10,23 @@ import { loginSchema } from "@/validations/validations";
 import { signin } from "@/Apis/auth/signin";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
+
 export default function LoginForm() {
   let router = useRouter();
   // loadingBtn
   let [isLoading, setLoading] = useState<boolean>(false);
   // visible password
   let [visiblePass, setVisblePass] = useState<boolean>(false);
+
+  interface JwtPayload {
+  id?: string;
+  _id?: string;
+  email?: string;
+  role?: string;
+}
+
   //   signIn
   let handleForm = async (values: ILoginForm) => {
     setLoading(true);
@@ -23,8 +34,25 @@ export default function LoginForm() {
     setLoading(false);
     console.log(data);
     if (data.success === true) {
-      //1-store token in localstorage
-      localStorage.setItem("token", data.token);
+      //1-store token in cookie
+      Cookies.set("token", data.token, {
+        path: "/",
+        expires: 1,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+       const decoded = jwtDecode<JwtPayload>(data.token);
+    const userId = decoded.id || decoded._id;
+
+    if (userId) {
+      Cookies.set("userId", userId, {
+        path: "/",
+        expires: 1,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      console.log(userId);
+    }
       //2-success message
       toast.success(data.message);
       //3-navigate to home

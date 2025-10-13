@@ -12,6 +12,5 @@ export async function signin(body: ILoginForm) {
     return data
   } catch (error) {
     console.error(error);
-    
   }
 }

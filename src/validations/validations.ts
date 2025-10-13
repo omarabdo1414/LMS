@@ -51,3 +51,18 @@ export let resetPasswodSchema = Yup.object({
     .required("Otp is required")
     .matches(/^[0-9]{5,}$/, "enter valid otp"),
 });
+
+// change password
+export let changePasswordSchema = Yup.object({
+  oldPassword: Yup.string()
+    .required("Old password is required"),
+  newPassword: Yup.string()
+    .required("New password is required")
+    .matches(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      "Password minLength is 8 and must contain at least one uppercase, one lowercase, one number, and one special character"
+    ),
+  confirmPassword: Yup.string()
+    .required("Please confirm your new password")
+    .oneOf([Yup.ref("newPassword")], "Confirm password must match new password"),
+});
