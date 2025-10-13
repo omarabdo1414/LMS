@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
@@ -18,9 +18,12 @@ import {
   QuestionMarkCircleIcon,
   CogIcon,
 } from "@heroicons/react/24/outline";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
 
@@ -65,13 +68,20 @@ const Sidebar = () => {
     { label: "Help", path: "/", icon: QuestionMarkCircleIcon },
   ];
 
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    Cookies.remove("token");
+    Cookies.remove("userId");
+    toast.success("You logged out successfully");
+    router.push("/login");
+  };
+
   return (
     <div
       className={`h-screen flex flex-col shadow-lg border-r border-gray-200 transition-all duration-300 ${
         isSidebarCollapsed ? "w-20" : "w-64"
       } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
     >
-      {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         {!isSidebarCollapsed && (
           <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
@@ -126,7 +136,8 @@ const Sidebar = () => {
               ) : (
                 <Link
                   href={item.path || "#"}
-                  className={`flex items-center px-3 py-2 mx-1 rounded-lg w-full transition-all duration-300 ${
+                  onClick={item.label === "Logout" ? handleLogout : undefined}
+                  className={`flex items-center px-3 py-2 mx-1 my-1 rounded-lg w-full transition-all duration-300 ${
                     isActive(item.path)
                       ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 border-r-2 border-blue-500 dark:border-blue-400"
                       : "hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-blue-700 dark:hover:text-blue-200 text-gray-700 dark:text-gray-300"
