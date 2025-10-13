@@ -15,6 +15,8 @@ import {
   ChevronRightIcon,
   PlusCircleIcon,
   PencilSquareIcon,
+  QuestionMarkCircleIcon,
+  CogIcon,
 } from "@heroicons/react/24/outline";
 
 const Sidebar = () => {
@@ -58,6 +60,11 @@ const Sidebar = () => {
     { label: "Logout", path: "/login", icon: ArrowRightStartOnRectangleIcon },
   ];
 
+  const footerItems = [
+    { label: "Settings", path: "/", icon: CogIcon },
+    { label: "Help", path: "/", icon: QuestionMarkCircleIcon },
+  ];
+
   return (
     <div
       className={`h-screen flex flex-col shadow-lg border-r border-gray-200 transition-all duration-300 ${
@@ -80,7 +87,6 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 overflow-y-auto mt-4 px-2 transition-all duration-300">
         {navigationItems.map((item, index) => {
           const hasChildren = item.children && item.children.length > 0;
@@ -143,7 +149,7 @@ const Sidebar = () => {
               )}
 
               {hasChildren && isCoursesOpen && !isSidebarCollapsed && (
-                <div className="ml-10 mt-1 space-y-1">
+                <div className="ml-10 mt-1 space-y-2">
                   {item.children?.map((child, childIndex) => (
                     <Link
                       key={childIndex}
@@ -155,7 +161,7 @@ const Sidebar = () => {
                       }`}
                     >
                       <child.icon className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
-                      {child.label}
+                      <span>{child.label}</span>
                     </Link>
                   ))}
                 </div>
@@ -164,6 +170,23 @@ const Sidebar = () => {
           );
         })}
       </nav>
+
+      <div className="border-t border-gray-200 dark:border-gray-700 p-4 flex flex-col space-y-3">
+        {footerItems.map((item, index) => (
+          <Link
+            key={index}
+            href={item.path}
+            className={`flex items-center px-3 py-2 rounded-lg text-sm transition-all ${
+              isActive(item.path)
+                ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200"
+                : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
+            }`}
+          >
+            <item.icon className="h-5 w-5 mr-2 text-gray-500 dark:text-gray-400" />
+            {!isSidebarCollapsed && <span>{item.label}</span>}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
