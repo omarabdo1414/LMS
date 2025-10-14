@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   const isAdmin =
     userData?.role === "admin" || userData?.role === "super-admin";
-  console.log(userData.role);
+  // console.log(userData.role);
 
   const isActive = (path?: string) => {
     if (!path) return false;
