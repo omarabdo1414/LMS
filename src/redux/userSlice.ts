@@ -6,6 +6,7 @@ export let getUserProfile = createAsyncThunk("user/getProfile", getProfile);
 let initialState: IUserState = {
   userData: null,
 };
+
 let UserSlice = createSlice({
   name: "user",
   initialState,
@@ -18,4 +19,5 @@ let UserSlice = createSlice({
     builder.addCase(getUserProfile.rejected, (state, action) => {});
   },
 });
+
 export let UserReducer = UserSlice.reducer;
