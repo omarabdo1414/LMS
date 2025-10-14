@@ -1,7 +1,7 @@
 import { FetchExams } from "@/Apis/exam/fetchExams";
 import React, { useEffect } from "react";
 import { useState } from "react";
-
+import Link from "next/link";
 type Exam = {
   id: string;
   title: string;
@@ -34,11 +34,6 @@ const GetExams = () => {
   const examsList = Array.isArray(exams)
     ? exams
     : exams?.data || exams?.exams || [];
-
-  const handleStartExam = (examId: string) => {
-    // Navigate to exam test page
-    window.location.href = `/Exams/test?examId=${examId}`;
-  };
 
   return (
     <main className="container mx-auto p-6">
@@ -99,13 +94,14 @@ const GetExams = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() =>
-                        handleStartExam(exam.id || exam._id || index.toString())
-                      }
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                    >
-                      Start Exam
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                      <Link
+                        href={`/Exams/${
+                          exam.id || exam._id || index.toString()
+                        }`}
+                      >
+                        Start Exam
+                      </Link>
                     </button>
                   </td>
                 </tr>

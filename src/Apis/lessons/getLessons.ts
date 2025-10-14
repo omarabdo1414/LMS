@@ -1,4 +1,6 @@
 "use client";
+import Cookies from "js-cookie";
+
 export async function getLessons(page: number = 1) {
   try {
     let res = await fetch(
@@ -6,7 +8,7 @@ export async function getLessons(page: number = 1) {
       {
         method: "GET",
         headers: {
-          token: localStorage.getItem("token") as string,
+          token: Cookies.get("token") as string,
         },
         next: {
           revalidate: 60,

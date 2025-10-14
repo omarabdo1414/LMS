@@ -1,4 +1,6 @@
 "use client";
+import Cookies from "js-cookie";
+
 export async function payLesson(id: string) {
   try {
     let res = await fetch(
@@ -6,7 +8,7 @@ export async function payLesson(id: string) {
       {
         method: "POST",
         headers: {
-          token: localStorage.getItem("token") as string,
+          token: Cookies.get("token") as string,
         },
       }
     );

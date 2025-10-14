@@ -16,15 +16,12 @@ import ProgramDetailsSection from "./_components/ProgramDetails/ProgramDetailsSe
 export default function Home() {
   return (
     <main>
-<<<<<<< HEAD
-=======
-      <Navbar/>
-      <Hero/>
-      <About/>
-      <ProgramDetailsSection/>
-      <BenefitsSection/>
-      <CriteriaSection/>
->>>>>>> 4e8225571b14a519d3d6204fee921e640a2b7025
+      <Navbar />
+      <Hero />
+      <About />
+      <ProgramDetailsSection />
+      <BenefitsSection />
+      <CriteriaSection />
     </main>
   );
 }

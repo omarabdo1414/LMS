@@ -1,16 +1,13 @@
-
 import axios from "axios";
 import { ExamForm } from "@/constants/interfaces";
-
+import Cookies from "js-cookie";
 
 export const AddExam = async (body: ExamForm) => {
   try {
-    // grab token from localStorage (client-side)
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
+    // grab token from cookies (client-side)
+    const token = Cookies.get("token");
     if (!token) {
-      console.warn("No token found in localStorage");
+      console.warn("No token found in cookies");
       return {
         success: false,
         message: "No auth token found",
@@ -35,7 +32,9 @@ export const AddExam = async (body: ExamForm) => {
   } catch (err: any) {
     console.error("AddExam error:", err.response?.data || err.message);
     if (err.response?.status === 401) {
-      console.warn("Received 401 from API - token may be invalid/expired or header key mismatched");
+      console.warn(
+        "Received 401 from API - token may be invalid/expired or header key mismatched"
+      );
     }
     return {
       success: false,
@@ -45,4 +44,3 @@ export const AddExam = async (body: ExamForm) => {
     };
   }
 };
-
