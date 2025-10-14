@@ -33,7 +33,8 @@ const Sidebar = () => {
   const toggleCourses = () => setIsCoursesOpen((prev) => !prev);
 
   const isAdmin =
-    userData?.role === "ADMIN" || userData?.role === "SUPER_ADMIN";
+    userData?.role === "admin" || userData?.role === "super-admin";
+  console.log(userData.role);
 
   const isActive = (path?: string) => {
     if (!path) return false;
