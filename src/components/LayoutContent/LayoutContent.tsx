@@ -1,5 +1,5 @@
 "use client";
-import Sidebar from "@/app/_components/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks";
 
