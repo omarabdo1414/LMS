@@ -15,7 +15,7 @@ export default function NotFound() {
       <Image className="w-[30rem]"  src={notFound} alt="404 not found" />
       <p className="mb-6 text-xl">Could not find requested resource</p>
       <Link
-        href="/"
+        href="#home"
         className="w-40 h-10 font-semibold text-white  flex justify-center items-center rounded-lg bg-primary hover:bg-primary/90"
       >
         Return Home
