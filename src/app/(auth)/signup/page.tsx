@@ -9,7 +9,7 @@ export default function Signup() {
   return (
     <div className="h-screen flex justify-center items-center bg-background">
       {/* signup form */}
-     <SignupForm/>
+        <SignupForm/>
     </div>
   );
 }
