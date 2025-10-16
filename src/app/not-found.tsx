@@ -6,10 +6,11 @@
  *
  * @returns {JSX.Element} The rendered NotFound page.
  */
+
 import Link from "next/link";
 import notFound from "../../public/404.svg";
 import Image from "next/image";
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  rounded-lg">
       <Image className="w-[30rem]"  src={notFound} alt="404 not found" />
@@ -23,3 +24,4 @@ export default function NotFound() {
     </div>
   );
 }
+

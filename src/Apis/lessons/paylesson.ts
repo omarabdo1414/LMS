@@ -1,12 +1,13 @@
-"use client";
+import Cookies from "js-cookie";
 export async function payLesson(id: string) {
+  let token = Cookies.get("token")
   try {
     let res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/lesson/pay/${id}`,
       {
         method: "POST",
         headers: {
-          token: localStorage.getItem("token") as string,
+          token: token as string,
         },
       }
     );
