@@ -6,6 +6,7 @@
  *
  * @returns {JSX.Element} The rendered NotFound page.
  */
+
 import Link from "next/link";
 import notFound from "../../public/404.svg";
 import Image from "next/image";
@@ -23,3 +24,4 @@ export default function NotFoundPage() {
     </div>
   );
 }
+
