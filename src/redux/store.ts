@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { UserReducer } from "./userSlice";
+import { LessonReducer } from "./lessonSlice";
 
 export let configStore = configureStore({
   reducer: {
     user: UserReducer,
+    lesson: LessonReducer,
   },
 });
 // type of state in selector

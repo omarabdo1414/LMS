@@ -48,6 +48,7 @@ export interface IUser {
 //user state
 export interface IUserState {
   userData: IUser | null;
+  isLoading:boolean
 }
 // lesson => get from api
 export interface Ilesson {

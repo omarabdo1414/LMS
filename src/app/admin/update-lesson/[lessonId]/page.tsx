@@ -1,17 +1,22 @@
-import AddLesson from "@/components/Lessons/AddLesson/AddLesson";
 import ProtectedRoute from "@/components/guard/ProtectPages";
+import UpdateLesson from "@/components/Lessons/UpdateLesson/UpdateLesson";
 import { Metadata } from "next";
 import React from "react";
 export const metadata: Metadata = {
-  title: "Add Cource",
+  title: "Update Cource",
   description:
     "A modern educational platform offering interactive courses and personalized learning experiences to help you grow your skills",
 };
-export default function AddLessonPage() {
+type TUpdateLessonProps = {
+  params: {
+    lessonId: string;
+  };
+};
+export default function UpdateLessonPage({ params }: TUpdateLessonProps) {
   return (
     <ProtectedRoute>
       <div className="h-screen flex justify-center items-center ">
-        <AddLesson />
+        <UpdateLesson lessonId={params.lessonId} />
       </div>
     </ProtectedRoute>
   );

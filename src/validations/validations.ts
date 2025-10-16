@@ -64,7 +64,7 @@ export let addLessonSchema = Yup.object({
     .required("title is required")
     .min(3, "minLength is 3 characters"),
   description: Yup.string()
-    .required("title is required")
+    .required("description is required")
     .min(20, "minLength is 15 characters"),
   price: Yup.number().required("price is required"),
   video: Yup.string()
@@ -75,5 +75,21 @@ export let addLessonSchema = Yup.object({
     ),
   classLevel: Yup.string()
     .required("classLevel is required")
-    .oneOf(Object.values(classLevel), "c"),
+    .oneOf(Object.values(classLevel), "pleace select grade"),
+});
+// updatelesson schema
+export let updateLessonSchema = Yup.object({
+  title: Yup.string()
+    .required("title is required")
+    .min(3, "minLength is 3 characters"),
+  description: Yup.string()
+    .min(20, "minLength is 15 characters"),
+  price: Yup.number(),
+  video: Yup.string()
+    .matches(
+      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
+      "enter valid url"
+    ),
+  classLevel: Yup.string()
+    .oneOf(Object.values(classLevel), "pleace select grade"),
 });

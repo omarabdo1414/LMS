@@ -1,4 +1,4 @@
-import ForgetPass from "@/components/ForgetPassword/ForgetPassword";
+import ForgetPass from "@/components/Auth/ForgetPassword/ForgetPassword";
 import { Metadata } from "next";
 import React from "react";
 export const metadata: Metadata = {
