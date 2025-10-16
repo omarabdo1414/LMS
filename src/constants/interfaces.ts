@@ -67,3 +67,11 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
+
+export interface IUser {
+  _id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  role: "super_admin" | "admin" | "user"; 
+}
