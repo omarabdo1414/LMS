@@ -1,3 +1,102 @@
+
+/**
+ * @file This file contains the redux slice for managing the quiz creation state.
+ *
+ * It includes the following:
+ * - The initial state with the current quiz, questions, loading state, and error state
+ * - Helper function to generate unique IDs
+ * - Actions for various quiz operations
+ * - Reducers to handle the actions
+ * - Actions and reducers for quiz settings
+ * - Actions and reducers for selecting the current quiz
+ * - Create a new question function with default values
+ *
+ * The quiz state includes the following:
+ * - currentQuiz: The current quiz being edited
+ * - questions: Array of questions for the current quiz
+ * - isLoading: Flag indicating if the quiz is being loaded
+ * - error: Error string if there was an error loading the quiz
+ * - selectedExamId: ID of the currently selected exam
+ *
+ * The quiz settings include the following:
+ * - timeLimit: Time limit for the quiz in minutes
+ * - attempts: Number of attempts allowed for the quiz
+ * - shuffleQuestions: Flag indicating if questions should be shuffled
+ * - showCorrectAnswers: Flag indicating if correct answers should be shown
+ * - allowReview: Flag indicating if students can review their answers
+ * - passPercentage: Percentage required to pass the quiz
+ * - dueDate: Date and time when the quiz is due
+ * - instructions: Instructions for the quiz
+ *
+ * The current quiz includes the following:
+ * - id: ID of the quiz
+ * - title: Title of the quiz
+ * - description: Description of the quiz
+ * - questions: Array of questions for the quiz
+ * - createdAt: Date and time when the quiz was created
+ * - updatedAt: Date and time when the quiz was last updated
+ *
+ * The quiz settings are stored in the quiz object as the 'settings' property.
+ *
+ * The quiz state reducer listens for the following actions and updates the state accordingly:
+ * - addQuestion: Add a new question to the quiz
+ * - deleteQuestion: Delete a question from the quiz
+ * - updateQuestionText: Update the text of a question
+ * - updateQuestionType: Update the type of a question
+ * - addOption: Add a new option to a question
+ * - removeOption: Remove an option from a question
+ * - updateOptionText: Update the text of an option
+ * - setCorrectAnswer: Set the correct answer for a question
+ * - updateQuestionPoints: Update the points for a question
+ * - toggleQuestionRequired: Toggle the required flag for a question
+ * - duplicateQuestion: Duplicate a question
+ * - clearAllQuestions: Clear all questions from the quiz
+ * - setLoading: Set the loading state of the quiz
+ * - setError: Set the error state of the quiz
+ * - initializeQuiz: Initialize quiz with title and description
+ * - updateQuizTitle: Update quiz title
+ * - updateQuizDescription: Update quiz description
+ * - saveQuizSettings: Save quiz settings
+ * - setSelectedExam: Set selected exam ID
+ *
+ * The quiz reducer listens for the following actions and updates the state accordingly:
+ * - resetExam: Reset exam state
+ * - startExam: Start an exam
+ * - submitAnswer: Submit an answer for a question
+ * - endExam: End the exam
+ * - updateScore: Update the score for a question
+ * - updateTimeRemaining: Update the time remaining for the exam
+ *
+ * The exam slice is used to manage the state of the exam being taken.
+ * It includes the following:
+ * - currentExam: The current exam being taken
+ * - currentQuestionIndex: The index of the current question being answered
+ * - answers: Array of answers for the current exam
+ * - startTime: The time the exam started
+ * - endTime: The time the exam ended
+ * - isExamStarted: Flag indicating if the exam has started
+ * - isExamCompleted: Flag indicating if the exam has been completed
+ * - score: The score for the exam
+ * - totalQuestions: The total number of questions in the exam
+ * - timeLimit: The time limit for the exam
+ * - timeRemaining: The time remaining for the exam
+ *
+ * The exam slice reducer listens for the following actions and updates the state accordingly:
+ * - startExam: Start an exam
+ * - submitAnswer: Submit an answer for a question
+ * - endExam: End the exam
+ * - resetExam: Reset exam state
+ * - updateScore: Update the score for a question
+ * - updateTimeRemaining: Update the time remaining for the exam
+ *
+ * The exam slice is used in the ExamPage component to manage the state of the exam being taken.
+ * It listens for the following actions and updates the state accordingly:
+ * - resetExam: Reset the exam state
+ * - startExam: Start the exam
+ * - submitAnswer: Submit an answer for a question
+ * - endExam: End the exam
+ */
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QuizQuestion, QuizState, QuestionType } from "@/constants/interfaces";
 
