@@ -18,11 +18,11 @@ type TUpdateLessonProps = {
   lessonId: string;
 };
 export default function UpdateLesson({ lessonId }: TUpdateLessonProps) {
-  let { userData, isLoading } = useSelector((state: RootState) => state.user);
+  let { userData , loading } = useSelector((state: RootState) => state.user);
   let { lessonData } = useSelector((state: RootState) => state.lesson);
   let router = useRouter();
   // loadingBtn
-  let [loading, setLoading] = useState<boolean>(false);
+  let [isLoading, setLoading] = useState<boolean>(false);
 
   //update lesson
   let handleForm = async (values: any) => {
@@ -55,7 +55,7 @@ export default function UpdateLesson({ lessonId }: TUpdateLessonProps) {
 
   return (
     <>
-      {!isLoading ? (
+      {!loading ? (
         userData?.role === roles.ADMIN ||
         userData?.role === roles.SUPER_ADMIN ? (
           // if user's role admin or super admin
@@ -220,7 +220,7 @@ export default function UpdateLesson({ lessonId }: TUpdateLessonProps) {
             {/* Update Lesson */}
             <div className="my-3 text-center">
               <SubmitBtn
-                isLoading={loading}
+                isLoading={isLoading}
                 btnName="Update Lesson"
                 className="w-full"
               />

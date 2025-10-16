@@ -5,12 +5,8 @@ export async function getProfile() {
   try {
     let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
       method: "GET",
-<<<<<<< HEAD
       headers: {
         token: token as string,
-=======
-      headers: {token: token as string,
->>>>>>> main
       },
     });
 

@@ -23,14 +23,14 @@ type Tlesson = {
   price: number;
 };
 export default function AddLesson() {
-  let { userData, isLoading } = useSelector((state: RootState) => state.user);
+  let { userData , loading } = useSelector((state: RootState) => state.user);
   let disp = useDispatch<AppDispatch>();
   let date = new Date();
   date.setDate(date.getDate() + 1);
   let newDate = date.toISOString();
   let router = useRouter();
   // loadingBtn
-  let [loading, setLoading] = useState<boolean>(false);
+  let [isLoading, setLoading] = useState<boolean>(false);
   //addlesson
   let handleForm = async (values: Tlesson) => {
     // body in api
@@ -72,7 +72,7 @@ export default function AddLesson() {
   }, []);
   return (
     <>
-      {!isLoading ? (
+      {!loading ? (
         userData?.role === roles.ADMIN ||
         userData?.role === roles.SUPER_ADMIN ? (
           // if user's role admin or super admin
@@ -233,7 +233,7 @@ export default function AddLesson() {
             {/* Add Lesson */}
             <div className="my-3 text-center">
               <SubmitBtn
-                isLoading={loading}
+                isLoading={isLoading}
                 btnName="Add Lesson"
                 className="w-full"
               />

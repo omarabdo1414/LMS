@@ -20,11 +20,11 @@ type TLessonProps = {
 };
 export default function LessonCard({ lesson, myLessons }: TLessonProps) {
   // user role
-  let { userData, isLoading } = useSelector((state: RootState) => state.user);
+  let { userData, loading } = useSelector((state: RootState) => state.user);
   let router = useRouter();
   let disp = useDispatch<AppDispatch>();
   // loading
-  let [loading, setLoading] = useState<boolean>(false);
+  let [isLoading, setLoading] = useState<boolean>(false);
   // prompt
   let [promptShow, setPrompt] = useState<boolean>(false);
   // prompt type
@@ -62,7 +62,7 @@ export default function LessonCard({ lesson, myLessons }: TLessonProps) {
 
   return (
     <>
-      {isLoading ? (
+      {loading ? (
         <div>
           <LoadingPage />
         </div>
@@ -198,7 +198,7 @@ export default function LessonCard({ lesson, myLessons }: TLessonProps) {
           service={promptType === "delete" ? "Delete" : "Payment"}
           handleFunc={promptType === "delete" ? handleDelete : handlePayment}
           data={lesson}
-          isLoading={loading}
+          isLoading={isLoading}
           submit={promptType === "delete" ? "delete" : "pay"}
         />
       ) : (

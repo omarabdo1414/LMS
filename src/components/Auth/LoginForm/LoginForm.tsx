@@ -56,7 +56,7 @@ export default function LoginForm() {
       //2-success message
       toast.success(data.message);
       //3-navigate to home
-      router.push("/home");
+      router.push("/lessons");
     } else {
       setLoading(false);
       toast.error(data.message);

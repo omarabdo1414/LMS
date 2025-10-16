@@ -1,11 +1,9 @@
 import { IUser, IUserState } from "@/constants/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
-=======
+
 
 // get profile 
->>>>>>> main
 async function getProfile() {
   let token = Cookies.get("token");
   try {
@@ -105,32 +103,14 @@ export let deleteUserAccount = createAsyncThunk("user/deleteAccount", deleteAcco
 // userData => profile of user
 let initialState: IUserState = {
   userData: null,
-<<<<<<< HEAD
-  isLoading: true,
-=======
   loading:false, 
   error:null,
->>>>>>> main
 };
 let UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-<<<<<<< HEAD
-    builder.addCase(getUserProfile.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getUserProfile.fulfilled, (state, action) => {
-      state.userData = action.payload.data;
-      state.isLoading = false;
-    });
-    builder.addCase(getUserProfile.rejected, (state, action) => {
-      state.isLoading = true;
-    });
-  },
-});
-=======
     // get profile
     builder.addCase(getUserProfile.pending, (state, action) => {
         state.loading = true;
@@ -197,5 +177,4 @@ let UserSlice = createSlice({
 
 },
 })
->>>>>>> main
 export let UserReducer = UserSlice.reducer;
