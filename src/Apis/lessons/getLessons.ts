@@ -9,6 +9,7 @@ export async function getLessons(page: number = 1) {
         headers: {
           token: token as string,
         },
+        // no cahse
         cache: "no-cache",
       }
     );
