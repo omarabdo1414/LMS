@@ -12,9 +12,10 @@ export default function CreateAdminForm() {
     setMessage("");
 
     const token = Cookies.get("token");
+
     try {
       const res = await fetch(
-        "https://edu-master-psi.vercel.app/admin/create-admin",
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/create-admin`,
         {
           method: "POST",
           headers: {
@@ -26,19 +27,28 @@ export default function CreateAdminForm() {
       );
 
       const data = await res.json();
-      if (data.success) setMessage("✅ Admin created successfully");
-      else setMessage("❌ Failed to create admin");
+
+      if (data.success) {
+        setMessage("✅ Admin created successfully");
+        setForm({ name: "", email: "", password: "" }); // clear form after success
+      } else {
+        setMessage(data.message || "❌ Failed to create admin");
+      }
     } catch (err) {
-      setMessage("⚠️ Server error, try again.");
       console.error(err);
+      setMessage("⚠️ Server error, please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="border p-5 rounded-lg shadow space-y-3">
-      <h2 className="text-xl font-semibold">Create New Admin</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="border p-5 rounded-lg shadow space-y-3 max-w-md mx-auto"
+    >
+      <h2 className="text-xl font-semibold text-center">Create New Admin</h2>
+
       <input
         type="text"
         placeholder="Name"
@@ -47,6 +57,7 @@ export default function CreateAdminForm() {
         onChange={(e) => setForm({ ...form, name: e.target.value })}
         required
       />
+
       <input
         type="email"
         placeholder="Email"
@@ -55,6 +66,7 @@ export default function CreateAdminForm() {
         onChange={(e) => setForm({ ...form, email: e.target.value })}
         required
       />
+
       <input
         type="password"
         placeholder="Password"
@@ -67,12 +79,24 @@ export default function CreateAdminForm() {
       <button
         type="submit"
         disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+        className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
       >
         {loading ? "Creating..." : "Create Admin"}
       </button>
 
-      {message && <p className="text-sm text-center text-gray-700 mt-2">{message}</p>}
+      {message && (
+        <p
+          className={`text-sm text-center mt-2 ${
+            message.startsWith("✅")
+              ? "text-green-600"
+              : message.startsWith("❌")
+              ? "text-red-600"
+              : "text-yellow-600"
+          }`}
+        >
+          {message}
+        </p>
+      )}
     </form>
   );
 }
