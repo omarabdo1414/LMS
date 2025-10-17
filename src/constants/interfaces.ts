@@ -48,11 +48,12 @@ export interface IUser {
 //user state
 export interface IUserState {
   userData: IUser | null;
+
   loading: boolean;
   error:string | null;
   
 }
-// lesson
+// lesson => get from api
 export interface Ilesson {
   _id: string;
   title: string;
@@ -67,6 +68,7 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
+<<<<<<< HEAD
 
 export interface ExamForm {
   title: string;
@@ -76,4 +78,14 @@ export interface ExamForm {
   startDate: string;
   endDate: string;
   isPublished: boolean;
+=======
+// lessonForm
+export interface IlessonForm {
+  title: string;
+  description: string;
+  video: string;
+  classLevel: string;
+  price: number;
+  scheduledDate: string;
+>>>>>>> deb09ec1c7d333d729e220bf1b3028114d0149be
 }
