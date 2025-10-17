@@ -84,7 +84,7 @@ export default function ChangePasswordPage() {
         </div>
         
 
-        <button type="submit" className="btn w-full">
+        <button type="submit" className="btn w-full py-2">
           Change Password
         </button>
 
