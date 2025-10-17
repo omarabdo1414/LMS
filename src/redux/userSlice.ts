@@ -2,6 +2,7 @@ import { IUser, IUserState } from "@/constants/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
+
 // get profile 
 async function getProfile() {
   let token = Cookies.get("token");

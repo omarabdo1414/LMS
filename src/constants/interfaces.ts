@@ -48,11 +48,12 @@ export interface IUser {
 //user state
 export interface IUserState {
   userData: IUser | null;
+
   loading: boolean;
   error:string | null;
   
 }
-// lesson
+// lesson => get from api
 export interface Ilesson {
   _id: string;
   title: string;
@@ -67,7 +68,7 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
-
+// Omar's Work
 // Quiz Question Types (UI Display)
 export type QuestionType = 'Multiple Choice' | 'True/False' | 'Short Answer';
 
@@ -142,4 +143,14 @@ export interface ExamResult {
   timeSpent: number;
   answers: ExamAnswer[];
   completedAt: number;
+}
+
+// lessonForm
+export interface IlessonForm {
+  title: string;
+  description: string;
+  video: string;
+  classLevel: string;
+  price: number;
+  scheduledDate: string;
 }
