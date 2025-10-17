@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
 import { redirect } from "next/navigation";
 import GetUser from "../GetUser/GetUser";
+import { cookies } from "next/headers";
 
 /*
 protect all routes in application except auth and welcome page
@@ -10,7 +10,7 @@ export default async function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
-  const token = Cookies.get("token");
+  const token = (await cookies()).get("token")?.value;
   if (!token) redirect("/login");
 
   return <GetUser>{children}</GetUser>;

@@ -1,27 +1,32 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ExamResults from "@/components/ExamResults/ExamResults";
-import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
+import { getExamScore } from "@/Apis/studentExam/getScore";
+import { useParams } from "next/navigation";
 
 const DetailsExam = () => {
+  const params = useParams();
+  const rawExamId = params.detailsExam;
+  const examId = Array.isArray(rawExamId) ? rawExamId[0] : rawExamId;
+
   const [scoreData, setScoreData] = useState<any | null>(null);
 
   useEffect(() => {
+    if (!examId) return;
     let mounted = true;
-    async function fetchData() {
+    async function fetchData(id: string) {
       try {
-        const res = await getExamRemainingTime();
-        if (mounted) setScoreData(res ?? null);
+        const res = await getExamScore(id);
+        setScoreData(res?.data ?? null);
       } catch (e) {
-        // handle or ignore fetch error
-        // console.error(e);
+        // ignore score fetch errors, UI will just show generic success
       }
     }
-    fetchData();
+    fetchData(examId);
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [examId]);
 
   return (
     <div>

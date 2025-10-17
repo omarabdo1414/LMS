@@ -1,9 +1,11 @@
 "use client";
+import { useSelector } from "react-redux";
 import { FetchExams } from "@/Apis/exam/fetchExams";
 import { deleteExam } from "@/Apis/exam/deleteExam";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from "next/link";
+import { RootState } from "@/redux/store";
 type ExamItem = {
   id?: string;
   _id?: string;
@@ -15,6 +17,10 @@ type ExamItem = {
 };
 
 const GetExams = () => {
+  const { userData } = useSelector((state: RootState) => state.user);
+  const isAdmin = userData?.role === "admin";
+  console.log("User Role:", userData?.role);
+
   const [exams, setExams] = useState<
     ExamItem[] | { data: ExamItem[] } | { exams: ExamItem[] } | null
   >(null);
@@ -152,28 +158,57 @@ const GetExams = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
+                    {isAdmin ? (
+                      <>
+                        <Link
+                          href={`/adminExams/editExam/${
+                            exam.id || exam._id || index.toString()
+                          }`}
+                        >
+                          <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
+                            Edit
+                          </button>
+                        </Link>
+
+                        <Link
+                          href={`/adminExams/getExams/${
+                            exam.id || exam._id || index.toString()
+                          }`}
+                        >
+                          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
+                            View Details
+                          </button>
+                        </Link>
+
+                        <button
+                          onClick={() =>
+                            handleDelete(
+                              exam.id || exam._id || index.toString()
+                            )
+                          }
+                          disabled={
+                            deletingId ===
+                            (exam.id || exam._id || index.toString())
+                          }
+                          className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                        >
+                          {deletingId ===
+                          (exam.id || exam._id || index.toString())
+                            ? "Deleting..."
+                            : "Delete"}
+                        </button>
+                      </>
+                    ) : (
                       <Link
-                        href={`/adminExams/getExams/${
+                        href={`/userExams/${
                           exam.id || exam._id || index.toString()
                         }`}
                       >
-                        View Details
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
+                          startExam
+                        </button>
                       </Link>
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleDelete(exam.id || exam._id || index.toString())
-                      }
-                      disabled={
-                        deletingId === (exam.id || exam._id || index.toString())
-                      }
-                      className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-                    >
-                      {deletingId === (exam.id || exam._id || index.toString())
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
+                    )}
                   </td>
                 </tr>
               ))}
