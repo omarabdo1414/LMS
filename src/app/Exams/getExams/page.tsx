@@ -1,10 +1,9 @@
-"use client";
-import ProtectedRoute from "@/components/guard/ProtectPages";
 import GetExams from "@/components/getExams/GetExams";
-export default function Page() {
+import ProtectedRoute from "@/components/guard/ProtectPages";
+export default function GetExamsPage() {
   return (
     <ProtectedRoute>
       <GetExams />
     </ProtectedRoute>
   );
-}
+} 

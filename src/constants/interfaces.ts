@@ -50,8 +50,7 @@ export interface IUserState {
   userData: IUser | null;
 
   loading: boolean;
-  error:string | null;
-  
+  error: string | null;
 }
 // lesson => get from api
 export interface Ilesson {
@@ -68,18 +67,18 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
-<<<<<<< HEAD
 
 export interface ExamForm {
   title: string;
   description: string;
-  duration: number;
+  duration: string | number;
   classLevel: string;
   startDate: string;
   endDate: string;
   isPublished: boolean;
-=======
+}
 // lessonForm
+
 export interface IlessonForm {
   title: string;
   description: string;
@@ -87,5 +86,4 @@ export interface IlessonForm {
   classLevel: string;
   price: number;
   scheduledDate: string;
->>>>>>> deb09ec1c7d333d729e220bf1b3028114d0149be
 }

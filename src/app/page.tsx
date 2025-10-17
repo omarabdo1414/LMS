@@ -15,10 +15,7 @@ export default function Home() {
       <ProgramDetailsSection />
       <BenefitsSection />
       <CriteriaSection />
-<<<<<<< HEAD
-=======
       <Footer />
->>>>>>> deb09ec1c7d333d729e220bf1b3028114d0149be
     </main>
   );
 }

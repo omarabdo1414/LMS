@@ -1,4 +1,5 @@
 import { FetchExams } from "@/Apis/exam/fetchExams";
+import { deleteExam } from "@/Apis/exam/deleteExam";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from "next/link";
@@ -9,9 +10,10 @@ type Exam = {
 };
 
 const GetExams = () => {
-  const [exams, setExams] = useState<Exam[] | null>(null);
+  const [exams, setExams] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadExams() {
@@ -34,6 +36,31 @@ const GetExams = () => {
   const examsList = Array.isArray(exams)
     ? exams
     : exams?.data || exams?.exams || [];
+
+  async function handleDelete(examId: string) {
+    if (!confirm("Are you sure you want to delete this exam?")) return;
+    setDeletingId(examId);
+    const res = await deleteExam(examId);
+    if (!res.success) {
+      alert(res.message);
+      setDeletingId(null);
+      return;
+    }
+    // Normalize update depending on original shape
+    setExams((prev: any) => {
+      if (Array.isArray(prev)) {
+        return prev.filter((e: any) => (e.id || e._id) !== examId);
+      }
+      if (prev?.data && Array.isArray(prev.data)) {
+        return { ...prev, data: prev.data.filter((e: any) => (e.id || e._id) !== examId) };
+      }
+      if (prev?.exams && Array.isArray(prev.exams)) {
+        return { ...prev, exams: prev.exams.filter((e: any) => (e.id || e._id) !== examId) };
+      }
+      return prev;
+    });
+    setDeletingId(null);
+  }
 
   return (
     <main className="container mx-auto p-6">
@@ -94,7 +121,7 @@ const GetExams = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
                       <Link
                         href={`/Exams/${
                           exam.id || exam._id || index.toString()
@@ -102,6 +129,13 @@ const GetExams = () => {
                       >
                         Start Exam
                       </Link>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(exam.id || exam._id || index.toString())}
+                      disabled={deletingId === (exam.id || exam._id || index.toString())}
+                      className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+                    >
+                      {deletingId === (exam.id || exam._id || index.toString()) ? "Deleting..." : "Delete"}
                     </button>
                   </td>
                 </tr>

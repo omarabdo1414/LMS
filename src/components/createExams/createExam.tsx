@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import SubmitBtn from "@/components/SubmitBtn/SubmitBtn";
+import SubmitBtn from "@/components/ui/SubmitBtn/SubmitBtn";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AddExam } from "@/Apis/exam/addExam";
@@ -196,7 +196,7 @@ const CreateExam = () => {
             <SubmitBtn
               isLoading={loading || isSubmitting}
               btnName={"Add Exam"}
-             className="w-full h-10"
+              className="w-full h-10"
             />
           </Form>
         )}

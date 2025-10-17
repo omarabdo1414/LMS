@@ -22,13 +22,14 @@ export const metadata: Metadata = {
   description: "lms edu education Forget Password ",
 };
 type TLessonsProps = {
-  searchParams?: {
-    page: string;
-  };
+  searchParams: Promise<{
+    page?: string;
+  }>;
 };
 export default async function LessonsPage({ searchParams }: TLessonsProps) {
+  const resolvedSearchParams = await searchParams;
   // currentPage
-  let currentPage = Number(searchParams?.page || 1);
+  let currentPage = Number(resolvedSearchParams?.page || 1);
   // get lessons from api
   const lessons = await getLessons(currentPage);
   //get my lessons

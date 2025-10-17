@@ -308,11 +308,7 @@ export default function SignupForm() {
           onBlur={formik.handleBlur}
           defaultValue="Grade 1 Secondary"
         >
-<<<<<<< HEAD
-          <option  disabled value="Select Class Level">
-=======
           <option disabled value="Select Class Level">
->>>>>>> deb8af8d14857d6b1df45a843dbef12be9662140
             Select Class Level
           </option>
           <option value="Grade 1 Secondary">Grade 1 Secondary</option>
