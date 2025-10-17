@@ -1,15 +1,15 @@
 import ProtectedRoute from "@/components/guard/ProtectPages";
 import Quiz from "@/components/create-qiuz";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/redux/store";
-// import { roles } from "@/constants/enums";
+import { roles } from "@/constants/enums";
 import { AlertCircle } from "lucide-react";
+import { getProfile } from "@/Apis/user/getProfile";
 
-function CreateQuiz() {
-    // const { userData } = useSelector((state: RootState) => state.user);
+async function CreateQuiz() {
+    // Fetch user data server-side
+    const userData = await getProfile();
 
     // Check if user is admin or super admin
-    const isAdmin = true //userData?.role === roles.ADMIN || userData?.role === roles.SUPER_ADMIN;
+    const isAdmin = true // userData?.data?.role === roles.ADMIN || userData?.data?.role === roles.SUPER_ADMIN;
 
     return (
         <ProtectedRoute>

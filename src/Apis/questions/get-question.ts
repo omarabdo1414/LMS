@@ -1,4 +1,5 @@
 "use client";
+import { getCookie } from "./get_cookie";
 
 /**
  * Get all questions
@@ -11,7 +12,7 @@ export async function getAllQuestions() {
             {
                 method: "GET",
                 headers: {
-                    token: localStorage.getItem("token") as string,
+                    token: getCookie("token") as string,
                 },
             }
         );
@@ -41,7 +42,7 @@ export async function getQuestionById(questionId: string) {
             {
                 method: "GET",
                 headers: {
-                    token: localStorage.getItem("token") as string,
+                    token: getCookie("token") as string,
                 },
             }
         );

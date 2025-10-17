@@ -1,4 +1,5 @@
 "use client";
+import { getCookie } from "./get_cookie";
 
 interface UpdateQuestionData {
     text?: string;
@@ -16,7 +17,7 @@ export async function updateQuestion(questionId: string, questionData: UpdateQue
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    token: localStorage.getItem("token") as string,
+                    token: getCookie("token") as string,
                 },
                 body: JSON.stringify(questionData),
             }
