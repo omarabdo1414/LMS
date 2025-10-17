@@ -1,14 +1,14 @@
-"use client";
+
 
 import ProtectedRoute from "@/components/guard/ProtectPages";
 import Quiz from "@/components/create-qiuz";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { roles } from "@/constants/enums";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store";
+// import { roles } from "@/constants/enums";
 import { AlertCircle } from "lucide-react";
 
 function CreateQuiz() {
-    const { userData } = useSelector((state: RootState) => state.user);
+    // const { userData } = useSelector((state: RootState) => state.user);
 
     // Check if user is admin or super admin
     const isAdmin = true //userData?.role === roles.ADMIN || userData?.role === roles.SUPER_ADMIN;
