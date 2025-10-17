@@ -43,7 +43,7 @@ export default function ChangePasswordPage() {
         onSubmit={handleSubmit}
         className="form flex flex-col gap-5"
       >
-        <h2 className="text-xl font-bold text-center text-base-color">
+        <h2 className="text-xl font-bold text-center text-[var(--hover)]ase-color">
           Change Password
         </h2>
 

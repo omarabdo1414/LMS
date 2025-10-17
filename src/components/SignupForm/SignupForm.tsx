@@ -68,7 +68,7 @@ export default function SignupForm() {
   return (
     <form onSubmit={formik.handleSubmit} className="form">
       {/* header */}
-      <h1 className="text-2xl md:text-3xl  font-bold text-center my-3">
+      <h1 className="text-[var(--hover)]xl md:text-[var(--hover)]xl  font-bold text-center my-3">
         Create your account
       </h1>
 

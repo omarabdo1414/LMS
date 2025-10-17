@@ -55,7 +55,7 @@ export default function ResetPass() {
   });
   return (
     <form onSubmit={formik.handleSubmit} className="form">
-      <h1 className="text-2xl md:text-3xl font-bold text-center my-3">
+      <h1 className="text-[var(--hover)]xl md:text-[var(--hover)]xl font-bold text-center my-3">
         Reset Password
       </h1>
 

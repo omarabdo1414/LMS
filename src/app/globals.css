@@ -4,8 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --main:oklch(0.55 0.22 295.5) ;
   --accent:oklch(0.6 0.18 260);
+   --main-hero: oklch(15.119% 0.05709 269.543);
+  --hover: oklch(0.63 0.16 250); 
   --btn: oklch(54.6% 0.245 262.881);
   --error: #ef4444;
   --radius: 0.625rem;

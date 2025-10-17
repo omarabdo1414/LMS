@@ -109,8 +109,8 @@ const Sidebar = () => {
                   onClick={toggleCourses}
                   className={`flex items-center px-3 py-2 mx-1 rounded-lg w-full transition-all duration-300 ${
                     isActive(item.path)
-                      ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 border-r-2 border-blue-500 dark:border-blue-400"
-                      : "hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-blue-700 dark:hover:text-blue-200 text-gray-700 dark:text-gray-300"
+                      ? "bg-blue-50 dark:bg-blue-900 text-[var(--hover)]lue-700 dark:text-[var(--hover)]lue-200 border-r-2 border-blue-500 dark:border-blue-400"
+                      : "hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-[var(--hover)]lue-700 dark:hover:text-[var(--hover)]lue-200 text-gray-700 dark:text-gray-300"
                   } ${isSidebarCollapsed ? "" : "cursor-pointer"}`}
                 >
                   <div
@@ -140,8 +140,8 @@ const Sidebar = () => {
                   onClick={item.label === "Logout" ? handleLogout : undefined}
                   className={`flex items-center px-3 py-2 mx-1 my-1 rounded-lg w-full transition-all duration-300 ${
                     isActive(item.path)
-                      ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 border-r-2 border-blue-500 dark:border-blue-400"
-                      : "hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-blue-700 dark:hover:text-blue-200 text-gray-700 dark:text-gray-300"
+                      ? "bg-blue-50 dark:bg-blue-900 text-[var(--hover)]lue-700 dark:text-[var(--hover)]lue-200 border-r-2 border-blue-500 dark:border-blue-400"
+                      : "hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-[var(--hover)]lue-700 dark:hover:text-[var(--hover)]lue-200 text-gray-700 dark:text-gray-300"
                   }`}
                 >
                   <div
@@ -168,7 +168,7 @@ const Sidebar = () => {
                       href={child.path || "#"}
                       className={`flex items-center px-3 py-1 rounded-md text-sm transition-all duration-200 ${
                         isActive(child.path)
-                          ? "bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200"
+                          ? "bg-blue-100 dark:bg-blue-800 text-[var(--hover)]lue-700 dark:text-[var(--hover)]lue-200"
                           : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                       }`}
                     >
@@ -190,7 +190,7 @@ const Sidebar = () => {
             href={item.path}
             className={`flex items-center px-3 py-2 rounded-lg text-sm transition-all ${
               isActive(item.path)
-                ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200"
+                ? "bg-blue-50 dark:bg-blue-900 text-[var(--hover)]lue-700 dark:text-[var(--hover)]lue-200"
                 : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
             }`}
           >
