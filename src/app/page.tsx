@@ -1,4 +1,3 @@
-
 import Footer from "@/components/Footer/Footer";
 import About from "../components/About/About";
 import BenefitsSection from "../components/Benefits/BenefitsSection";
@@ -10,13 +9,13 @@ import ProgramDetailsSection from "../components/ProgramDetails/ProgramDetailsSe
 export default function Home() {
   return (
     <main>
-      <Navbar/>
-      <Hero/>
-      <About/>
-      <ProgramDetailsSection/>
-      <BenefitsSection/>
-      <CriteriaSection/>
-      <Footer/>
+      <Navbar />
+      <Hero />
+      <About />
+      <ProgramDetailsSection />
+      <BenefitsSection />
+      <CriteriaSection />
+      <Footer />
     </main>
   );
 }

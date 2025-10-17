@@ -2,6 +2,7 @@ import { IUser, IUserState } from "@/constants/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
+
 // get profile 
 async function getProfile() {
   let token = Cookies.get("token");
@@ -105,6 +106,7 @@ let initialState: IUserState = {
   loading:false, 
   error:null,
 };
+
 let UserSlice = createSlice({
   name: "user",
   initialState,
@@ -119,61 +121,9 @@ let UserSlice = createSlice({
         state.userData = action.payload.data;
     });
     builder.addCase(getUserProfile.rejected, (state, action) => {
-        state.loading = false;
+      state.loading = false;
         state.error = action.error.message || "Failed to load profile";
     });
-
-    //update profile
-    builder.addCase(updateTheUserProfile.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(updateTheUserProfile.fulfilled, (state, action) => {
-      state.loading = false;
-      if (action.payload?.success) {
-        state.userData = action.payload.data;
-      }
-    });
-    builder.addCase(updateTheUserProfile.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to update user profile";
-    });
-
-    //update password
-    builder.addCase(changeUserPassword.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(changeUserPassword.fulfilled, (state, action) => {
-      state.loading = false;
-      if (action.payload?.success) {
-        state.userData = {
-          ...state.userData,
-          ...action.payload.data,
-        };
-      }
-    });
-    builder.addCase(changeUserPassword.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to change password";
-    });
-
-    //delete Account
-    builder.addCase(deleteUserAccount.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(deleteUserAccount.fulfilled, (state, action) => {
-      state.loading = false;
-      if (action.payload?.success) {
-        state.userData = null;
-        Cookies.remove("token");
-        Cookies.remove("userId");
-      }
-    });
-    builder.addCase(deleteUserAccount.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to delete account";
-    });
-
-
-},
-})
+  },
+});
 export let UserReducer = UserSlice.reducer;
