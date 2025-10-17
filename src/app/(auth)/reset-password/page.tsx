@@ -1,4 +1,4 @@
-import ResetPass from "@/components/ResetPassword/ResetPassword";
+import ResetPass from "@/components/Auth/ResetPassword/ResetPassword";
 import { Metadata } from "next";
 import React from "react";
 export const metadata: Metadata = {

@@ -1,27 +1,21 @@
-/**
- * Home page component.
- *
- * Renders the main landing page of the application.
- *
- * @returns The main content of the home page wrapped in a <main> element.
- */
-
-import About from "./_components/About/About";
-import BenefitsSection from "./_components/Benefits/BenefitsSection";
-import CriteriaSection from "./_components/Criteria/CriteriaSection";
-import Hero from "./_components/Hero/Hero";
-import Navbar from "./_components/Navbar/Navbar";
-import ProgramDetailsSection from "./_components/ProgramDetails/ProgramDetailsSection";
+import Footer from "@/components/Footer/Footer";
+import About from "../components/About/About";
+import BenefitsSection from "../components/Benefits/BenefitsSection";
+import CriteriaSection from "../components/Criteria/CriteriaSection";
+import Hero from "../components/Hero/Hero";
+import Navbar from "../components/Navbar/Navbar";
+import ProgramDetailsSection from "../components/ProgramDetails/ProgramDetailsSection";
 
 export default function Home() {
   return (
     <main>
-      <Navbar/>
-      <Hero/>
-      <About/>
-      <ProgramDetailsSection/>
-      <BenefitsSection/>
-      <CriteriaSection/>
+      <Navbar />
+      <Hero />
+      <About />
+      <ProgramDetailsSection />
+      <BenefitsSection />
+      <CriteriaSection />
+      <Footer />
     </main>
   );
 }

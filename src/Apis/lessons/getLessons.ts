@@ -1,16 +1,16 @@
-"use client";
+import { cookies } from "next/headers";
 export async function getLessons(page: number = 1) {
   try {
+    const token = (await cookies()).get("token")?.value;
     let res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/lesson/?page=${page}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/lesson/?limit=12&page=${page}`,
       {
         method: "GET",
         headers: {
-          token: localStorage.getItem("token") as string,
+          token: token as string,
         },
-        next: {
-          revalidate: 60,
-        },
+        // no cahse
+        cache: "no-cache",
       }
     );
 
