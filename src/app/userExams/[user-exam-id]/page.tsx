@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
 import { useRouter, useParams } from "next/navigation";
+import { submitStudentExam } from "@/Apis/studentExam/submitExam";
+import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
+import { getExamScore } from "@/Apis/studentExam/getScore";
 
 interface Question {
   _id: string;
@@ -31,13 +34,18 @@ export default function TestPage() {
   const [examData, setExamData] = useState<ExamData[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [timeLeft, setTimeLeft] = useState<number>(3600);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [scoreData, setScoreData] = useState<any | null>(null);
 
   useEffect(() => {
     async function fetchExam() {
       try {
         setLoading(true);
         const token = Cookies.get("token");
-        const testId = params?.["test-id"]; // Get the test ID from URL params
+        const testId = params?.["user-exam-id"]; // Get the test ID from URL params
 
         if (!token) {
           router.push("/login");
@@ -87,6 +95,61 @@ export default function TestPage() {
     fetchExam();
   }, [router, params]);
 
+  // Sync remaining time periodically
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    const sync = async () => {
+      const testId = params?.["user-exam-id"] as string | undefined;
+      if (!testId || isSubmitted) return;
+      try {
+        const res = await getExamRemainingTime(testId);
+        const serverSeconds = (res?.data?.remainingSeconds ?? res?.data?.remaining_time ?? res?.data) as number | undefined;
+        if (typeof serverSeconds === "number" && serverSeconds >= 0) {
+          setTimeLeft(serverSeconds);
+        }
+      } catch {}
+    };
+    sync();
+    interval = setInterval(sync, 30000);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [params, isSubmitted]);
+
+  // Local countdown + auto-submit
+  useEffect(() => {
+    if (timeLeft > 0 && !isSubmitted) {
+      const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
+      return () => clearTimeout(t);
+    }
+    if (timeLeft === 0 && !isSubmitted) {
+      void handleSubmit();
+    }
+  }, [timeLeft, isSubmitted]);
+
+  const handleSubmit = async () => {
+    if (submitting || isSubmitted) return;
+    const testId = params?.["user-exam-id"] as string | undefined;
+    if (!testId) return;
+    try {
+      setSubmitting(true);
+      const answersArray = Object.entries(answers).map(([questionId, selectedAnswer]) => ({
+        questionId,
+        selectedAnswer,
+      }));
+      await submitStudentExam(testId, answersArray);
+      setIsSubmitted(true);
+      try {
+        const res = await getExamScore(testId);
+        setScoreData(res?.data ?? null);
+      } catch {}
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to submit exam");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -99,9 +162,23 @@ export default function TestPage() {
     return <div className="p-4 text-red-500">Error: {error}</div>;
   }
 
+  if (isSubmitted) {
+    return (
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Exam Submitted</h1>
+        {scoreData ? (
+          <pre className="text-sm bg-gray-100 p-3 rounded border overflow-auto">{JSON.stringify(scoreData, null, 2)}</pre>
+        ) : (
+          <p className="text-gray-700">Your results will be available soon.</p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Exam Details</h1>
+      <div className="mb-4 text-sm text-gray-600">Time remaining: {timeLeft}s</div>
       {examData && examData.length > 0 && (
         <div className="space-y-4">
           {examData.map((exam, index) => (
@@ -145,10 +222,11 @@ export default function TestPage() {
               <div className="flex justify-between items-center">
                 <div className="text-xs text-gray-400">ID: {exam._id}</div>
                 <button
-                  onClick={() => (window.location.href = `/Exams/${exam._id}`)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                  className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors"
                 >
-                  Start Exam
+                  {submitting ? "Submitting..." : "Submit Exam"}
                 </button>
               </div>
 

@@ -1,16 +1,23 @@
+"use client";
 import { FetchExams } from "@/Apis/exam/fetchExams";
 import { deleteExam } from "@/Apis/exam/deleteExam";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from "next/link";
-type Exam = {
-  id: string;
-  title: string;
+type ExamItem = {
+  id?: string;
+  _id?: string;
+  title?: string;
+  name?: string;
   description?: string;
+  duration?: number;
+  status?: string;
 };
 
 const GetExams = () => {
-  const [exams, setExams] = useState<any | null>(null);
+  const [exams, setExams] = useState<
+    ExamItem[] | { data: ExamItem[] } | { exams: ExamItem[] } | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -33,9 +40,13 @@ const GetExams = () => {
   if (error) return <div>Error: {error}</div>;
 
   // Handle different response structures
-  const examsList = Array.isArray(exams)
+  const examsList: ExamItem[] = Array.isArray(exams)
     ? exams
-    : exams?.data || exams?.exams || [];
+    : Array.isArray((exams as { data?: ExamItem[] })?.data)
+    ? (exams as { data: ExamItem[] }).data
+    : Array.isArray((exams as { exams?: ExamItem[] })?.exams)
+    ? (exams as { exams: ExamItem[] }).exams
+    : [];
 
   async function handleDelete(examId: string) {
     if (!confirm("Are you sure you want to delete this exam?")) return;
@@ -47,15 +58,35 @@ const GetExams = () => {
       return;
     }
     // Normalize update depending on original shape
-    setExams((prev: any) => {
+    setExams((prev) => {
       if (Array.isArray(prev)) {
-        return prev.filter((e: any) => (e.id || e._id) !== examId);
+        return prev.filter(
+          (e) => ((e as ExamItem).id || (e as ExamItem)._id) !== examId
+        );
       }
-      if (prev?.data && Array.isArray(prev.data)) {
-        return { ...prev, data: prev.data.filter((e: any) => (e.id || e._id) !== examId) };
+      if (
+        prev &&
+        (prev as { data?: ExamItem[] }).data &&
+        Array.isArray((prev as { data: ExamItem[] }).data)
+      ) {
+        return {
+          ...(prev as { data: ExamItem[] }),
+          data: (prev as { data: ExamItem[] }).data.filter(
+            (e) => (e.id || e._id) !== examId
+          ),
+        };
       }
-      if (prev?.exams && Array.isArray(prev.exams)) {
-        return { ...prev, exams: prev.exams.filter((e: any) => (e.id || e._id) !== examId) };
+      if (
+        prev &&
+        (prev as { exams?: ExamItem[] }).exams &&
+        Array.isArray((prev as { exams: ExamItem[] }).exams)
+      ) {
+        return {
+          ...(prev as { exams: ExamItem[] }),
+          exams: (prev as { exams: ExamItem[] }).exams.filter(
+            (e) => (e.id || e._id) !== examId
+          ),
+        };
       }
       return prev;
     });
@@ -93,7 +124,7 @@ const GetExams = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {examsList.map((exam: any, index: number) => (
+              {examsList.map((exam: ExamItem, index: number) => (
                 <tr
                   key={exam.id || exam._id || index}
                   className="hover:bg-gray-50"
@@ -123,19 +154,25 @@ const GetExams = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
                       <Link
-                        href={`/Exams/${
+                        href={`/adminExams/getExams/${
                           exam.id || exam._id || index.toString()
                         }`}
                       >
-                        Start Exam
+                        View Details
                       </Link>
                     </button>
                     <button
-                      onClick={() => handleDelete(exam.id || exam._id || index.toString())}
-                      disabled={deletingId === (exam.id || exam._id || index.toString())}
+                      onClick={() =>
+                        handleDelete(exam.id || exam._id || index.toString())
+                      }
+                      disabled={
+                        deletingId === (exam.id || exam._id || index.toString())
+                      }
                       className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                     >
-                      {deletingId === (exam.id || exam._id || index.toString()) ? "Deleting..." : "Delete"}
+                      {deletingId === (exam.id || exam._id || index.toString())
+                        ? "Deleting..."
+                        : "Delete"}
                     </button>
                   </td>
                 </tr>

@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
+import { useParams } from "next/navigation";
 import { getExamById } from "@/Apis/exam/exam";
+import { submitStudentExam } from "@/Apis/studentExam/submitExam";
+import { getExamScore } from "@/Apis/studentExam/getScore";
+import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
+import ExamResults from "@/components/ExamResults/ExamResults";
 
 interface Question {
   _id: string;
@@ -20,8 +25,9 @@ interface ExamAnswers {
   [questionId: string]: string;
 }
 
-
 const ExamComponent = () => {
+  const params = useParams();
+  const examId = (params?.["admin-exam-id"] as string) || "";
   const [examData, setExamData] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<ExamAnswers>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -29,13 +35,38 @@ const ExamComponent = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [scoreData, setScoreData] = useState<any | null>(null);
+  const [syncingTime, setSyncingTime] = useState(false);
 
   const handleSubmitExam = useCallback(async () => {
-    setIsSubmitted(true);
-    // Here you would typically send answers to the server
-    console.log("Exam submitted with answers:", answers);
-    // For now, just show completion message
-  }, [answers]);
+    if (!examId || submitting || isSubmitted) return;
+    try {
+      setSubmitting(true);
+      // Transform answers map into API array shape
+      const answersArray = Object.entries(answers).map(
+        ([questionId, selectedAnswer]) => ({
+          questionId,
+          selectedAnswer,
+        })
+      );
+
+      await submitStudentExam(examId, answersArray);
+      setIsSubmitted(true);
+
+      // Try to fetch score after submission
+      try {
+        const res = await getExamScore(examId);
+        setScoreData(res?.data ?? null);
+      } catch (e) {
+        // ignore score fetch errors, UI will just show generic success
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to submit exam");
+    } finally {
+      setSubmitting(false);
+    }
+  }, [answers, examId, isSubmitted, submitting]);
 
   // Timer effect
   useEffect(() => {
@@ -48,6 +79,36 @@ const ExamComponent = () => {
       handleSubmitExam();
     }
   }, [timeLeft, isSubmitted, handleSubmitExam]);
+
+  // Sync remaining time from server periodically
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    const sync = async () => {
+      if (!examId || isSubmitted) return;
+      try {
+        setSyncingTime(true);
+        const res = await getExamRemainingTime(examId);
+        const serverSeconds = (res?.data?.remainingSeconds ??
+          res?.data?.remaining_time ??
+          res?.data) as number | undefined;
+        if (typeof serverSeconds === "number" && serverSeconds >= 0) {
+          setTimeLeft(serverSeconds);
+        }
+      } catch (e) {
+        // ignore sync errors to avoid disrupting the exam flow
+      } finally {
+        setSyncingTime(false);
+      }
+    };
+
+    // initial sync
+    sync();
+    // periodic sync every 30s
+    interval = setInterval(sync, 30000);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [examId, isSubmitted]);
 
   useEffect(() => {
     async function fetchExam() {
@@ -63,7 +124,8 @@ const ExamComponent = () => {
           throw new Error("Invalid data format received from server");
         }
       } catch (err: unknown) {
-        const errorMessage = err instanceof Error ? err.message : "Failed to fetch exam data";
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to fetch exam data";
         setError(errorMessage);
         console.error("Fetch error:", err);
       } finally {
@@ -74,9 +136,9 @@ const ExamComponent = () => {
   }, []);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
-    setAnswers(prev => ({
+    setAnswers((prev) => ({
       ...prev,
-      [questionId]: answer
+      [questionId]: answer,
     }));
   };
 
@@ -84,7 +146,9 @@ const ExamComponent = () => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
   const nextQuestion = () => {
@@ -112,9 +176,19 @@ const ExamComponent = () => {
     return (
       <div className="max-w-2xl mx-auto p-6 text-center">
         <div className="bg-green-50 border border-green-200 rounded-lg p-8">
-          <h1 className="text-2xl font-bold text-green-800 mb-4">Exam Submitted Successfully!</h1>
-          <p className="text-green-600 mb-4">Thank you for completing the exam. Your answers have been recorded.</p>
-          <p className="text-sm text-gray-600">Results will be available soon.</p>
+          <h1 className="text-2xl font-bold text-green-800 mb-4">
+            Exam Submitted Successfully!
+          </h1>
+          <p className="text-green-600 mb-4">
+            Thank you for completing the exam. Your answers have been recorded.
+          </p>
+          {scoreData ? (
+            <ExamResults scoreData={scoreData} />
+          ) : (
+            <p className="text-sm text-gray-600">
+              Results will be available soon.
+            </p>
+          )}
         </div>
       </div>
     );
@@ -131,27 +205,41 @@ const ExamComponent = () => {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold">Online Exam</h1>
-            <p className="text-gray-600">Question {currentQuestionIndex + 1} of {totalQuestions}</p>
+            <p className="text-gray-600">
+              Question {currentQuestionIndex + 1} of {totalQuestions}
+            </p>
           </div>
           <div className="text-right">
-            <div className={`text-2xl font-bold ${timeLeft < 300 ? 'text-red-600' : 'text-blue-600'}`}>
+            <div
+              className={`text-2xl font-bold ${
+                timeLeft < 300 ? "text-red-600" : "text-blue-600"
+              }`}
+            >
               {formatTime(timeLeft)}
             </div>
             <div className="text-sm text-gray-500">Time Remaining</div>
           </div>
         </div>
-        
+
         {/* Progress bar */}
         <div className="mt-4">
           <div className="bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${((currentQuestionIndex + 1) / totalQuestions) * 100}%` }}
+              style={{
+                width: `${
+                  ((currentQuestionIndex + 1) / totalQuestions) * 100
+                }%`,
+              }}
             ></div>
           </div>
           <div className="flex justify-between text-sm text-gray-600 mt-1">
-            <span>Progress: {currentQuestionIndex + 1}/{totalQuestions}</span>
-            <span>Answered: {answeredQuestions}/{totalQuestions}</span>
+            <span>
+              Progress: {currentQuestionIndex + 1}/{totalQuestions}
+            </span>
+            <span>
+              Answered: {answeredQuestions}/{totalQuestions}
+            </span>
           </div>
         </div>
       </div>
@@ -168,10 +256,10 @@ const ExamComponent = () => {
                   onClick={() => goToQuestion(index)}
                   className={`p-2 rounded text-sm font-medium transition-colors ${
                     index === currentQuestionIndex
-                      ? 'bg-blue-600 text-white'
+                      ? "bg-blue-600 text-white"
                       : answers[examData[index]._id]
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {index + 1}
@@ -186,7 +274,8 @@ const ExamComponent = () => {
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-start mb-4">
               <h3 className="text-lg font-medium">
-                Question {currentQuestionIndex + 1} ({currentQuestion.points} points)
+                Question {currentQuestionIndex + 1} ({currentQuestion.points}{" "}
+                points)
               </h3>
               <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
                 {currentQuestion.type}
@@ -201,8 +290,8 @@ const ExamComponent = () => {
                   key={index}
                   className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-colors ${
                     answers[currentQuestion._id] === option
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-500 bg-blue-50"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <input
@@ -210,14 +299,18 @@ const ExamComponent = () => {
                     name={`question-${currentQuestion._id}`}
                     value={option}
                     checked={answers[currentQuestion._id] === option}
-                    onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
+                    onChange={(e) =>
+                      handleAnswerChange(currentQuestion._id, e.target.value)
+                    }
                     className="sr-only"
                   />
-                  <div className={`w-4 h-4 rounded-full border-2 mr-3 flex items-center justify-center ${
-                    answers[currentQuestion._id] === option
-                      ? 'border-blue-500 bg-blue-500'
-                      : 'border-gray-300'
-                  }`}>
+                  <div
+                    className={`w-4 h-4 rounded-full border-2 mr-3 flex items-center justify-center ${
+                      answers[currentQuestion._id] === option
+                        ? "border-blue-500 bg-blue-500"
+                        : "border-gray-300"
+                    }`}
+                  >
                     {answers[currentQuestion._id] === option && (
                       <div className="w-2 h-2 rounded-full bg-white"></div>
                     )}
@@ -237,14 +330,15 @@ const ExamComponent = () => {
             >
               Previous
             </button>
-            
+
             <div className="flex gap-3">
               {currentQuestionIndex === examData.length - 1 ? (
                 <button
                   onClick={handleSubmitExam}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  disabled={submitting}
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg disabled:opacity-50 hover:bg-green-700 transition-colors"
                 >
-                  Submit Exam
+                  {submitting ? "Submitting..." : "Submit Exam"}
                 </button>
               ) : (
                 <button
