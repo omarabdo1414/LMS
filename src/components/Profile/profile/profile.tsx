@@ -106,19 +106,18 @@ export default function ProfilePage() {
   };
 
 
-
   return (
     <div className="px-5 my-3 space-y-3">
       {/* Header */}
-      <div className="flex justify-between items-center bg-blue-50 border border-blue-100 rounded-2xl p-5 flex-wrap gap-5">
+      <div className="flex justify-between items-center bg-blue-50 border border-blue-100 rounded-2xl p-5 flex-wrap gap-5 dark:bg-blue-950 dark:border-blue-900">
         <div>
-          <h1 className="text-2xl font-semibold text-base-color">
+          <h1 className="text-2xl font-semibold text-base-color  ">
             Good morning,{" "}
             <span className="font-bold">
                 {user?.fullName?.split(" ")[0]} 
                 </span>!
           </h1>
-          <span className="text-gray-600">
+          <span className="text-gray-600 dark:text-gray-300">
             What do you want to <span className="font-bold">learn</span> today?
           </span>
         </div>
@@ -134,13 +133,13 @@ export default function ProfilePage() {
       </div>
 
       {/* Personal Info */}
-      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm">
+      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm dark-profile">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-base-color">Personal Information</h2>
+          <h2 className="text-lg font-bold text-base-color ">Personal Information</h2>
           {!isEditing && (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center space-x-1 border border-blue-300 text-base-color font-semibold px-3 py-1 rounded-full text-sm hover:bg-blue-50"
+              className="flex items-center space-x-1 border border-blue-300 text-base-color font-semibold px-3 py-1 rounded-full text-sm hover:bg-blue-50 dark:border-slate-400 dark:hover:bg-blue-900"
             >
               <span>Edit</span>
               <SquarePen className="w-4 ml-2" />
@@ -199,7 +198,7 @@ export default function ProfilePage() {
             <div className="flex justify-end space-x-2 mt-4">
               <button
                 onClick={() => setIsEditing(false)}
-                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 dark:text-white dark:hover:bg-blue-900"
               >
                 Cancel
               </button>
@@ -215,9 +214,9 @@ export default function ProfilePage() {
       </div>
 
       {/* My Courses */}
-      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm flex justify-between items-center flex-wrap ">
+      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm flex justify-between items-center flex-wrap dark-profile">
           <h2 className="text-lg font-bold text-base-color mb-4">My Courses</h2>
-          <Link href="#">
+          <Link href="/my-lessons">
             <button className="btn px-8 py-2" >
                   <BookOpenCheck  className="w-5 mr-3" />
                   View Courses
@@ -226,7 +225,7 @@ export default function ProfilePage() {
       </div>
 
       {/* My Exams */}
-      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm flex justify-between items-center flex-wrap gap-5">
+      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm flex justify-between items-center flex-wrap gap-5 dark-profile">
           <h2 className="text-lg font-bold text-base-color ">My Exams</h2>
           <Link href="#">
             <button className="btn px-8 py-2">
@@ -237,7 +236,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Account settings */}
-      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm">
+      <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm dark-profile">
             <div className="flex justify-between items-center ">
                 <h2 className="text-lg font-bold text-base-color ">Account Settings</h2>
                 <p className="text-base-color text-[14px]">perform profile actions or change password</p>
