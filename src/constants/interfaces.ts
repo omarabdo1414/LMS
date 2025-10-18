@@ -9,6 +9,7 @@ export interface ISignupForm {
   phoneNumber: string;
   classLevel: string;
 }
+
 //signup api
 export interface ISignup {
   fullName: string;
@@ -18,15 +19,18 @@ export interface ISignup {
   phoneNumber: string;
   classLevel: string;
 }
+
 //login api
 export interface ILoginForm {
   email: string;
   password: string;
 }
+
 //forgetpassword api
 export interface IForgetPass {
   email: string;
 }
+
 // reset password
 export interface IResetPass {
   email: string;
@@ -34,25 +38,26 @@ export interface IResetPass {
   cpassword: string;
   otp: string;
 }
-//profile
+
+//profile / user
 export interface IUser {
   _id: string;
   fullName: string;
-  phoneNumber: string;
   email: string;
-  role: string;
-  isVerified: string;
-  createdAt: Date;
-  updatedAt: Date;
+  phoneNumber: string;
+  role: "super_admin" | "admin" | "user";
+  isVerified?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
+
 //user state
 export interface IUserState {
   userData: IUser | null;
-
   loading: boolean;
-  error:string | null;
-  
+  error: string | null;
 }
+
 // lesson => get from api
 export interface Ilesson {
   _id: string;
@@ -68,12 +73,22 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
-// Omar's Work
+
+// lessonForm
+export interface IlessonForm {
+  title: string;
+  description: string;
+  video: string;
+  classLevel: string;
+  price: number;
+  scheduledDate: string;
+}
+
 // Quiz Question Types (UI Display)
-export type QuestionType = 'Multiple Choice' | 'True/False' | 'Short Answer';
+export type QuestionType = "Multiple Choice" | "True/False" | "Short Answer";
 
 // API Question Types
-export type ApiQuestionType = 'multiple-choice' | 'true-false' | 'short-answer';
+export type ApiQuestionType = "multiple-choice" | "true-false" | "short-answer";
 
 export interface QuestionOption {
   id: string;
@@ -143,14 +158,4 @@ export interface ExamResult {
   timeSpent: number;
   answers: ExamAnswer[];
   completedAt: number;
-}
-
-// lessonForm
-export interface IlessonForm {
-  title: string;
-  description: string;
-  video: string;
-  classLevel: string;
-  price: number;
-  scheduledDate: string;
 }
