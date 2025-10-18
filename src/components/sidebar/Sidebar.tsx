@@ -127,7 +127,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   }, []);
 
-  // الزر بيشتغل على حسب الجهاز
   const handleToggle = () => {
     if (isDesktop) {
       toggleCollapse();
