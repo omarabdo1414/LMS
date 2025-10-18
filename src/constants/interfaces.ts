@@ -74,7 +74,18 @@ export interface Ilesson {
   __v: number;
 }
 
+export interface ExamForm {
+  title: string;
+  description: string;
+  duration: string | number;
+  classLevel: string;
+  startDate: string;
+  endDate: string;
+  isPublished: boolean;
+}
+
 // lessonForm
+
 export interface IlessonForm {
   title: string;
   description: string;
