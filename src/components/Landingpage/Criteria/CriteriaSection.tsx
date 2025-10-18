@@ -22,7 +22,7 @@ export default function CriteriaSection () {
           <div className="space-y-4">
             {criteria.map((item, index) => (
               <div key={index} className="flex items-start">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1 mr-3" />
+                <CheckCircle2 className="w-6 h-6 text-accent  flex-shrink-0 mt-1 mr-3" />
                 <span className="text-foreground text-lg">{item}</span>
               </div>
             ))}
