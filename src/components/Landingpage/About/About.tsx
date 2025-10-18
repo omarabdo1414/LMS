@@ -12,7 +12,7 @@ export default function About( ) {
     <div className="bg-background min-h-screen text-foreground" id='about'>
       {/*Hero Section */}
       <header className=" border-b border-border text-center py-16 px-6">
-        <h1 className="text-5xl font-bold text-primary">About Us</h1>
+        <h1 className="text-5xl font-bold text-accent ">About Us</h1>
         <p className="text-xl text-muted-foreground mt-4 max-w-3xl mx-auto">
           We are a team of passionate educators and technologists dedicated to making quality education accessible to everyone.
         </p>
@@ -46,7 +46,7 @@ export default function About( ) {
         </section>
 
         {/*  Team Section */}
-        <section className="py-20 bg-card border-t border-border ">
+        <section className="py-20 bg-card border-t border-border " id='team'>
           <div className="container mx-auto px-6">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-foreground">Meet The Team</h2>
@@ -60,7 +60,7 @@ export default function About( ) {
                       src={member.image} 
                       alt={member.name} 
                       fill 
-                      className="rounded-full object-cover border-4 border-primary"
+                      className="rounded-full object-cover border-4 border-accent"
                     />
                   </div>
                   <h3 className="text-xl font-bold text-foreground">{member.name}</h3>

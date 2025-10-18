@@ -7,7 +7,7 @@ return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="text-center md:text-left">
             <h1 className="text-2xl lg:text-6xl font-semibold text-foreground leading-tight mb-6">
-            Up your <span className="text-primary">Skills</span> to <span className="text-primary">Advance</span> your <span className="text-primary">Career</span> path
+            Up your <span className="text-accent ">Skills</span> to <span className="text-accent ">Advance</span> your <span className="text-accent ">Career</span> path
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
                 Start your learning journey with us today and join thousands of successful students.
@@ -31,15 +31,15 @@ return (
         <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div className="p-6">
-                    <h2 className="text-5xl font-bold text-primary mb-2">+5000</h2>
+                    <h2 className="text-5xl font-bold text-accent  mb-2">+5000</h2>
                     <p className="font-semibold text-muted-foreground">Trained Students</p>
                 </div>
                 <div className="p-6">
-                    <h2 className="text-5xl font-bold text-primary mb-2">+100</h2>
+                    <h2 className="text-5xl font-bold text-accent  mb-2">+100</h2>
                     <p className="font-semibold text-muted-foreground">Available Courses</p>
                 </div>
                 <div className="p-6">
-                    <h2 className="text-5xl font-bold text-primary mb-2">95%</h2>
+                    <h2 className="text-5xl font-bold text-accent  mb-2">95%</h2>
                     <p className="font-semibold text-muted-foreground">Student Satisfaction</p>
                 </div>
             </div>

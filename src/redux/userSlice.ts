@@ -2,129 +2,136 @@ import { IUser, IUserState } from "@/constants/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-
-// get profile 
+// ✅ 1. Get profile
 async function getProfile() {
-  let token = Cookies.get("token");
-  try {
-    let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
-      method: "GET",
-      headers: {
-        token: token as string,
-      },
-    });
-
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-export let getUserProfile = createAsyncThunk("user/getProfile", getProfile);
-
-//Update Personal info
-async function updateUserProfile(updatedData: { fullName: string; email: string; phone: string }) {
-  let token = Cookies.get("token");
-  let userId = Cookies.get("userId");
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        token: token as string,
-      },
-      body: JSON.stringify({
-        fullName: updatedData.fullName,
-        email: updatedData.email,
-        phoneNumber: updatedData.phone,
-      }
-      ),
-    });
-    let data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export let updateTheUserProfile = createAsyncThunk("user/updateUserProfile", updateUserProfile );
-
-//change Password
-async function changePassword({
-      oldPassword,
-      newPassword,
-      cpassword,
-    }: { oldPassword: string; newPassword: string; cpassword: string },
-  ) {
   const token = Cookies.get("token");
   try {
-      console.log("Sending to backend:", {
-        oldPassword,
-        newPassword,
-        cpassword,
-      });
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/update-password`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        token: token as string,
-      },
-      body: JSON.stringify({ oldPassword, newPassword , cpassword,}),
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
+      method: "GET",
+      headers: { token: token as string },
     });
-    const result = await res.json();
-    console.log(" Response from backend:", result);
-    return result;
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Get profile error:", error);
+  }
+}
+export const getUserProfile = createAsyncThunk("user/getProfile", getProfile);
+
+// ✅ 2. Update personal info
+async function updateUserProfile(updatedData: {
+  fullName: string;
+  email: string;
+  phone: string;
+}) {
+  const token = Cookies.get("token");
+  const userId = Cookies.get("userId");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token: token as string,
+        },
+        body: JSON.stringify({
+          fullName: updatedData.fullName,
+          email: updatedData.email,
+          phoneNumber: updatedData.phone,
+        }),
+      }
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Update profile error:", error);
+  }
+}
+export const updateTheUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  updateUserProfile
+);
+
+// ✅ 3. Change password
+async function changePassword({
+  oldPassword,
+  newPassword,
+  cpassword,
+}: {
+  oldPassword: string;
+  newPassword: string;
+  cpassword: string;
+}) {
+  const token = Cookies.get("token");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/update-password`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          token: token as string,
+        },
+        body: JSON.stringify({ oldPassword, newPassword, cpassword }),
+      }
+    );
+    return await res.json();
   } catch (error) {
     console.error("Change password error:", error);
   }
 }
+export const changeUserPassword = createAsyncThunk(
+  "user/changePassword",
+  changePassword
+);
 
-export let changeUserPassword = createAsyncThunk("user/changePassword", changePassword);
-
-
-// delete Account
+// ✅ 4. Delete account
 async function deleteAccount() {
   const token = Cookies.get("token");
-
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
       method: "DELETE",
-      headers: {
-        token: token as string,
-      },
+      headers: { token: token as string },
     });
     return await res.json();
   } catch (error) {
     console.error("Delete account error:", error);
   }
 }
-export let deleteUserAccount = createAsyncThunk("user/deleteAccount", deleteAccount);
+export const deleteUserAccount = createAsyncThunk(
+  "user/deleteAccount",
+  deleteAccount
+);
 
-// userData => profile of user
-let initialState: IUserState = {
+// ✅ 5. Initial state
+const initialState: IUserState & { role: string | null } = {
   userData: null,
-  loading:false, 
-  error:null,
+  role: null, // هنا بنحتفظ بدور المستخدم
+  loading: false,
+  error: null,
 };
-let UserSlice = createSlice({
+
+// ✅ 6. Slice
+const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // get profile
-    builder.addCase(getUserProfile.pending, (state, action) => {
-        state.loading = true;
+    // Get profile
+    builder.addCase(getUserProfile.pending, (state) => {
+      state.loading = true;
     });
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userData = action.payload.data;
+      state.loading = false;
+      state.userData = action.payload?.data || null;
+      state.role = action.payload?.data?.role || null; // ✅ احفظ الدور
     });
     builder.addCase(getUserProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to load profile";
+      state.loading = false;
+      state.error = action.error.message || "Failed to load profile";
     });
 
-    //update profile
+    // Update profile
     builder.addCase(updateTheUserProfile.pending, (state) => {
       state.loading = true;
     });
@@ -132,6 +139,7 @@ let UserSlice = createSlice({
       state.loading = false;
       if (action.payload?.success) {
         state.userData = action.payload.data;
+        state.role = action.payload.data?.role || state.role; // ✅ احفظ الدور بعد التحديث لو رجع من السيرفر
       }
     });
     builder.addCase(updateTheUserProfile.rejected, (state, action) => {
@@ -139,7 +147,7 @@ let UserSlice = createSlice({
       state.error = action.error.message || "Failed to update user profile";
     });
 
-    //update password
+    // Change password
     builder.addCase(changeUserPassword.pending, (state) => {
       state.loading = true;
     });
@@ -157,7 +165,7 @@ let UserSlice = createSlice({
       state.error = action.error.message || "Failed to change password";
     });
 
-    //delete Account
+    // Delete account
     builder.addCase(deleteUserAccount.pending, (state) => {
       state.loading = true;
     });
@@ -165,6 +173,7 @@ let UserSlice = createSlice({
       state.loading = false;
       if (action.payload?.success) {
         state.userData = null;
+        state.role = null; // ✅ clear role
         Cookies.remove("token");
         Cookies.remove("userId");
       }
@@ -173,8 +182,7 @@ let UserSlice = createSlice({
       state.loading = false;
       state.error = action.error.message || "Failed to delete account";
     });
+  },
+});
 
-
-},
-})
-export let UserReducer = UserSlice.reducer;
+export const UserReducer = UserSlice.reducer;
