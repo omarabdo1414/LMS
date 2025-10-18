@@ -44,6 +44,13 @@ interface SidebarProps {
   toggleCollapse: () => void;
 }
 
+interface NavigationItem {
+  label: string;
+  path?: string;
+  icon: any;
+  children?: NavigationItem[];
+}
+
 const Sidebar: React.FC<SidebarProps> = ({
   isMobileOpen,
   setIsMobileOpen,
@@ -53,11 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   const pathname = usePathname();
   const router = useRouter();
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
+  const [isExamPanelOpen, setIsExamPanelOpen] = useState(false);
   const { userData } = useSelector((state: RootState) => state.user);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const toggleCourses = () => setIsCoursesOpen((prev) => !prev);
+  const toggleExamPanel = () => setIsExamPanelOpen((prev) => !prev);
   const isAdmin =
     userData?.role === "admin" || userData?.role === "super-admin";
 
@@ -66,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     return pathname.startsWith(path);
   };
 
-  const coursesChildren = [
+  const coursesChildren: NavigationItem[] = [
     { label: "All Courses", path: "/lessons", icon: BookOpenIcon },
     { label: "My Courses", path: "/my-lessons", icon: BookmarkIcon },
   ];
@@ -79,17 +88,41 @@ const Sidebar: React.FC<SidebarProps> = ({
     });
   }
 
-  const navigationItems = [
+  const examPanelChildren: NavigationItem[] = [
+    {
+      label: "Create Exam",
+      path: "/Exams/adminExams/addExam",
+      icon: PencilSquareIcon,
+    },
+    {
+      label: "Details Exams",
+      path: "/Exams/getExams",
+      icon: ClipboardDocumentListIcon,
+    },
+  ];
+
+  const navigationItems: (NavigationItem | null)[] = [
     { label: "Dashboard", path: "/dashboard", icon: HomeIcon },
     { label: "Profile", path: "/profile", icon: UserCircleIcon },
     { label: "Courses", icon: BookOpenIcon, children: coursesChildren },
+    !isAdmin
+      ? {
+          label: "Exams",
+          path: "/Exams/getExams",
+          icon: ClipboardDocumentListIcon,
+        }
+      : null,
     isAdmin
-      ? { label: "Create Exam", path: "/Exams/add", icon: PencilSquareIcon }
-      : { label: "Exams", path: "/Exams/get", icon: ClipboardDocumentListIcon },
+      ? {
+          label: "Exam Panel",
+          icon: PencilSquareIcon,
+          children: examPanelChildren,
+        }
+      : null,
     { label: "Logout", path: "/login", icon: ArrowRightStartOnRectangleIcon },
   ];
 
-  const footerItems = [
+  const footerItems: NavigationItem[] = [
     { label: "Help", path: "/", icon: QuestionMarkCircleIcon },
   ];
 
@@ -119,15 +152,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark");
-        setIsDarkMode(true);
-      }
+    if (
+      typeof window !== "undefined" &&
+      localStorage.getItem("theme") === "dark"
+    ) {
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
     }
   }, []);
 
-  // الزر بيشتغل على حسب الجهاز
   const handleToggle = () => {
     if (isDesktop) {
       toggleCollapse();
@@ -138,7 +171,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Overlay for mobile */}
       <div
         className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${
           isMobileOpen
@@ -148,7 +180,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         onClick={() => setIsMobileOpen(false)}
       ></div>
 
-      {/* Sidebar container */}
       <div
         className={`fixed md:relative top-0 left-0 h-full z-50 flex flex-col shadow-lg border-r border-gray-200 dark:border-transparent transition-all duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100
           ${isCollapsed ? "w-20 md:w-20" : "w-64"}
@@ -158,18 +189,16 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         {(isMobileOpen || isDesktop) && (
           <>
-            {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <div
                 className={`cursor-pointer transition-all duration-300 flex justify-center items-center
-    ${
-      isDesktop
-        ? "w-11 h-11 bg-accent rounded-md"
-        : !isCollapsed
-        ? "w-11 h-11 bg-accent rounded-md"
-        : "w-10 h-10"
-    }
-  `}
+                ${
+                  isDesktop
+                    ? "w-11 h-11 bg-accent rounded-md"
+                    : !isCollapsed
+                    ? "w-11 h-11 bg-accent rounded-md"
+                    : "w-10 h-10"
+                }`}
                 onClick={handleToggle}
               >
                 <GraduationCap
@@ -182,16 +211,28 @@ const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
 
-            {/* Navigation */}
             <nav className="flex-1 overflow-y-auto mt-4 px-1 transition-all duration-300">
               {navigationItems.map((item, index) => {
+                if (!item) return null;
                 const hasChildren = item.children && item.children.length > 0;
+                const isItemOpen =
+                  item.label === "Courses"
+                    ? isCoursesOpen
+                    : item.label === "Exam Panel"
+                    ? isExamPanelOpen
+                    : false;
+                const toggleItem =
+                  item.label === "Courses"
+                    ? toggleCourses
+                    : item.label === "Exam Panel"
+                    ? toggleExamPanel
+                    : undefined;
 
                 return (
                   <div key={index}>
                     {hasChildren ? (
                       <div
-                        onClick={toggleCourses}
+                        onClick={toggleItem}
                         className={`flex items-center px-3 py-2 mx-1 rounded-lg w-full transition-all duration-300 ${
                           isActive(item.path)
                             ? "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200 border-r-2 border-blue-500 dark:border-blue-400"
@@ -213,7 +254,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                             <span className="ml-3 truncate flex-1">
                               {item.label}
                             </span>
-                            {isCoursesOpen ? (
+                            {isItemOpen ? (
                               <ChevronDownIcon className="h-4 w-4" />
                             ) : (
                               <ChevronRightIcon className="h-4 w-4" />
@@ -251,7 +292,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       </Link>
                     )}
 
-                    {hasChildren && isCoursesOpen && !isCollapsed && (
+                    {hasChildren && isItemOpen && !isCollapsed && (
                       <div className="ml-10 mt-1 space-y-2">
                         {item.children?.map((child, childIndex) => (
                           <Link
@@ -275,9 +316,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               })}
             </nav>
 
-            {/* Footer */}
             <div className="border-t border-gray-200 dark:border-transparent p-4 flex flex-col space-y-3">
-              {/* Dark Mode Button */}
               <button
                 onClick={toggleDarkMode}
                 className={`flex items-center px-3 py-2 mx-1 my-1 rounded-lg w-full transition-all duration-300 cursor-pointer ${
@@ -294,12 +333,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {!isCollapsed && <span>Toggle Mode</span>}
               </button>
 
-              {/* Help Link */}
               {footerItems.map((item, index) => (
                 <Link
                   key={index}
                   href={item.path}
-                  className={`flex items-center px-3 py-2 mx-1 my-1 rounded-lg w-full transition-all duration-300 hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-blue-700 dark:hover:text-blue-200 text-gray-700 dark:text-gray-300`}
+                  className="flex items-center px-3 py-2 mx-1 my-1 rounded-lg w-full transition-all duration-300 hover:bg-blue-100 dark:hover:bg-blue-800/30 hover:text-blue-700 dark:hover:text-blue-200 text-gray-700 dark:text-gray-300"
                 >
                   <item.icon className="h-5 w-5 mr-2 text-gray-500 dark:text-gray-400" />
                   {!isCollapsed && <span>{item.label}</span>}
