@@ -19,51 +19,71 @@ async function getProfile() {
 export const getUserProfile = createAsyncThunk("user/getProfile", getProfile);
 
 // ✅ 2. Update personal info
-async function updateUserProfile(updatedData: { fullName: string; email: string; phone: string }) {
+async function updateUserProfile(updatedData: {
+  fullName: string;
+  email: string;
+  phone: string;
+}) {
   const token = Cookies.get("token");
   const userId = Cookies.get("userId");
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        token: token as string,
-      },
-      body: JSON.stringify({
-        fullName: updatedData.fullName,
-        email: updatedData.email,
-        phoneNumber: updatedData.phone,
-      }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token: token as string,
+        },
+        body: JSON.stringify({
+          fullName: updatedData.fullName,
+          email: updatedData.email,
+          phoneNumber: updatedData.phone,
+        }),
+      }
+    );
     return await res.json();
   } catch (error) {
     console.error("Update profile error:", error);
   }
 }
-export const updateTheUserProfile = createAsyncThunk("user/updateUserProfile", updateUserProfile);
+export const updateTheUserProfile = createAsyncThunk(
+  "user/updateUserProfile",
+  updateUserProfile
+);
 
 // ✅ 3. Change password
 async function changePassword({
   oldPassword,
   newPassword,
   cpassword,
-}: { oldPassword: string; newPassword: string; cpassword: string }) {
+}: {
+  oldPassword: string;
+  newPassword: string;
+  cpassword: string;
+}) {
   const token = Cookies.get("token");
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/update-password`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        token: token as string,
-      },
-      body: JSON.stringify({ oldPassword, newPassword, cpassword }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/update-password`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          token: token as string,
+        },
+        body: JSON.stringify({ oldPassword, newPassword, cpassword }),
+      }
+    );
     return await res.json();
   } catch (error) {
     console.error("Change password error:", error);
   }
 }
-export const changeUserPassword = createAsyncThunk("user/changePassword", changePassword);
+export const changeUserPassword = createAsyncThunk(
+  "user/changePassword",
+  changePassword
+);
 
 // ✅ 4. Delete account
 async function deleteAccount() {
@@ -78,10 +98,13 @@ async function deleteAccount() {
     console.error("Delete account error:", error);
   }
 }
-export const deleteUserAccount = createAsyncThunk("user/deleteAccount", deleteAccount);
+export const deleteUserAccount = createAsyncThunk(
+  "user/deleteAccount",
+  deleteAccount
+);
 
 // ✅ 5. Initial state
-const initialState: IUserState = {
+const initialState: IUserState & { role: string | null } = {
   userData: null,
   role: null, // هنا بنحتفظ بدور المستخدم
   loading: false,
