@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 
 export async function getExam(examId: string) {
     try {
@@ -7,7 +8,7 @@ export async function getExam(examId: string) {
             {
                 method: "GET",
                 headers: {
-                    token: localStorage.getItem("token") as string,
+                    token: Cookies.get("token") as string,
                 },
             }
         );
@@ -20,22 +21,4 @@ export async function getExam(examId: string) {
     }
 }
 
-export async function getAllExams() {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/exam`,
-            {
-                method: "GET",
-                headers: {
-                    token: localStorage.getItem("token") as string,
-                },
-            }
-        );
 
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
