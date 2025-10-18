@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AddExam } from "@/Apis/exam/addExam";
 import { ExamForm } from "@/constants/interfaces";
-
+import { useRouter } from "next/navigation";
 const allowedLevels = [
   "select class level",
   "Grade 1 Secondary",
@@ -31,6 +31,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateExam = () => {
+  const route=useRouter()
   const [loading, setLoading] = useState(false);
 
   const initialValues: ExamForm = {
@@ -55,6 +56,7 @@ const CreateExam = () => {
       if (response?.success) {
         toast.success("✅ Exam added successfully!");
         console.log("Success:", response.data);
+        route.push('/create-quiz/')
       } else {
         toast.error(
           `❌ Failed to add exam: ${response?.message || "Unknown error"}`
@@ -72,7 +74,7 @@ const CreateExam = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
+    <div className="max-w-lg mx-auto mt-10 p-6 rounded-2xl shadow bg-card">
       <h1 className="text-2xl text-center font-bold mb-6">Add New Exam</h1>
 
       <Formik

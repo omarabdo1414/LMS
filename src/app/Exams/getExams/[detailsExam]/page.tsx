@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ExamResults from "@/components/ExamResults/ExamResults";
+import ExamDetails from "@/components/ExamDetails/ExamDetails";
 import { getExamScore } from "@/Apis/studentExam/getScore";
 import { useParams } from "next/navigation";
 
@@ -31,7 +31,7 @@ const DetailsExam = () => {
   return (
     <div>
       {scoreData ? (
-        <ExamResults scoreData={scoreData} />
+        <ExamDetails scoreData={scoreData} />
       ) : (
         <p className="text-sm text-gray-600">Results will be available soon.</p>
       )}

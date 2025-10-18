@@ -26,7 +26,7 @@ interface Props {
   scoreData: { data?: ScoreEntry[] } | ScoreEntry[];
 }
 
-export default function ExamResults({ scoreData }: Props) {
+export default function ExamDetails({ scoreData }: Props) {
   const entries: ScoreEntry[] = Array.isArray(scoreData)
     ? scoreData
     : scoreData?.data ?? [];
@@ -43,9 +43,9 @@ export default function ExamResults({ scoreData }: Props) {
   return (
     <div className="mt-4">
       <h2 className="text-lg font-semibold mb-3">Exam Results</h2>
-      <div className="overflow-auto bg-white rounded-lg shadow-sm border">
+      <div className="overflow-auto bg-card rounded-lg shadow-sm border">
         <table className="min-w-full text-sm">
-          <thead className="bg-gray-50 text-left">
+          <thead className="bg-card-50 text-left">
             <tr>
               <th className="px-4 py-2">Student</th>
               <th className="px-4 py-2">Score</th>

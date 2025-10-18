@@ -6,7 +6,7 @@ import { getExamById } from "@/Apis/exam/exam";
 import { submitStudentExam } from "@/Apis/studentExam/submitExam";
 import { getExamScore } from "@/Apis/studentExam/getScore";
 import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
-import ExamResults from "@/components/ExamResults/ExamResults";
+import ExamResults from "@/components/ExamDetails/ExamDetails";
 
 interface Question {
   _id: string;
