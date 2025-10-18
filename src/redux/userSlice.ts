@@ -3,19 +3,26 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 // ✅ 1. Get profile
+// ✅ 1. Get profile
 async function getProfile() {
+  const token = Cookies.get("token");
   const token = Cookies.get("token");
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
       method: "GET",
       headers: { token: token as string },
+      headers: { token: token as string },
     });
+    const data = await res.json();
     const data = await res.json();
     return data;
   } catch (error) {
     console.error("Get profile error:", error);
+    console.error("Get profile error:", error);
   }
 }
+export const getUserProfile = createAsyncThunk("user/getProfile", getProfile);
 export const getUserProfile = createAsyncThunk("user/getProfile", getProfile);
 
 // ✅ 2. Update personal info
@@ -45,6 +52,7 @@ async function updateUserProfile(updatedData: {
     return await res.json();
   } catch (error) {
     console.error("Update profile error:", error);
+    console.error("Update profile error:", error);
   }
 }
 export const updateTheUserProfile = createAsyncThunk(
@@ -52,6 +60,7 @@ export const updateTheUserProfile = createAsyncThunk(
   updateUserProfile
 );
 
+// ✅ 3. Change password
 // ✅ 3. Change password
 async function changePassword({
   oldPassword,
@@ -86,11 +95,13 @@ export const changeUserPassword = createAsyncThunk(
 );
 
 // ✅ 4. Delete account
+// ✅ 4. Delete account
 async function deleteAccount() {
   const token = Cookies.get("token");
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
       method: "DELETE",
+      headers: { token: token as string },
       headers: { token: token as string },
     });
     return await res.json();
@@ -105,11 +116,19 @@ export const deleteUserAccount = createAsyncThunk(
 
 // ✅ 5. Initial state
 const initialState: IUserState = {
+// ✅ 5. Initial state
+const initialState: IUserState = {
   userData: null,
   role: null, // هنا بنحتفظ بدور المستخدم
   loading: false,
   error: null,
+  role: null, // هنا بنحتفظ بدور المستخدم
+  loading: false,
+  error: null,
 };
+
+// ✅ 6. Slice
+const UserSlice = createSlice({
 
 // ✅ 6. Slice
 const UserSlice = createSlice({
@@ -120,8 +139,14 @@ const UserSlice = createSlice({
     // Get profile
     builder.addCase(getUserProfile.pending, (state) => {
       state.loading = true;
+    // Get profile
+    builder.addCase(getUserProfile.pending, (state) => {
+      state.loading = true;
     });
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.userData = action.payload?.data || null;
+      state.role = action.payload?.data?.role || null; // ✅ احفظ الدور
       state.loading = false;
       state.userData = action.payload?.data || null;
       state.role = action.payload?.data?.role || null; // ✅ احفظ الدور
@@ -129,8 +154,11 @@ const UserSlice = createSlice({
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to load profile";
+      state.loading = false;
+      state.error = action.error.message || "Failed to load profile";
     });
 
+    // Update profile
     // Update profile
     builder.addCase(updateTheUserProfile.pending, (state) => {
       state.loading = true;
@@ -140,6 +168,7 @@ const UserSlice = createSlice({
       if (action.payload?.success) {
         state.userData = action.payload.data;
         state.role = action.payload.data?.role || state.role; // ✅ احفظ الدور بعد التحديث لو رجع من السيرفر
+        state.role = action.payload.data?.role || state.role; // ✅ احفظ الدور بعد التحديث لو رجع من السيرفر
       }
     });
     builder.addCase(updateTheUserProfile.rejected, (state, action) => {
@@ -147,6 +176,7 @@ const UserSlice = createSlice({
       state.error = action.error.message || "Failed to update user profile";
     });
 
+    // Change password
     // Change password
     builder.addCase(changeUserPassword.pending, (state) => {
       state.loading = true;
@@ -166,6 +196,7 @@ const UserSlice = createSlice({
     });
 
     // Delete account
+    // Delete account
     builder.addCase(deleteUserAccount.pending, (state) => {
       state.loading = true;
     });
@@ -173,6 +204,7 @@ const UserSlice = createSlice({
       state.loading = false;
       if (action.payload?.success) {
         state.userData = null;
+        state.role = null; // ✅ clear role
         state.role = null; // ✅ clear role
         Cookies.remove("token");
         Cookies.remove("userId");
@@ -182,6 +214,10 @@ const UserSlice = createSlice({
       state.loading = false;
       state.error = action.error.message || "Failed to delete account";
     });
+  },
+});
+
+export const UserReducer = UserSlice.reducer;
   },
 });
 
