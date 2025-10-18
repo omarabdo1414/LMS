@@ -50,8 +50,7 @@ export interface IUserState {
   userData: IUser | null;
 
   loading: boolean;
-  error:string | null;
-  
+  error: string | null;
 }
 // lesson => get from api
 export interface Ilesson {
@@ -70,10 +69,10 @@ export interface Ilesson {
 }
 // Omar's Work
 // Quiz Question Types (UI Display)
-export type QuestionType = 'Multiple Choice' | 'True/False' | 'Short Answer';
+export type QuestionType = "Multiple Choice" | "True/False" | "Short Answer";
 
 // API Question Types
-export type ApiQuestionType = 'multiple-choice' | 'true-false' | 'short-answer';
+export type ApiQuestionType = "multiple-choice" | "true-false" | "short-answer";
 
 export interface QuestionOption {
   id: string;
@@ -153,4 +152,12 @@ export interface IlessonForm {
   classLevel: string;
   price: number;
   scheduledDate: string;
+}
+
+export interface IUser {
+  _id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  role: "super_admin" | "admin" | "user";
 }
