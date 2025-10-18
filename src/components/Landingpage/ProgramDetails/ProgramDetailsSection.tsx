@@ -29,10 +29,10 @@ export default function ProgramDetailsSection (){
         </div>
         <div className="relative">
           <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative ">
             {steps.map((step, index) => (
-              <div key={index} className="text-center bg-background p-6 rounded-lg">
-                <div className="text-5xl font-bold text-primary mb-4">{step.number}</div>
+              <div key={index} className="text-center bg-background p-6 rounded-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer">
+                <div className="text-5xl font-bold text-accent  mb-4">{step.number}</div>
                 <h3 className="text-xl font-bold text-foreground mb-2">{step.title}</h3>
                 <p className="text-muted-foreground">{step.description}</p>
               </div>
