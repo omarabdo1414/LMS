@@ -18,6 +18,7 @@ import {
   QuestionMarkCircleIcon,
   MoonIcon,
   SunIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -25,7 +26,6 @@ import { GraduationCap } from "lucide-react";
 
 const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false);
-
   useEffect(() => {
     const media = window.matchMedia(query);
     if (media.matches !== matches) setMatches(media.matches);
@@ -33,7 +33,6 @@ const useMediaQuery = (query: string) => {
     media.addEventListener("change", listener);
     return () => media.removeEventListener("change", listener);
   }, [matches, query]);
-
   return matches;
 };
 
@@ -61,12 +60,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   const router = useRouter();
   const [isCoursesOpen, setIsCoursesOpen] = useState(false);
   const [isExamPanelOpen, setIsExamPanelOpen] = useState(false);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
+  const [activeAdminChild, setActiveAdminChild] = useState<string | null>(null);
+
   const { userData } = useSelector((state: RootState) => state.user);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const toggleCourses = () => setIsCoursesOpen((prev) => !prev);
   const toggleExamPanel = () => setIsExamPanelOpen((prev) => !prev);
+  const toggleAdminPanel = () => setIsAdminPanelOpen((prev) => !prev);
+
   const isAdmin =
     userData?.role === "admin" || userData?.role === "super-admin";
 
@@ -101,6 +105,21 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
   ];
 
+  const adminPanelChildren: NavigationItem[] = [];
+  if (userData?.role === "super-admin") {
+    adminPanelChildren.push(
+      { label: "Create Admin", path: "/admins", icon: PlusCircleIcon },
+      { label: "Admin Table", path: "/admins", icon: ShieldCheckIcon },
+      { label: "User Table", path: "/admins", icon: UserCircleIcon }
+    );
+  } else if (userData?.role === "admin") {
+    adminPanelChildren.push({
+      label: "User Table",
+      path: "/admins",
+      icon: UserCircleIcon,
+    });
+  }
+
   const navigationItems: (NavigationItem | null)[] = [
     { label: "Dashboard", path: "/dashboard", icon: HomeIcon },
     { label: "Profile", path: "/profile", icon: UserCircleIcon },
@@ -117,6 +136,13 @@ const Sidebar: React.FC<SidebarProps> = ({
           label: "Exam Panel",
           icon: PencilSquareIcon,
           children: examPanelChildren,
+        }
+      : null,
+    adminPanelChildren.length > 0
+      ? {
+          label: "Admin Panel",
+          icon: ShieldCheckIcon,
+          children: adminPanelChildren,
         }
       : null,
     { label: "Logout", path: "/login", icon: ArrowRightStartOnRectangleIcon },
@@ -162,11 +188,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, []);
 
   const handleToggle = () => {
-    if (isDesktop) {
-      toggleCollapse();
-    } else {
-      setIsMobileOpen(false);
-    }
+    if (isDesktop) toggleCollapse();
+    else setIsMobileOpen(false);
   };
 
   return (
@@ -191,8 +214,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <>
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
               <div
-                className={`cursor-pointer transition-all duration-300 flex justify-center items-center
-                ${
+                className={`cursor-pointer transition-all duration-300 flex justify-center items-center ${
                   isDesktop
                     ? "w-11 h-11 bg-accent rounded-md"
                     : !isCollapsed
@@ -220,12 +242,17 @@ const Sidebar: React.FC<SidebarProps> = ({
                     ? isCoursesOpen
                     : item.label === "Exam Panel"
                     ? isExamPanelOpen
+                    : item.label === "Admin Panel"
+                    ? isAdminPanelOpen
                     : false;
+
                 const toggleItem =
                   item.label === "Courses"
                     ? toggleCourses
                     : item.label === "Exam Panel"
                     ? toggleExamPanel
+                    : item.label === "Admin Panel"
+                    ? toggleAdminPanel
                     : undefined;
 
                 return (
@@ -294,21 +321,29 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                     {hasChildren && isItemOpen && !isCollapsed && (
                       <div className="ml-10 mt-1 space-y-2">
-                        {item.children?.map((child, childIndex) => (
-                          <Link
-                            key={childIndex}
-                            href={child.path || "#"}
-                            onClick={() => setIsMobileOpen(false)}
-                            className={`flex items-center px-3 py-1 rounded-md text-sm transition-all duration-200 ${
-                              isActive(child.path)
-                                ? "bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200"
-                                : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
-                            }`}
-                          >
-                            <child.icon className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
-                            <span>{child.label}</span>
-                          </Link>
-                        ))}
+                        {item.children?.map((child, childIndex) => {
+                          const isActiveChild =
+                            activeAdminChild === child.label;
+                          return (
+                            <Link
+                              key={childIndex}
+                              href={child.path || "#"}
+                              onClick={() => {
+                                setIsMobileOpen(false);
+                                if (item.label === "Admin Panel")
+                                  setActiveAdminChild(child.label);
+                              }}
+                              className={`flex items-center px-3 py-1 rounded-md text-sm transition-all duration-200 ${
+                                isActiveChild
+                                  ? "bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200"
+                                  : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
+                              }`}
+                            >
+                              <child.icon className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
+                              <span>{child.label}</span>
+                            </Link>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
