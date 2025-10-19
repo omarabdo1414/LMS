@@ -38,12 +38,12 @@ export default function ChangePasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center " >
+    <div className="min-h-screen flex justify-center items-center" >
       <form
         onSubmit={handleSubmit}
         className="form flex flex-col gap-5"
       >
-        <h2 className="text-xl font-bold text-center text-base-color">
+        <h2 className="text-xl font-bold text-center text-base-color ">
           Change Password
         </h2>
 
@@ -91,7 +91,7 @@ export default function ChangePasswordPage() {
         <button
           type="button"
           onClick={() => router.push("/profile")}
-          className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-100"
+          className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-blue-900"
         >
           Cancel
         </button>

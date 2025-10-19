@@ -1,5 +1,6 @@
 //>>>>>forms
-//signup form
+
+// Signup form
 export interface ISignupForm {
   fName: string;
   lName: string;
@@ -9,7 +10,8 @@ export interface ISignupForm {
   phoneNumber: string;
   classLevel: string;
 }
-//signup api
+
+// Signup API
 export interface ISignup {
   fullName: string;
   email: string;
@@ -18,43 +20,47 @@ export interface ISignup {
   phoneNumber: string;
   classLevel: string;
 }
-//login api
+
+// Login API
 export interface ILoginForm {
   email: string;
   password: string;
 }
-//forgetpassword api
+
+// Forget password API
 export interface IForgetPass {
   email: string;
 }
-// reset password
+
+// Reset password
 export interface IResetPass {
   email: string;
   newPassword: string;
   cpassword: string;
   otp: string;
 }
-//profile
+
+// Profile / User
 export interface IUser {
   _id: string;
   fullName: string;
-  phoneNumber: string;
   email: string;
-  role: string;
-  isVerified: string;
-  createdAt: Date;
-  updatedAt: Date;
+  phoneNumber: string;
+  role: "super-admin" | "admin" | "user";
+  isVerified?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
-//user state
+
+// User state
 export interface IUserState {
   userData: IUser | null;
-
   loading: boolean;
-  error:string | null;
-  
+  error: string | null;
 }
-// lesson => get from api
-export interface Ilesson {
+
+// Lesson => get from API
+export interface ILesson {
   _id: string;
   title: string;
   description: string;
@@ -68,12 +74,22 @@ export interface Ilesson {
   updatedAt: Date;
   __v: number;
 }
-// Omar's Work
+
+// Lesson form
+export interface ILessonForm {
+  title: string;
+  description: string;
+  video: string;
+  classLevel: string;
+  price: number;
+  scheduledDate: string;
+}
+
 // Quiz Question Types (UI Display)
-export type QuestionType = 'Multiple Choice' | 'True/False' | 'Short Answer';
+export type QuestionType = "Multiple Choice" | "True/False" | "Short Answer";
 
 // API Question Types
-export type ApiQuestionType = 'multiple-choice' | 'true-false' | 'short-answer';
+export type ApiQuestionType = "multiple-choice" | "true-false" | "short-answer";
 
 export interface QuestionOption {
   id: string;
@@ -143,14 +159,4 @@ export interface ExamResult {
   timeSpent: number;
   answers: ExamAnswer[];
   completedAt: number;
-}
-
-// lessonForm
-export interface IlessonForm {
-  title: string;
-  description: string;
-  video: string;
-  classLevel: string;
-  price: number;
-  scheduledDate: string;
 }

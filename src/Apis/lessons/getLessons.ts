@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+
 export async function getLessons(page: number = 1) {
   try {
     const token = (await cookies()).get("token")?.value;

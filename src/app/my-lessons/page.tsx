@@ -1,5 +1,5 @@
 import ProtectedRoute from "@/components/guard/ProtectPages";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import React from "react";
 import { getMyLessons } from "../../Apis/lessons/getMylessons";
 import Image from "next/image";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 export default async function MyLessonPage() {
   //get my lessons
-  const myLessons: Ilesson[] = await getMyLessons();
+  const myLessons: ILesson[] = await getMyLessons();
   console.log(myLessons);
  
   return (

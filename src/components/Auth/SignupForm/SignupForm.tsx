@@ -306,6 +306,7 @@ export default function SignupForm() {
           value={formik.values.classLevel}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          defaultValue="Grade 1 Secondary"
         >
           <option disabled value="Select Class Level">
             Select Class Level

@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
+
 export async function payLesson(id: string) {
-  let token = Cookies.get("token")
+  let token = Cookies.get("token");
   try {
     let res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/lesson/pay/${id}`,

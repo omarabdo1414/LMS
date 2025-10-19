@@ -157,5 +157,8 @@ p {
 }
 /* base color */
 .text-base-color {
-  @apply text-[var(--btn)];
+  @apply text-[var(--btn)] dark:text-white;
+}
+.dark-profile{
+  @apply dark:bg-slate-900 dark:border-slate-500;
 }

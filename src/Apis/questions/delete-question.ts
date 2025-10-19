@@ -1,4 +1,5 @@
 "use client";
+import { getCookie } from "./get_cookie";
 
 export async function deleteQuestion(questionId: string) {
     try {
@@ -7,7 +8,7 @@ export async function deleteQuestion(questionId: string) {
             {
                 method: "DELETE",
                 headers: {
-                    token: localStorage.getItem("token") as string,
+                    token: getCookie("token") as string,
                 },
             }
         );
