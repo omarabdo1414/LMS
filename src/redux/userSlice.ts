@@ -124,7 +124,7 @@ const UserSlice = createSlice({
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
       state.loading = false;
       state.userData = action.payload?.data || null;
-      state.role = action.payload?.data?.role || null; // ✅ احفظ الدور
+      state.role = action.payload?.data?.role || null;
     });
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.loading = false;
@@ -139,7 +139,7 @@ const UserSlice = createSlice({
       state.loading = false;
       if (action.payload?.success) {
         state.userData = action.payload.data;
-        state.role = action.payload.data?.role || state.role; // ✅ احفظ الدور بعد التحديث لو رجع من السيرفر
+        state.role = action.payload.data?.role || state.role;
       }
     });
     builder.addCase(updateTheUserProfile.rejected, (state, action) => {
