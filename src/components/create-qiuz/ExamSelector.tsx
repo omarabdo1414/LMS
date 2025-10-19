@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getAllExams } from '@/Apis/exam/get-exam';
+import { FetchExams } from '@/Apis/exam/fetchExams';
 import { setSelectedExam } from '@/redux/questions';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 
@@ -28,7 +28,7 @@ const ExamSelector: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await getAllExams();
+            const response = await FetchExams();
             if (response && response.data) {
                 setExams(response.data);
             }
