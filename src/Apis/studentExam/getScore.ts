@@ -6,6 +6,7 @@ export async function getExamScore(examId: string) {
   const token = Cookies.get("token");
   const url = `${process.env.NEXT_PUBLIC_API_URL}/studentExam/exams/${examId}`;
 
+
   const response = await axios.get(url, {
     headers: {
       token: token,
