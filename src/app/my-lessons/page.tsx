@@ -14,7 +14,7 @@ export default async function MyLessonPage() {
   //get my lessons
   const myLessons: Ilesson[] = await getMyLessons();
   console.log(myLessons);
-  
+ 
   return (
     <ProtectedRoute>
       <section className="contain py-8">
@@ -28,7 +28,7 @@ export default async function MyLessonPage() {
           knowledge step by step.
         </p>
         {/* lessons */}
-        {myLessons.length > 0 ? (
+        {myLessons?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-8">
             {myLessons?.map((lesson) => {
               return (
@@ -59,9 +59,11 @@ export default async function MyLessonPage() {
             })}
           </div>
         ) : (
-          <div className=" text-center my-8"> 
-            <Image  className="w-96 mx-auto" src={noData} alt="no data"/>
-            <h3 className="font-semibold text-lg text-accent">You have no courses yet</h3>
+          <div className=" text-center my-8">
+            <Image className="w-96 mx-auto" src={noData} alt="no data" />
+            <h3 className="font-semibold text-lg text-accent">
+              You have no courses yet
+            </h3>
           </div>
         )}
       </section>

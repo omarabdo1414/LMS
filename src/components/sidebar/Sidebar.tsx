@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import logo from "../../../public/icons8-education-100 (2).png";
 import {
   HomeIcon,
   BookOpenIcon,
@@ -20,6 +21,8 @@ import {
 } from "@heroicons/react/24/outline";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import Image from "next/image";
+import { GraduationCap } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -85,9 +88,9 @@ const Sidebar = () => {
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         {!isSidebarCollapsed && (
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-            LMS
-          </h1>
+          <div className="w-11 h-11 bg-accent rounded-md flex justify-center items-center">
+            <GraduationCap className="w-7 h-7 text-white" />
+          </div>
         )}
         <button
           onClick={toggleSidebarCollapse}
