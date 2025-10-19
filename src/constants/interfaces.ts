@@ -1,5 +1,6 @@
 //>>>>>forms
-//signup form
+
+// Signup form
 export interface ISignupForm {
   fName: string;
   lName: string;
@@ -10,7 +11,7 @@ export interface ISignupForm {
   classLevel: string;
 }
 
-//signup api
+// Signup API
 export interface ISignup {
   fullName: string;
   email: string;
@@ -20,18 +21,18 @@ export interface ISignup {
   classLevel: string;
 }
 
-//login api
+// Login API
 export interface ILoginForm {
   email: string;
   password: string;
 }
 
-//forgetpassword api
+// Forget password API
 export interface IForgetPass {
   email: string;
 }
 
-// reset password
+// Reset password
 export interface IResetPass {
   email: string;
   newPassword: string;
@@ -39,7 +40,7 @@ export interface IResetPass {
   otp: string;
 }
 
-//profile / user
+// Profile / User
 export interface IUser {
   _id: string;
   fullName: string;
@@ -51,15 +52,15 @@ export interface IUser {
   updatedAt?: Date;
 }
 
-//user state
+// User state
 export interface IUserState {
   userData: IUser | null;
   loading: boolean;
   error: string | null;
 }
 
-// lesson => get from api
-export interface Ilesson {
+// Lesson => get from API
+export interface ILesson {
   _id: string;
   title: string;
   description: string;
@@ -74,8 +75,8 @@ export interface Ilesson {
   __v: number;
 }
 
-// lessonForm
-export interface IlessonForm {
+// Lesson form
+export interface ILessonForm {
   title: string;
   description: string;
   video: string;
