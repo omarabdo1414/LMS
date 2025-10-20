@@ -56,8 +56,8 @@ function QuizContent() {
                 <QuizTitle />
                 <ExamSelector />
                 <ExamIntegration />
-                <div className='bg-white rounded-lg p-8 shadow-sm text-center'>
-                    <p className='text-gray-500 text-lg'>No questions yet. Click &quot;Add Question&quot; to get started!</p>
+                <div className='bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm text-center'>
+                    <p className='text-gray-500 dark:text-gray-400 text-lg'>No questions yet. Click &quot;Add Question&quot; to get started!</p>
                 </div>
             </div>
         );
@@ -146,9 +146,9 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
     // }, [question]);
 
     return (
-        <div className='bg-white rounded-lg p-6 shadow-sm'>
+        <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border dark:border-slate-700'>
             <div className='flex items-center gap-2 mb-4'>
-                <span className='text-sm text-gray-500 font-medium'>Question {questionIndex + 1}</span>
+                <span className='text-sm text-gray-500 dark:text-gray-400 font-medium'>Question {questionIndex + 1}</span>
             </div>
 
             {/* Question Input and Type */}
@@ -158,26 +158,26 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                     value={question.questionText}
                     onChange={(e) => handleQuestionTextChange(e.target.value)}
                     placeholder="Enter your question here..."
-                    className='flex-1 text-lg font-medium border-none outline-none bg-transparent'
+                    className='flex-1 text-lg font-medium border-none outline-none bg-transparent text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500'
                 />
                 <div className='relative'>
                     <select
                         value={question.questionType}
                         onChange={(e) => handleQuestionTypeChange(e.target.value as QuestionType)}
-                        className='appearance-none bg-white border border-gray-300 rounded-md px-4 py-2 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='appearance-none bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-md px-4 py-2 pr-8 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     >
                         <option value="Multiple Choice">Multiple Choice</option>
                         <option value="True/False">True/False</option>
                         <option value="Short Answer">Short Answer</option>
                     </select>
-                    <ChevronDown className='absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none' />
+                    <ChevronDown className='absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none' />
                 </div>
             </div>
 
             {/* Answer Options - Only show for Multiple Choice */}
             {question.questionType === 'Multiple Choice' && (
                 <div className='space-y-3 mb-6'>
-                    <p className='text-xs text-gray-500 mb-2'>Select the correct answer:</p>
+                    <p className='text-xs text-gray-500 dark:text-gray-400 mb-2'>Select the correct answer:</p>
                     {question.options.map((option, index: number) => (
                         <div key={option.id} className='flex items-center gap-3'>
                             <input
@@ -192,19 +192,19 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                                 value={option.text}
                                 onChange={(e) => handleOptionTextChange(option.id, e.target.value)}
                                 placeholder={`Option ${index + 1}`}
-                                className='flex-1 border-none outline-none bg-transparent'
+                                className='flex-1 border-none outline-none bg-transparent text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500'
                             />
                             <button
                                 onClick={() => handleRemoveOption(option.id)}
-                                className='p-1 hover:bg-gray-100 rounded'
+                                className='p-1 hover:bg-gray-100 dark:hover:bg-slate-700 rounded'
                             >
-                                <X className='w-4 h-4 text-gray-400' />
+                                <X className='w-4 h-4 text-gray-400 dark:text-gray-500' />
                             </button>
                         </div>
                     ))}
                     <button
                         onClick={handleAddOption}
-                        className='flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium'
+                        className='flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium'
                     >
                         <Plus className='w-4 h-4' />
                         Add option
@@ -215,7 +215,7 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
             {/* True/False Answer */}
             {question.questionType === 'True/False' && (
                 <div className='space-y-3 mb-6'>
-                    <p className='text-xs text-gray-500 mb-2'>Select the correct answer:</p>
+                    <p className='text-xs text-gray-500 dark:text-gray-400 mb-2'>Select the correct answer:</p>
                     <div className='flex gap-4'>
                         <label className='flex items-center gap-2 cursor-pointer'>
                             <input
@@ -225,7 +225,7 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                                 checked={question.correctAnswer === 'True' || question.correctAnswer === 'true'}
                                 onChange={() => dispatch(setCorrectAnswer({ questionId: question.id, correctAnswer: 'True' }))}
                             />
-                            <span className='text-gray-700'>True</span>
+                            <span className='text-gray-700 dark:text-gray-300'>True</span>
                         </label>
                         <label className='flex items-center gap-2 cursor-pointer'>
                             <input
@@ -235,7 +235,7 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                                 checked={question.correctAnswer === 'False' || question.correctAnswer === 'false'}
                                 onChange={() => dispatch(setCorrectAnswer({ questionId: question.id, correctAnswer: 'False' }))}
                             />
-                            <span className='text-gray-700'>False</span>
+                            <span className='text-gray-700 dark:text-gray-300'>False</span>
                         </label>
                     </div>
                 </div>
@@ -244,12 +244,12 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
             {/* Short Answer - Model Answer */}
             {question.questionType === 'Short Answer' && (
                 <div className='space-y-2 mb-6'>
-                    <label className='text-xs text-gray-500'>Model Answer (for reference):</label>
+                    <label className='text-xs text-gray-500 dark:text-gray-400'>Model Answer (for reference):</label>
                     <textarea
                         value={typeof question.correctAnswer === 'string' ? question.correctAnswer : ''}
                         onChange={(e) => dispatch(setCorrectAnswer({ questionId: question.id, correctAnswer: e.target.value }))}
                         placeholder="Enter a model answer or key points..."
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+                        className='w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-md text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
                         rows={3}
                     />
                 </div>
@@ -265,15 +265,15 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                             checked={question.required}
                             onChange={handleToggleRequired}
                         />
-                        <span className='text-sm text-gray-600'>Required</span>
+                        <span className='text-sm text-gray-600 dark:text-gray-400'>Required</span>
                     </label>
                     <label className='flex items-center gap-2'>
-                        <span className='text-sm text-gray-600'>Assign points:</span>
+                        <span className='text-sm text-gray-600 dark:text-gray-400'>Assign points:</span>
                         <input
                             type="number"
                             value={question.points}
                             onChange={(e) => handlePointsChange(Number(e.target.value))}
-                            className='w-16 px-2 py-1 border border-gray-300 rounded text-sm'
+                            className='w-16 px-2 py-1 border border-gray-300 dark:border-slate-600 rounded text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-white'
                             min="1"
                         />
                     </label>
@@ -281,20 +281,20 @@ function QuestionCard({ question, questionIndex }: { question: QuizQuestion, que
                 <div className='flex items-center gap-2'>
                     <button 
                         onClick={handleDuplicate}
-                        className='p-2 hover:bg-gray-100 rounded'
+                        className='p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded'
                         title="Duplicate question"
                     >
-                        <Copy className='w-4 h-4 text-gray-600' />
+                        <Copy className='w-4 h-4 text-gray-600 dark:text-gray-400' />
                     </button>
                     <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                         <AlertDialogTrigger asChild>
                             <Button 
                                 variant="ghost"
                                 size="sm"
-                                className='p-2 hover:bg-gray-100 rounded'
+                                className='p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded'
                                 title="Delete question"
                             >
-                                <Trash2 className='w-4 h-4 text-gray-600' />
+                                <Trash2 className='w-4 h-4 text-gray-600 dark:text-gray-400' />
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -331,20 +331,20 @@ function QuizTitle() {
     }
 
     return (
-        <div className='bg-white rounded-lg p-6 shadow-sm border-t-4 border-blue-700'>
+        <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border-t-4 border-blue-700 dark:border-blue-600'>
             <input
                 type="text"
                 value={currentQuiz?.title || ''}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="Enter quiz title..."
-                className='text-2xl font-bold text-gray-900 w-full mb-2 border-none outline-none bg-transparent'
+                className='text-2xl font-bold text-gray-900 dark:text-white w-full mb-2 border-none outline-none bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-600'
             />
             <input
                 type="text"
                 value={currentQuiz?.description || ''}
                 onChange={(e) => handleDescriptionChange(e.target.value)}
                 placeholder="Enter quiz description..."
-                className='text-gray-600 w-full border-none outline-none bg-transparent'
+                className='text-gray-600 dark:text-gray-300 w-full border-none outline-none bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-600'
             />
         </div>
     );

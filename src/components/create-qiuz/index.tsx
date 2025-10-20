@@ -31,7 +31,7 @@ function Quiz() {
     }
 
     return (
-        <div className='min-h-screen bg-gray-100'>
+        <div className='min-h-screen bg-gray-100 dark:bg-slate-900'>
             <div className='flex h-screen'>
                 {/* Sidebar */}
                 <div className='w-64 flex-shrink-0'>
