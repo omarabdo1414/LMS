@@ -111,11 +111,11 @@ function QuizActions() {
     }
 
     return (
-        <div className='flex justify-between items-center p-6 bg-white'>
+        <div className='flex justify-between items-center p-6 bg-white dark:bg-slate-800 border-t dark:border-slate-700'>
             <div className='flex items-center gap-3'>
                 <button
                     onClick={handleAddQuestion}
-                    className='flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors cursor-pointer'
+                    className='flex items-center gap-2 bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors cursor-pointer'
                 >
                     <Plus className='w-4 h-4' />
                     Add Question
@@ -125,7 +125,7 @@ function QuizActions() {
                         <AlertDialogTrigger asChild>
                             <Button 
                                 variant="destructive"
-                                className='flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors'
+                                className='flex items-center gap-2 bg-red-600 dark:bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-700 dark:hover:bg-red-600 transition-colors'
                             >
                                 Clear All
                             </Button>
@@ -149,12 +149,12 @@ function QuizActions() {
             </div>
 
             <div className='flex items-center gap-3'>
-                <span className='text-sm text-gray-500'>
+                <span className='text-sm text-gray-500 dark:text-gray-400'>
                     {questions.length} question{questions.length !== 1 ? 's' : ''}
                 </span>
                 <button
                     onClick={handlePreviewQuiz}
-                    className='flex items-center gap-2 bg-white text-gray-700 px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-50 transition-colors'
+                    className='flex items-center gap-2 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-md border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50'
                     disabled={questions.length === 0}
                 >
                     <Eye className='w-4 h-4' />
@@ -162,7 +162,7 @@ function QuizActions() {
                 </button>
                 <button
                     onClick={handleSaveQuiz}
-                    className='flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+                    className='flex items-center gap-2 bg-green-600 dark:bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
                     disabled={questions.length === 0 || isSaving || isLoading}
                 >
                     {isSaving ? (

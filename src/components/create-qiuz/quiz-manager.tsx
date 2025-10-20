@@ -15,8 +15,8 @@ function QuizManager({ activeSection, onSectionChange }: QuizManagerProps) {
     ]
 
     return (
-        <div className='bg-white h-screen p-6 shadow-sm'>
-            <h2 className='text-xl font-bold text-gray-900 mb-8'>Quiz Builder</h2>
+        <div className='bg-white dark:bg-slate-800 h-screen p-6 shadow-sm border-r dark:border-slate-700'>
+            <h2 className='text-xl font-bold text-gray-900 dark:text-white mb-8'>Quiz Builder</h2>
             <nav className='space-y-2'>
                 {navItems.map((item) => {
                     const Icon = item.icon
@@ -27,8 +27,8 @@ function QuizManager({ activeSection, onSectionChange }: QuizManagerProps) {
                             onClick={() => onSectionChange(item.id)}
                             className={`flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer transition-colors ${
                                 isActive
-                                    ? 'bg-blue-50 text-blue-700 border-r-4 border-blue-700'
-                                    : 'text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border-r-4 border-blue-700 dark:border-blue-500'
+                                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700'
                             }`}
                         >
                             <Icon className='w-5 h-5' />
