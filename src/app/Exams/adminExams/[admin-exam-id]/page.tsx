@@ -6,7 +6,7 @@ import { getExamById } from "@/Apis/exam/exam";
 import { submitStudentExam } from "@/Apis/studentExam/submitExam";
 import { getExamScore } from "@/Apis/studentExam/getScore";
 import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
-import ExamResults from "@/components/ExamDetails/ExamDetails";
+import ExamDetails from "@/components/ExamDetails/ExamDetails";
 
 interface Question {
   _id: string;
@@ -113,7 +113,7 @@ const ExamComponent = () => {
   useEffect(() => {
     async function fetchExam() {
       try {
-        const response = await getExamById();
+        const response = await getExamById(examId);
         // Check if response is an array
         if (Array.isArray(response)) {
           setExamData(response);
@@ -183,7 +183,7 @@ const ExamComponent = () => {
             Thank you for completing the exam. Your answers have been recorded.
           </p>
           {scoreData ? (
-            <ExamResults scoreData={scoreData} />
+            <ExamDetails scoreData={scoreData} />
           ) : (
             <p className="text-sm text-gray-600">
               Results will be available soon.

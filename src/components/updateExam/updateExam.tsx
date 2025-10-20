@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import SubmitBtn from "@/components/ui/SubmitBtn/SubmitBtn";
 import { getExam } from "@/Apis/exam/get-exam";
 import { updateExam } from "@/Apis/exam/updateExam";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import NotAuth from "../ui/NotAuth/NotAuth";
 
 const allowedLevels = [
   "select class level",
@@ -32,6 +35,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const UpdateExam = () => {
+  const { userData } = useSelector((state: RootState) => state.user);
+  const isAdmin = userData?.role === "admin";
+
+
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -86,7 +93,7 @@ const UpdateExam = () => {
       setLoading(false);
     }
   };
-
+if(isAdmin){
   if (loading) return <p className="text-center mt-10">Loading exam...</p>;
 
   return (
@@ -160,7 +167,16 @@ const UpdateExam = () => {
         )}
       </Formik>
     </div>
-  );
+  );}else{
+    return(
+      <>
+      <NotAuth/>
+      </>
+
+    )
+  }
+
+)
 };
 
 export default UpdateExam;
