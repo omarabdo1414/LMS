@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { getQuestionById } from "@/Apis/questions/getQuestionById";
+import { getQuestionById } from "@/Apis/questions/get-question";
 
 export default function QuestionDetailsPage() {
   const params = useParams<{ questionId: string }>();

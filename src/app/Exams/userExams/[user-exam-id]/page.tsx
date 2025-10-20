@@ -6,7 +6,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter, useParams } from "next/navigation";
 import { submitStudentExam } from "@/Apis/studentExam/submitExam";
 import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
-import { getExamScore } from "@/Apis/studentExam/getScore";
+import { getExamScore, getExamScoreForStudent } from "@/Apis/studentExam/getScore";
 
 interface Question {
   _id: string;
@@ -165,7 +165,7 @@ export default function TestPage() {
       setIsSubmitted(true);
 
       try {
-        const res = await getExamScore(testId);
+        const res = await getExamScoreForStudent(testId);
         setScoreData(res?.data ?? null);
       } catch {}
     } catch (e) {
@@ -203,11 +203,11 @@ export default function TestPage() {
 
   if (isSubmitted) {
     return (
-      <div className="p-4">
+      <div className="p-4 bg-card">
         <h1 className="text-2xl font-bold mb-4">Exam Submitted</h1>
         {scoreData ? (
-          <pre className="text-sm bg-gray-100 p-3 rounded border overflow-auto">
-            {JSON.stringify(scoreData, null, 2)}
+          <pre className="text-sm bg-card p-3 rounded border overflow-auto">
+            { JSON.stringify(scoreData, null, 2) }
           </pre>
         ) : (
           <p className="text-gray-700">Your results will be available soon.</p>
@@ -241,7 +241,7 @@ export default function TestPage() {
           {examData.map((exam, index) => (
             <div
               key={exam._id || index}
-              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+              className=" bg-card border border-gray-200 rounded-lg p-6 shadow-sm"
             >
               {exam.questions?.map((q, qIndex) => (
                 <div key={q._id} className="mb-6">

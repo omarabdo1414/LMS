@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import { AddExam } from "@/Apis/exam/addExam";
 import { ExamForm } from "@/constants/interfaces";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import NotAuth from "../ui/NotAuth/NotAuth";
 const allowedLevels = [
   "select class level",
   "Grade 1 Secondary",
@@ -31,6 +34,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateExam = () => {
+
+  const { userData } = useSelector((state: RootState) => state.user);
+  const isAdmin = userData?.role === "admin";
+
+
   const route=useRouter()
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +80,7 @@ const CreateExam = () => {
       setLoading(false);
     }
   };
-
+if (isAdmin){
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 rounded-2xl shadow bg-card">
       <h1 className="text-2xl text-center font-bold mb-6">Add New Exam</h1>
@@ -204,7 +212,16 @@ const CreateExam = () => {
         )}
       </Formik>
     </div>
-  );
+  );}else{
+    return(
+      <>
+      <div className="flex justify-center items-center h-[100vh]">
+      <NotAuth/>
+      </div>
+      </>
+    )
+  }
+
 };
 
 export default CreateExam;

@@ -1,7 +1,7 @@
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type TLessonState = {
-  lessonData: Ilesson | null;
+  lessonData: ILesson | null;
 };
 const initialState: TLessonState = {
   lessonData: null,
@@ -10,7 +10,7 @@ let lessonSlice = createSlice({
   name: "lesson",
   initialState,
   reducers: {
-    setLesson: (state, action: PayloadAction<Ilesson>) => {
+    setLesson: (state, action: PayloadAction<ILesson>) => {
       state.lessonData = action.payload;
     },
   },

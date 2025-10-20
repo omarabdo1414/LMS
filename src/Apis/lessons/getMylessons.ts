@@ -17,7 +17,7 @@ export async function getMyLessons() {
     );
 
     let data = await res.json();
-    return data.data.filter((item: any) => item !== null);
+    return data?.data?.filter((item: any) => item !== null);
   } catch (error) {
     console.error(error);
   }

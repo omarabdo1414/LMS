@@ -3,8 +3,16 @@ import React, { useEffect, useState } from "react";
 import ExamDetails from "@/components/ExamDetails/ExamDetails";
 import { getExamScore } from "@/Apis/studentExam/getScore";
 import { useParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import NotAuth from "@/components/ui/NotAuth/NotAuth";
 
 const DetailsExam = () => {
+  
+  const { userData } = useSelector((state: RootState) => state.user);
+  const isAdmin = userData?.role === "admin";
+
+
   const params = useParams();
   const rawExamId = params.detailsExam;
   const examId = Array.isArray(rawExamId) ? rawExamId[0] : rawExamId;
@@ -27,8 +35,8 @@ const DetailsExam = () => {
       mounted = false;
     };
   }, [examId]);
+if (isAdmin){ return (
 
-  return (
     <div>
       {scoreData ? (
         <ExamDetails scoreData={scoreData} />
@@ -36,7 +44,13 @@ const DetailsExam = () => {
         <p className="text-sm text-gray-600">Results will be available soon.</p>
       )}
     </div>
-  );
+  );}else{
+    return(
+      <>
+      <NotAuth/>
+      </>
+    )
+  }
 };
 
 export default DetailsExam;

@@ -1,5 +1,5 @@
 "use client";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import Image from "next/image";
 import React, { useState } from "react";
 import img from "../../../../public/course.svg";
@@ -15,8 +15,8 @@ import { removeLesson } from "@/Apis/lessons/deleteLesson";
 import { SquarePen, TextAlignCenter, Trash2 } from "lucide-react";
 import { setLesson } from "@/redux/lessonSlice";
 type TLessonProps = {
-  lesson: Ilesson;
-  myLessons: Ilesson[];
+  lesson: ILesson;
+  myLessons: ILesson[];
 };
 export default function LessonCard({ lesson, myLessons }: TLessonProps) {
   // user role
