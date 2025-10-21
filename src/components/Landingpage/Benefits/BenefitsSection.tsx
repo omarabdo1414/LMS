@@ -25,8 +25,8 @@ const features = [
 export default function BenefitsSection() {
   return (
     <>
-    <section className="py-20 bg-background" id='benefits'>
-      <div className="container mx-auto px-6">
+    <section className="py-20 bg-background w-[95%] mx-auto" id='benefits'>
+      <div className="px-6">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground">Why Choose Us?</h2>
           <p className="text-lg text-muted-foreground mt-2">The best features to help you learn and grow.</p>

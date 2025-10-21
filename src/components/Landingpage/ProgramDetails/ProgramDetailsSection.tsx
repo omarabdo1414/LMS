@@ -21,8 +21,8 @@ const steps = [
 
 export default function ProgramDetailsSection (){
   return (
-    <section className="py-20 bg-card border-t border-border " id='details'>
-      <div className="container mx-auto px-6">
+    <section className="py-20 bg-card border-t border-border w-[95%] mx-auto" id='details'>
+      <div className=" px-6">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-foreground">How It Works</h2>
           <p className="text-lg text-muted-foreground mt-2">A simple and clear path to success.</p>
