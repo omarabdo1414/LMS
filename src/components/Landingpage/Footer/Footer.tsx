@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-border text-foreground">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+    <footer className="bg-card border-t border-border text-foreground w-[95%] mx-auto">
+      <div className=" px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left ">
           <div className="space-y-4">
             <h4 className='text-accent text-3xl font-semibold'>LMS</h4>
             <p className="text-muted-foreground max-w-xs">

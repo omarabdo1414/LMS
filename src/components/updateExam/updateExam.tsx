@@ -176,7 +176,7 @@ if(isAdmin){
     )
   }
 
-)
+  
 };
 
 export default UpdateExam;

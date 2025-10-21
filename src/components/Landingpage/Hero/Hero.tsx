@@ -3,8 +3,8 @@ import Image from 'next/image';
 export default function Hero() {
 return (
     <>
-    <section className="container mx-auto py-10 px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <section className="w-[95%] mx-auto py-10 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center">
             <div className="text-center md:text-left">
             <h1 className="text-2xl lg:text-6xl font-semibold text-foreground leading-tight mb-6">
             Up your <span className="text-accent ">Skills</span> to <span className="text-accent ">Advance</span> your <span className="text-accent ">Career</span> path
@@ -27,8 +27,8 @@ return (
 </section>
 
     {/* Statistics Section */}
-    <section className="bg-card border-t border-b border-border py-16">
-        <div className="container mx-auto px-6">
+    <section className="bg-card border-t border-b border-border py-16 w-[95%] mx-auto ">
+        <div className="px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div className="p-6">
                     <h2 className="text-5xl font-bold text-accent  mb-2">+5000</h2>
