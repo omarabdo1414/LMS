@@ -58,17 +58,17 @@ const UpdateExam = () => {
       if (data?.success && data.exam) {
         const exam = data.exam;
         setInitialValues({
-          title: exam.title || "",
-          description: exam.description || "",
-          duration: exam.duration || "",
-          classLevel: exam.classLevel || allowedLevels[0],
-          startDate: exam.startDate?.slice(0, 10) || "",
-          endDate: exam.endDate?.slice(0, 10) || "",
-          isPublished: exam.isPublished || false,
+          title: exam.title ,
+          description: exam.description,
+          duration: exam.duration ,
+          classLevel: exam.classLevel,
+          startDate: exam.startDate?.slice(0, 10),
+          endDate: exam.endDate?.slice(0, 10) ,
+          isPublished: exam.isPublished,
         });
       } else {
         toast.error("Failed to load exam data");
-      }
+      } 
       setLoading(false);
     };
     loadExam();
@@ -176,7 +176,7 @@ if(isAdmin){
     )
   }
 
-)
+
 };
 
 export default UpdateExam;
