@@ -108,9 +108,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   const adminPanelChildren: NavigationItem[] = [];
   if (userData?.role === "super-admin") {
     adminPanelChildren.push(
-      { label: "Create Admin", path: "/admins", icon: PlusCircleIcon },
-      { label: "Admin Table", path: "/admins", icon: ShieldCheckIcon },
-      { label: "User Table", path: "/admins", icon: UserCircleIcon }
+      { label: "Create Admin", path: "/createadmin", icon: PlusCircleIcon },
+      { label: "Admin Table", path: "/admintable", icon: ShieldCheckIcon },
+      { label: "User Table", path: "/usertable", icon: UserCircleIcon }
     );
   } else if (userData?.role === "admin") {
     adminPanelChildren.push({
