@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import toast from "react-hot-toast";
-import * as Yup from "yup";
-import SubmitBtn from "@/components/ui/SubmitBtn/SubmitBtn";
-import { getExam } from "@/Apis/exam/get-exam";
-import { updateExam } from "@/Apis/exam/updateExam";
-import { RootState } from "@/redux/store";
+import React from "react";
 import { useSelector } from "react-redux";
-import NotAuth from "../ui/NotAuth/NotAuth";
+import { RootState } from "@/redux/store";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
+import SubmitBtn from "@/components/ui/SubmitBtn/SubmitBtn";
+import { updateExam } from "@/Apis/exam/updateExam";
+import { useRouter } from "next/navigation";
 
 const allowedLevels = [
   "select class level",
@@ -31,99 +29,89 @@ const validationSchema = Yup.object().shape({
     .required("Class level is required"),
   startDate: Yup.string().required("Start date is required"),
   endDate: Yup.string().required("End date is required"),
-  isPublished: Yup.boolean(),
 });
 
 const UpdateExam = () => {
-  const { userData } = useSelector((state: RootState) => state.user);
-  const isAdmin = userData?.role === "admin";
-
-
-  const { id } = useParams();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [initialValues, setInitialValues] = useState({
-    title: "",
-    description: "",
-    duration: "",
-    classLevel: allowedLevels[0],
-    startDate: "",
-    endDate: "",
-    isPublished: false,
-  });
+  const exam = useSelector((state: RootState) => state.examData.currentExam);
 
-  useEffect(() => {
-    const loadExam = async () => {
-      const data = await getExam(id as string);
-      if (data?.success && data.exam) {
-        const exam = data.exam;
-        setInitialValues({
-          title: exam.title ,
-          description: exam.description,
-          duration: exam.duration ,
-          classLevel: exam.classLevel,
-          startDate: exam.startDate?.slice(0, 10),
-          endDate: exam.endDate?.slice(0, 10) ,
-          isPublished: exam.isPublished,
-        });
-      } else {
-        toast.error("Failed to load exam data");
-      } 
-      setLoading(false);
-    };
-    loadExam();
-  }, [id]);
+  if (!exam) {
+    return (
+      <div className="text-center mt-10 text-red-500">
+        ⚠️ No exam selected. Please go back to exam list.
+      </div>
+    );
+  }
 
   const handleSubmit = async (values: any) => {
-    try {
-      setLoading(true);
-      const res = await updateExam(id as string, {
-        ...values,
-        duration: Number(values.duration),
-      });
-      if (res?.success) {
-        toast.success("✅ Exam updated successfully!");
-        router.push("/Exams/getExams/");
-      } else {
-        toast.error("❌ Failed to update exam");
-      }
-    } catch (error) {
-      toast.error("❌ Something went wrong");
-    } finally {
-      setLoading(false);
+    const res = await updateExam(exam._id, {
+      ...values,
+      duration: Number(values.duration),
+    });
+    if (res?.success) {
+      toast.success("✅ Exam updated successfully!");
+      router.push("/Exams/getExams");
+    } else {
+      toast.error("❌ Failed to update exam");
     }
   };
-if(isAdmin){
-  if (loading) return <p className="text-center mt-10">Loading exam...</p>;
 
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 bg-card rounded-2xl shadow">
       <h1 className="text-2xl text-center font-bold mb-6">Update Exam</h1>
 
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          title: exam.title,
+          description: exam.description,
+          duration: exam.duration,
+          classLevel: exam.classLevel,
+          startDate: exam.startDate.slice(0, 10),
+          endDate: exam.endDate.slice(0, 10),
+          isPublished: exam.isPublished,
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        enableReinitialize
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className="space-y-4">
-            {["title", "description", "duration"].map((field) => (
-              <div key={field}>
-                <label className="block mb-1 font-medium capitalize">
-                  {field}
-                </label>
-                <Field
-                  name={field}
-                  as={field === "description" ? "textarea" : "input"}
-                  type={field === "duration" ? "number" : "text"}
-                  className="border p-2 rounded w-full"
-                />
-                <div className="text-red-500 text-sm">
-                  <ErrorMessage name={field} />
-                </div>
-              </div>
-            ))}
+            <div>
+              <label className="block mb-1 font-medium">Title</label>
+              <Field name="title" className="border p-2 rounded w-full" />
+              <ErrorMessage
+                name="title"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium">Description</label>
+              <Field
+                as="textarea"
+                name="description"
+                className="border p-2 rounded w-full"
+              />
+              <ErrorMessage
+                name="description"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium">Duration (minutes)</label>
+              <Field
+                type="number"
+                name="duration"
+                className="border p-2 rounded w-full"
+              />
+              <ErrorMessage
+                name="duration"
+                component="div"
+                className="text-red-500 text-sm"
+              />
+            </div>
 
             <div>
               <label className="block mb-1 font-medium">Class Level</label>
@@ -159,7 +147,7 @@ if(isAdmin){
             </div>
 
             <SubmitBtn
-              isLoading={loading || isSubmitting}
+              isLoading={isSubmitting}
               btnName={"Update Exam"}
               className="w-full h-10"
             />
@@ -167,16 +155,7 @@ if(isAdmin){
         )}
       </Formik>
     </div>
-  );}else{
-    return(
-      <>
-      <NotAuth/>
-      </>
-
-    )
-  }
-
-
+  );
 };
 
 export default UpdateExam;

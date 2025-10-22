@@ -1,8 +1,11 @@
+
 import { configureStore } from "@reduxjs/toolkit";
 import { UserReducer } from "./userSlice";
 import questionsReducer from "./questions";
 import examReducer from "./exam";
 import { LessonReducer } from "./lessonSlice";
+import {examDataReducer} from './examData'
+
 
 export const configStore = configureStore({
   reducer: {
@@ -10,6 +13,7 @@ export const configStore = configureStore({
     questions: questionsReducer,
     exam: examReducer,
     lesson: LessonReducer,
+    examData: examDataReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,11 +1,13 @@
 "use client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FetchExams } from "@/Apis/exam/fetchExams";
 import { deleteExam } from "@/Apis/exam/deleteExam";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { RootState } from "@/redux/store";
+import { useRouter } from "next/navigation";
+import { setCurrentExam ,setExams } from "@/redux/examData";
 type ExamItem = {
   id?: string;
   _id?: string;
@@ -17,13 +19,34 @@ type ExamItem = {
 };
 
 const GetExams = () => {
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const exams = useSelector((state: RootState) => state.examData.exams);
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await FetchExams();
+      if (data?.success) {
+        dispatch(setExams(data.exams));
+      }
+    };
+    load();
+  }, [dispatch]);
+
+  const handleEdit = (exam: any) => {
+    dispatch(setCurrentExam(exam));
+    router.push(`/Exams/adminExams/updateExam/${exam._id}`);
+  };
+
+
   const { userData } = useSelector((state: RootState) => state.user);
   const isAdmin = userData?.role === "admin";
- 
+  const [examsState, setExamsState] = useState<
+  ExamItem[] | { data: ExamItem[] } | { examsState: ExamItem[] } | null
+>(null);
 
-  const [exams, setExams] = useState<
-    ExamItem[] | { data: ExamItem[] } | { exams: ExamItem[] } | null
-  >(null);
+ 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -32,7 +55,7 @@ const GetExams = () => {
     async function loadExams() {
       try {
         const data = await FetchExams();
-        setExams(data);
+        setExamsState(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch exams");
       } finally {
@@ -46,12 +69,12 @@ const GetExams = () => {
   if (error) return <div>Error: {error}</div>;
 
   // Handle different response structures
-  const examsList: ExamItem[] = Array.isArray(exams)
-    ? exams
-    : Array.isArray((exams as { data?: ExamItem[] })?.data)
-    ? (exams as { data: ExamItem[] }).data
-    : Array.isArray((exams as { exams?: ExamItem[] })?.exams)
-    ? (exams as { exams: ExamItem[] }).exams
+  const examsList: ExamItem[] = Array.isArray(examsState)
+    ? examsState
+    : Array.isArray((examsState as { data?: ExamItem[] })?.data)
+    ? (examsState as { data: ExamItem[] }).data
+    : Array.isArray((examsState as { examsState?: ExamItem[] })?.examsState)
+    ? (examsState as { examsState: ExamItem[] }).examsState
     : [];
 
   async function handleDelete(examId: string) {
@@ -64,7 +87,7 @@ const GetExams = () => {
       return;
     }
     // Normalize update depending on original shape
-    setExams((prev) => {
+    setExamsState((prev) => {
       if (Array.isArray(prev)) {
         return prev.filter(
           (e) => ((e as ExamItem).id || (e as ExamItem)._id) !== examId
@@ -84,12 +107,12 @@ const GetExams = () => {
       }
       if (
         prev &&
-        (prev as { exams?: ExamItem[] }).exams &&
-        Array.isArray((prev as { exams: ExamItem[] }).exams)
+        (prev as { examsState?: ExamItem[] }).examsState &&
+        Array.isArray((prev as { examsState: ExamItem[] }).examsState)
       ) {
         return {
-          ...(prev as { exams: ExamItem[] }),
-          exams: (prev as { exams: ExamItem[] }).exams.filter(
+          ...(prev as { examsState: ExamItem[] }),
+          examsState: (prev as { examsState: ExamItem[] }).examsState.filter(
             (e) => (e.id || e._id) !== examId
           ),
         };
@@ -160,15 +183,13 @@ const GetExams = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     {isAdmin ? (
                       <>
-                        <Link
-                          href={`/Exams/adminExams/updateExam/${
-                            exam.id || exam._id || index.toString()
-                          }`}
+                        <button 
+                        onClick={() => handleEdit(exam)}
                         >
                           <button className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out mr-2">
                             Edit
                           </button>
-                        </Link>
+                        </button>
 
                         <Link
                           href={`/Exams/getExams/${
