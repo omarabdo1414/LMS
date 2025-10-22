@@ -29,6 +29,7 @@ export const AddExam = async (body: ExamForm) => {
     );
 
     return { success: true, data: res.data };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.error("AddExam error:", err.response?.data || err.message);
     if (err.response?.status === 401) {

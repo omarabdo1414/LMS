@@ -135,6 +135,12 @@ export interface ExamAnswer {
   timeSpent: number;
 }
 
+export interface ExamForm {
+  title: string;
+  duration: number;
+  questions: string[];
+}
+
 export interface ExamState {
   currentExam: Quiz | null;
   currentQuestionIndex: number;
