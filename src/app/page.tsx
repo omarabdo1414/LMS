@@ -5,7 +5,6 @@ import CriteriaSection from "../components/Landingpage/Criteria/CriteriaSection"
 import Hero from "../components/Landingpage/Hero/Hero";
 import Navbar from "../components/Landingpage/Navbar/Navbar";
 import ProgramDetailsSection from "../components/Landingpage/ProgramDetails/ProgramDetailsSection";
-
 export default function Home() {
   return (
     <main>

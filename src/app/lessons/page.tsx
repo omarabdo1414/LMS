@@ -78,8 +78,8 @@ export default async function LessonsPage({ searchParams }: TLessonsProps) {
                 
                 className={`flex items-center px-3 py-2 rounded-md border text-sm font-medium transition ${
                   currentPage === 1
-                    ? "pointer-events-none opacity-50"
-                    : "hover:bg-accent/40"
+                    ? " opacity-50 cursor-not-allowed"
+                    : "hover:bg-accent/40 "
                 }`} 
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
@@ -118,7 +118,7 @@ export default async function LessonsPage({ searchParams }: TLessonsProps) {
                 
                 className={`flex items-center px-3 py-2 rounded-md border text-sm font-medium transition ${
                   currentPage === totalPages
-                    ? "pointer-events-none opacity-50"
+                    ? "cursor-not-allowed opacity-50"
                     : "hover:bg-accent/40"
                 }`}
               >

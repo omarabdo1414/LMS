@@ -10,8 +10,8 @@ const criteria = [
 ];
 export default function CriteriaSection () {
   return (
-    <section className="py-20 bg-background" id='criteria'>
-      <div className="container mx-auto px-6">
+    <section className="py-20 bg-background w-[95%] mx-auto" id='criteria'>
+      <div className=" px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl font-bold text-foreground mb-4">Selection Criteria</h2>

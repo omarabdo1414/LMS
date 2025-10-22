@@ -9,7 +9,7 @@ const teamMembers = [
 export default function About( ) {
   return (
     <>
-    <div className="bg-background min-h-screen text-foreground" id='about'>
+    <div className="bg-background min-h-screen text-foreground w-[95%] mx-auto" id='about'>
       {/*Hero Section */}
       <header className=" border-b border-border text-center py-16 px-6">
         <h1 className="text-5xl font-bold text-accent ">About Us</h1>

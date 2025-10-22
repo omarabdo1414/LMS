@@ -46,7 +46,7 @@ export interface IUser {
   fullName: string;
   email: string;
   phoneNumber: string;
-  role: "super_admin" | "admin" | "user";
+  role: "super-admin" | "admin" | "user";
   isVerified?: string;
   createdAt?: Date;
   updatedAt?: Date;

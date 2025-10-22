@@ -36,69 +36,69 @@ function QuizResponses() {
     return (
         <div className='p-6 space-y-6'>
             {/* Responses Header */}
-            <div className='bg-white rounded-lg p-6 shadow-sm'>
-                <h2 className='text-2xl font-bold text-gray-900 mb-2'>Quiz Responses</h2>
-                <p className='text-gray-600'>View and manage student responses to your quiz</p>
+            <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm'>
+                <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>Quiz Responses</h2>
+                <p className='text-gray-600 dark:text-gray-300'>View and manage student responses to your quiz</p>
             </div>
 
             {/* Statistics Cards */}
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                <div className='bg-white rounded-lg p-6 shadow-sm'>
+                <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm'>
                     <div className='flex items-center justify-between'>
                         <div>
-                            <p className='text-sm text-gray-600'>Total Responses</p>
-                            <p className='text-2xl font-bold text-gray-900'>24</p>
+                            <p className='text-sm text-gray-600 dark:text-gray-400'>Total Responses</p>
+                            <p className='text-2xl font-bold text-gray-900 dark:text-white'>24</p>
                         </div>
-                        <Users className='w-8 h-8 text-blue-600' />
+                        <Users className='w-8 h-8 text-blue-600 dark:text-blue-400' />
                     </div>
                 </div>
-                <div className='bg-white rounded-lg p-6 shadow-sm'>
+                <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm'>
                     <div className='flex items-center justify-between'>
                         <div>
-                            <p className='text-sm text-gray-600'>Completed</p>
-                            <p className='text-2xl font-bold text-green-600'>18</p>
+                            <p className='text-sm text-gray-600 dark:text-gray-400'>Completed</p>
+                            <p className='text-2xl font-bold text-green-600 dark:text-green-400'>18</p>
                         </div>
-                        <CheckCircle className='w-8 h-8 text-green-600' />
+                        <CheckCircle className='w-8 h-8 text-green-600 dark:text-green-400' />
                     </div>
                 </div>
-                <div className='bg-white rounded-lg p-6 shadow-sm'>
+                <div className='bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm'>
                     <div className='flex items-center justify-between'>
                         <div>
-                            <p className='text-sm text-gray-600'>Average Score</p>
-                            <p className='text-2xl font-bold text-gray-900'>78%</p>
+                            <p className='text-sm text-gray-600 dark:text-gray-400'>Average Score</p>
+                            <p className='text-2xl font-bold text-gray-900 dark:text-white'>78%</p>
                         </div>
-                        <Clock className='w-8 h-8 text-orange-600' />
+                        <Clock className='w-8 h-8 text-orange-600 dark:text-orange-400' />
                     </div>
                 </div>
             </div>
 
             {/* Responses Table */}
-            <div className='bg-white rounded-lg shadow-sm overflow-hidden'>
-                <div className='px-6 py-4 border-b border-gray-200'>
-                    <h3 className='text-lg font-semibold text-gray-900'>Student Responses</h3>
+            <div className='bg-white dark:bg-slate-800 rounded-lg shadow-sm overflow-hidden'>
+                <div className='px-6 py-4 border-b border-gray-200 dark:border-slate-700'>
+                    <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>Student Responses</h3>
                 </div>
                 <div className='overflow-x-auto'>
                     <table className='w-full'>
-                        <thead className='bg-gray-50'>
+                        <thead className='bg-gray-50 dark:bg-slate-700'>
                             <tr>
-                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Student</th>
-                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Email</th>
-                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Score</th>
-                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Status</th>
-                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Completed At</th>
+                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'>Student</th>
+                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'>Email</th>
+                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'>Score</th>
+                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'>Status</th>
+                                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider'>Completed At</th>
                             </tr>
                         </thead>
-                        <tbody className='bg-white divide-y divide-gray-200'>
+                        <tbody className='bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700'>
                             {responses.map((response) => (
-                                <tr key={response.id} className='hover:bg-gray-50'>
+                                <tr key={response.id} className='hover:bg-gray-50 dark:hover:bg-slate-700'>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        <div className='text-sm font-medium text-gray-900'>{response.studentName}</div>
+                                        <div className='text-sm font-medium text-gray-900 dark:text-white'>{response.studentName}</div>
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        <div className='text-sm text-gray-600'>{response.email}</div>
+                                        <div className='text-sm text-gray-600 dark:text-gray-400'>{response.email}</div>
                                     </td>
                                     <td className='px-6 py-4 whitespace-nowrap'>
-                                        <div className='text-sm text-gray-900'>
+                                        <div className='text-sm text-gray-900 dark:text-white'>
                                             {response.score}/{response.totalQuestions}
                                         </div>
                                     </td>
@@ -121,7 +121,7 @@ function QuizResponses() {
                                             )}
                                         </span>
                                     </td>
-                                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-600'>
+                                    <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400'>
                                         {response.completedAt || 'Not completed'}
                                     </td>
                                 </tr>

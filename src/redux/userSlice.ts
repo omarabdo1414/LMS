@@ -106,7 +106,7 @@ export const deleteUserAccount = createAsyncThunk(
 // ✅ 5. Initial state
 const initialState: IUserState & { role: string | null } = {
   userData: null,
-  role: null, // هنا بنحتفظ بدور المستخدم
+  role: null, 
   loading: false,
   error: null,
 };

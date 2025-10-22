@@ -1,12 +1,20 @@
+"use client";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { motion } from "framer-motion";
 
 export default function CreateAdminForm() {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    cpassword: "",
+  });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -30,7 +38,13 @@ export default function CreateAdminForm() {
 
       if (data.success) {
         setMessage("✅ Admin created successfully");
-        setForm({ name: "", email: "", password: "" }); // clear form after success
+        setForm({
+          fullName: "",
+          email: "",
+          phoneNumber: "",
+          password: "",
+          cpassword: "",
+        });
       } else {
         setMessage(data.message || "❌ Failed to create admin");
       }
@@ -43,60 +57,103 @@ export default function CreateAdminForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border p-5 rounded-lg shadow space-y-3 max-w-md mx-auto"
-    >
-      <h2 className="text-xl font-semibold text-center">Create New Admin</h2>
-
-      <input
-        type="text"
-        placeholder="Name"
-        className="border p-2 w-full rounded"
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-        required
-      />
-
-      <input
-        type="email"
-        placeholder="Email"
-        className="border p-2 w-full rounded"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-        required
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        className="border p-2 w-full rounded"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-        required
-      />
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4">
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="
+          w-full 
+          max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl 
+          bg-white border border-gray-200 rounded-2xl shadow-2xl 
+          p-6 sm:p-8 md:p-10 
+          flex flex-col gap-4
+        "
       >
-        {loading ? "Creating..." : "Create Admin"}
-      </button>
-
-      {message && (
-        <p
-          className={`text-sm text-center mt-2 ${
-            message.startsWith("✅")
-              ? "text-green-600"
-              : message.startsWith("❌")
-              ? "text-red-600"
-              : "text-yellow-600"
-          }`}
+        <motion.h2
+          className="text-3xl md:text-4xl font-semibold text-center mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
         >
-          {message}
-        </p>
-      )}
-    </form>
+          Create New Admin
+        </motion.h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {["fullName", "phoneNumber"].map((field, index) => (
+            <motion.input
+              key={field}
+              type={field === "phoneNumber" ? "text" : "text"}
+              placeholder={
+                field === "fullName" ? "Full Name" : "Phone Number"
+              }
+              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:shadow-md"
+              value={form[field]}
+              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+              required
+              whileFocus={{ scale: 1.02 }}
+              whileHover={{ scale: 1.01 }}
+            />
+          ))}
+        </div>
+
+        <motion.input
+          type="email"
+          placeholder="Email"
+          className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:shadow-md"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+          whileFocus={{ scale: 1.02 }}
+          whileHover={{ scale: 1.01 }}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {["password", "cpassword"].map((field) => (
+            <motion.input
+              key={field}
+              type="password"
+              placeholder={
+                field === "password" ? "Password" : "Confirm Password"
+              }
+              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:shadow-md"
+              value={form[field]}
+              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+              required
+              whileFocus={{ scale: 1.02 }}
+              whileHover={{ scale: 1.01 }}
+            />
+          ))}
+        </div>
+
+        <motion.button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-all duration-300 w-full"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          {loading ? "Creating..." : "Create Admin"}
+        </motion.button>
+
+        {message && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className={`text-center text-sm md:text-base mt-3 ${
+              message.startsWith("✅")
+                ? "text-green-600"
+                : message.startsWith("❌")
+                ? "text-red-600"
+                : "text-yellow-600"
+            }`}
+          >
+            {message}
+          </motion.p>
+        )}
+      </motion.form>
+    </div>
   );
 }
