@@ -41,50 +41,91 @@ export default function ExamDetails({ scoreData }: Props) {
   }
 
   return (
-    <div className="mt-4">
-      <h2 className="text-lg font-semibold mb-3">Exam Results</h2>
-      <div className="overflow-auto bg-card rounded-lg shadow-sm border">
+    <div>
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Exam Results</h2>
+        <p className="text-gray-600 dark:text-gray-300">
+          Detailed performance analysis for all students
+        </p>
+      </div>
+      <div className="overflow-auto bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600">
         <table className="min-w-full text-sm">
-          <thead className="bg-card-50 text-left">
+          <thead className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-700 dark:to-slate-600">
             <tr>
-              <th className="px-4 py-2">Student</th>
-              <th className="px-4 py-2">Score</th>
-              <th className="px-4 py-2">Submitted</th>
-              <th className="px-4 py-2">Start</th>
-              <th className="px-4 py-2">End</th>
-              <th className="px-4 py-2">Actions</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Student</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Score</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Start Time</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">End Time</th>
+              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-gray-600">
             {entries.map((entry) => (
               <React.Fragment key={entry._id}>
-                <tr className="border-t">
-                  <td className="px-4 py-3">
-                    {entry.student?.fullName ?? "—"}
+                <tr className="hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors duration-200">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                        <svg className="w-5 h-5 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                          {entry.student?.fullName ?? "Unknown Student"}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          ID: {entry.student?._id ?? "—"}
+                        </div>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-4 py-3">{entry.score ?? "—"}</td>
-                  <td className="px-4 py-3">
-                    {entry.isSubmitted ? (
-                      <span className="text-green-600">Yes</span>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {entry.score !== undefined ? (
+                      <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                        entry.score >= 80 
+                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                          : entry.score >= 60 
+                          ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
+                          : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                      }`}>
+                        {entry.score}%
+                      </span>
                     ) : (
-                      <span className="text-yellow-600">No</span>
+                      <span className="text-gray-400 dark:text-gray-500">—</span>
                     )}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {entry.isSubmitted ? (
+                      <span className="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                        Completed
+                      </span>
+                    ) : (
+                      <span className="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                        In Progress
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {entry.startTime
                       ? new Date(entry.startTime).toLocaleString()
                       : "—"}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {entry.endTime
                       ? new Date(entry.endTime).toLocaleString()
                       : "—"}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       onClick={() => toggle(entry._id)}
-                      className="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
+                      className="inline-flex items-center px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md"
                     >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
                       {expanded[entry._id] ? "Hide" : "View"}
                     </button>
                   </td>

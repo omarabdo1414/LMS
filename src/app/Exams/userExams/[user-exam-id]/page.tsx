@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
 import { useRouter, useParams } from "next/navigation";
 import { submitStudentExam } from "@/Apis/studentExam/submitExam";
 import { getExamRemainingTime } from "@/Apis/studentExam/getRemainingTime";
-import { getExamScore, getExamScoreForStudent } from "@/Apis/studentExam/getScore";
+import { getExamScoreForStudent } from "@/Apis/studentExam/getScore";
 
 interface Question {
   _id: string;
@@ -28,6 +28,13 @@ interface ExamData {
   updatedAt: string;
 }
 
+interface ScoreData {
+  score?: number;
+  correctAnswers?: number;
+  totalQuestions?: number;
+  message?: string;
+}
+
 export default function TestPage() {
   const router = useRouter();
   const params = useParams();
@@ -39,7 +46,7 @@ export default function TestPage() {
   const [totalTime, setTotalTime] = useState<number>(3600);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [scoreData, setScoreData] = useState<any | null>(null);
+  const [scoreData, setScoreData] = useState<ScoreData | null>(null);
 
   useEffect(() => {
     async function fetchExam() {
@@ -128,17 +135,6 @@ export default function TestPage() {
     };
   }, [params, isSubmitted]);
 
-  // Local countdown + auto-submit
-  useEffect(() => {
-    if (timeLeft > 0 && !isSubmitted) {
-      const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
-      return () => clearTimeout(t);
-    }
-    if (timeLeft === 0 && !isSubmitted) {
-      void handleSubmit();
-    }
-  }, [timeLeft, isSubmitted]);
-
   const handleAnswerChange = (questionId: string, selected: string) => {
     setAnswers((prev) => ({
       ...prev,
@@ -146,7 +142,7 @@ export default function TestPage() {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (submitting || isSubmitted) return;
 
     const testId = params?.["user-exam-id"] as string | undefined;
@@ -173,7 +169,18 @@ export default function TestPage() {
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [submitting, isSubmitted, params, answers]);
+
+  // Local countdown + auto-submit
+  useEffect(() => {
+    if (timeLeft > 0 && !isSubmitted) {
+      const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
+      return () => clearTimeout(t);
+    }
+    if (timeLeft === 0 && !isSubmitted) {
+      void handleSubmit();
+    }
+  }, [timeLeft, isSubmitted, handleSubmit]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -351,7 +358,7 @@ export default function TestPage() {
 
                       {q.options && q.options.length > 0 ? (
                         <div className="space-y-3">
-                          {q.options.map((option, optionIndex) => (
+                          {q.options.map((option) => (
                             <label
                               key={option}
                               className={`flex items-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
