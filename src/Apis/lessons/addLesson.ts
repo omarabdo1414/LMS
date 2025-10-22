@@ -1,9 +1,9 @@
 import Cookies from "js-cookie";
-import { IlessonForm } from "@/constants/interfaces";
-export async function addLesson(body: IlessonForm) {
-  let token = Cookies.get("token");
+import { ILessonForm } from "@/constants/interfaces";
+export async function addLesson(body: ILessonForm) {
+  const token = Cookies.get("token");
   try {
-    let res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lesson`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lesson`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,9 +11,10 @@ export async function addLesson(body: IlessonForm) {
       },
       body: JSON.stringify(body),
     });
-    let data = await res.json();
+    const data = await res.json();
     return data;
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error(error);
   }
 }
