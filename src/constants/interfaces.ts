@@ -160,3 +160,13 @@ export interface ExamResult {
   answers: ExamAnswer[];
   completedAt: number;
 }
+
+export interface ExamData{
+  title: string,
+  description: string,
+  duration: string,
+  classLevel: string,
+  startDate: string,
+  endDate: string,
+  isPublished: boolean,
+}
