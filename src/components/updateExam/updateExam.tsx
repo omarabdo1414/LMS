@@ -37,8 +37,24 @@ const UpdateExam = () => {
 
   if (!exam) {
     return (
-      <div className="text-center mt-10 text-red-500">
-        ⚠️ No exam selected. Please go back to exam list.
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 max-w-md mx-4">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-red-600 dark:text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No Exam Selected</h2>
+            <p className="text-red-600 dark:text-red-400 mb-4">Please go back to exam list to select an exam.</p>
+            <button 
+              onClick={() => router.push('/Exams/getExams')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Back to Exams
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -57,16 +73,16 @@ const UpdateExam = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-lg w-full bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+      <div className="max-w-lg w-full bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Update Exam</h1>
-          <p className="text-gray-600">Modify exam details and settings</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Update Exam</h1>
+          <p className="text-gray-600 dark:text-gray-300">Modify exam details and settings</p>
         </div>
 
       <Formik
@@ -85,10 +101,10 @@ const UpdateExam = () => {
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className="space-y-6">
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Title</label>
+              <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">Title</label>
               <Field 
                 name="title" 
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-slate-700 text-gray-900 dark:text-white" 
                 placeholder="Enter exam title"
               />
               <ErrorMessage
@@ -99,12 +115,12 @@ const UpdateExam = () => {
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Description</label>
+              <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">Description</label>
               <Field
                 as="textarea"
                 name="description"
                 rows="3"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
                 placeholder="Enter exam description"
               />
               <ErrorMessage
@@ -115,11 +131,11 @@ const UpdateExam = () => {
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Duration (minutes)</label>
+              <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">Duration (minutes)</label>
               <Field
                 type="number"
                 name="duration"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
                 placeholder="Enter duration in minutes"
               />
               <ErrorMessage
@@ -130,11 +146,11 @@ const UpdateExam = () => {
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-gray-700">Class Level</label>
+              <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">Class Level</label>
               <Field
                 as="select"
                 name="classLevel"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
               >
                 {allowedLevels.map((lvl) => (
                   <option key={lvl}>{lvl}</option>
@@ -144,33 +160,33 @@ const UpdateExam = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">Start Date</label>
+                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">Start Date</label>
                 <Field 
                   name="startDate" 
                   type="date" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-slate-700 text-gray-900 dark:text-white" 
                 />
               </div>
 
               <div>
-                <label className="block mb-2 font-semibold text-gray-700">End Date</label>
+                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">End Date</label>
                 <Field 
                   name="endDate" 
                   type="date" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" 
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-slate-700 text-gray-900 dark:text-white" 
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
               <input
                 id="isPublished"
                 type="checkbox"
                 checked={values.isPublished}
                 onChange={(e) => setFieldValue("isPublished", e.target.checked)}
-                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-5 h-5 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:bg-slate-600"
               />
-              <label htmlFor="isPublished" className="font-semibold text-gray-700">
+              <label htmlFor="isPublished" className="font-semibold text-gray-700 dark:text-gray-200">
                 Publish Exam
               </label>
             </div>

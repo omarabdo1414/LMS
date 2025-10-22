@@ -25,6 +25,13 @@ interface ExamAnswers {
   [questionId: string]: string;
 }
 
+interface ScoreData {
+  score?: number;
+  correctAnswers?: number;
+  totalQuestions?: number;
+  message?: string;
+}
+
 const ExamComponent = () => {
   const params = useParams();
   const examId = (params?.["admin-exam-id"] as string) || "";
@@ -36,8 +43,7 @@ const ExamComponent = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [scoreData, setScoreData] = useState<any | null>(null);
-  const [syncingTime, setSyncingTime] = useState(false);
+  const [scoreData, setScoreData] = useState<ScoreData | null>(null);
 
   const handleSubmitExam = useCallback(async () => {
     if (!examId || submitting || isSubmitted) return;
@@ -58,7 +64,7 @@ const ExamComponent = () => {
       try {
         const res = await getExamScore(examId);
         setScoreData(res?.data ?? null);
-      } catch (e) {
+      } catch {
         // ignore score fetch errors, UI will just show generic success
       }
     } catch (e) {
@@ -86,7 +92,6 @@ const ExamComponent = () => {
     const sync = async () => {
       if (!examId || isSubmitted) return;
       try {
-        setSyncingTime(true);
         const res = await getExamRemainingTime(examId);
         const serverSeconds = (res?.data?.remainingSeconds ??
           res?.data?.remaining_time ??
@@ -94,10 +99,8 @@ const ExamComponent = () => {
         if (typeof serverSeconds === "number" && serverSeconds >= 0) {
           setTimeLeft(serverSeconds);
         }
-      } catch (e) {
+      } catch {
         // ignore sync errors to avoid disrupting the exam flow
-      } finally {
-        setSyncingTime(false);
       }
     };
 
@@ -113,7 +116,7 @@ const ExamComponent = () => {
   useEffect(() => {
     async function fetchExam() {
       try {
-        const response = await getExamById(examId);
+        const response = await getExamById();
         // Check if response is an array
         if (Array.isArray(response)) {
           setExamData(response);
@@ -132,8 +135,10 @@ const ExamComponent = () => {
         setLoading(false);
       }
     }
-    fetchExam();
-  }, []);
+    if (examId) {
+      fetchExam();
+    }
+  }, [examId]);
 
   const handleAnswerChange = (questionId: string, answer: string) => {
     setAnswers((prev) => ({
@@ -183,7 +188,7 @@ const ExamComponent = () => {
             Thank you for completing the exam. Your answers have been recorded.
           </p>
           {scoreData ? (
-            <ExamDetails scoreData={scoreData} />
+            <ExamDetails scoreData={{ data: [scoreData as any] }} />
           ) : (
             <p className="text-sm text-gray-600">
               Results will be available soon.
