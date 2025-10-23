@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import notFound from "../../../../public/404.svg";
+import notFound from "../../../../public/404-error.png";
 import Link from "next/link";
 type TNotFoundPropos = {
   title: string;
@@ -18,7 +18,7 @@ export default function NotFound({
       <p className="mb-6 text-xl">{title}</p>
       <Link
         href={hrefLink}
-        className="w-40 h-10 font-semibold text-white  flex justify-center items-center rounded-lg bg-primary hover:bg-primary/90 cursor-pointer"
+        className="w-40 h-10 font-semibold text-white  flex justify-center items-center rounded-lg bg-accent hover:bg-accent/90 cursor-pointer"
       >
         {btnName}
       </Link>
