@@ -108,7 +108,7 @@ export default function UserTable() {
                 className="hover:bg-accent/10 transition-colors duration-150"
               >
                 <td className="border border-border p-3">{i + 1}</td>
-                <td className="border border-border p-3">{u.name}</td>
+                <td className="border border-border p-3">{u.fullName}</td>
                 <td className="border border-border p-3">{u.email}</td>
                 <td className="border border-border p-3 text-center">
                   {u.isVerified ? (

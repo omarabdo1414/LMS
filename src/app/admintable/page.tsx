@@ -1,9 +1,10 @@
 
 import AdminTable from "@/components/AdminTable/AdminTable";
+import ProtectedRoute from "@/components/guard/ProtectPages";
 
 export default function AdminTablePage() {
   return (
-    
+    <ProtectedRoute>
       <div className="p-8 min-h-screen bg-background text-foreground">
         <h1 className="text-3xl font-bold text-center text-base-color">
           Admin Table
@@ -12,6 +13,8 @@ export default function AdminTablePage() {
           <AdminTable />
         </div>
       </div>
+
+    </ProtectedRoute>
     
   );
 }
