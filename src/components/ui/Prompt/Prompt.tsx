@@ -1,10 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import { X } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { roles } from "@/constants/enums";
 /**
  * service => service name(ex:payment,delete)
  * data => data of item that action it
@@ -30,11 +27,8 @@ export default function Prompt({
   handleFunc,
   setPrompt,
 }: TpromptProps) {
-  let { userData } = useSelector((state: RootState) => state.user);
-  if(userData?.role === roles.ADMIN || userData?.role === roles.SUPER_ADMIN ){
-
-  }
-  userData?.role
+  let promptLayer = useRef<HTMLDivElement>(null);
+  let promptDisplay = useRef<HTMLDivElement>(null);
   useEffect(() => {
     document.addEventListener("keydown", (e) => {
       if (e.key == "Escape") {
@@ -42,10 +36,21 @@ export default function Prompt({
       }
     });
   }, []);
+  useEffect(() => {
+    promptLayer.current?.addEventListener("click", (e) => {
+      if (!promptDisplay.current?.contains(e.target as Node)) setPrompt(false);
+    });
+  }, []);
   return (
     <>
-      <div className="bg-black/60 fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center">
-        <div className="w-[90%] sm:w-[68%] md:w-[55%] lg:w-[45%] xl:w-[35%] h-50 bg-card rounded-lg">
+      <div
+        ref={promptLayer}
+        className="bg-black/60 fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+      >
+        <div
+          ref={promptDisplay}
+          className="w-[90%] sm:w-[68%] md:w-[55%] lg:w-[45%] xl:w-[35%] h-50 bg-card rounded-lg"
+        >
           <div className="contain my-5">
             {/* service and close icon */}
             <div className="flex justify-between">

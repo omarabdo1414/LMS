@@ -1,5 +1,5 @@
 "use client";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import {
   ChevronDown,
   ChevronUp,
@@ -10,8 +10,8 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 type TLessonProps = {
-  lesson: Ilesson;
-  myLessons: Ilesson[];
+  lesson: ILesson;
+  myLessons: ILesson[];
 };
 export default function LessonsDropDown({ lesson, myLessons }: TLessonProps) {
   let router = useRouter();

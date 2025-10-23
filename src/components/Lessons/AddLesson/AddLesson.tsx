@@ -5,7 +5,6 @@ import ErrorMsg from "../../ui/ErrorMsg/ErrorMsg";
 import SubmitBtn from "../../ui/SubmitBtn/SubmitBtn";
 import { addLessonSchema } from "@/validations/validations";
 import { useRouter } from "next/navigation";
-import { IlessonForm } from "@/constants/interfaces";
 import toast from "react-hot-toast";
 import { addLesson } from "@/Apis/lessons/addLesson";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,7 @@ import { classLevel, roles } from "@/constants/enums";
 import LoadingPage from "../../ui/loading/loading";
 import { TriangleAlert } from "lucide-react";
 import NotAuth from "../../ui/NotAuth/NotAuth";
+import { ILessonForm } from "@/constants/interfaces";
 type Tlesson = {
   title: string;
   description: string;
@@ -34,7 +34,7 @@ export default function AddLesson() {
   //addlesson
   let handleForm = async (values: Tlesson) => {
     // body in api
-    let body: IlessonForm = {
+    let body: ILessonForm = {
       title: values.title,
       description: values.description,
       video: values.video,
