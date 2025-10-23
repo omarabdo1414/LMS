@@ -227,7 +227,7 @@ export default function ProfilePage() {
       {/* My Exams */}
       <div className="border border-blue-100 rounded-2xl p-6 bg-white shadow-sm flex justify-between items-center flex-wrap gap-5 dark-profile">
           <h2 className="text-lg font-bold text-base-color ">My Exams</h2>
-          <Link href="#">
+          <Link href="/Exams/getExams">
             <button className="btn px-8 py-2">
                   <BookCheck className="w-5 mr-3" />
                   View Exams
