@@ -1,5 +1,5 @@
-import React from 'react';
-import { QuizQuestion } from '@/constants/interfaces';
+import React from "react";
+import { QuizQuestion } from "@/constants/interfaces";
 
 interface QuestionCardProps {
   question: QuizQuestion;

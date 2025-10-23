@@ -348,29 +348,30 @@ const questionsSlice = createSlice({
 
         // Save quiz settings
         saveQuizSettings: (
-            state,
-            action: PayloadAction<{
-                timeLimit: number;
-                attempts: number;
-                shuffleQuestions: boolean;
-                showCorrectAnswers: boolean;
-                allowReview: boolean;
-                passPercentage: number;
-                dueDate: string;
-                instructions: string;
-            }>
-        ) => {
-            if (state.currentQuiz) {
-                // Store settings in the quiz object
-                (state.currentQuiz as never).settings = action.payload;
-                state.currentQuiz.updatedAt = Date.now();
-            }
-        },
+  state,
+  action: PayloadAction<{
+    timeLimit: number;
+    attempts: number;
+    shuffleQuestions: boolean;
+    showCorrectAnswers: boolean;
+    allowReview: boolean;
+    passPercentage: number;
+    dueDate: string;
+    instructions: string;
+  }>
+) => {
+  if (state.currentQuiz) {
+    // ✅ Safe type-aware assignment
+    state.currentQuiz.settings = action.payload;
+    state.currentQuiz.updatedAt = Date.now();
+  }
+},
 
         // Set selected exam ID
-        setSelectedExam: (state, action: PayloadAction<string>) => {
+        setSelectedExam: (state, action: PayloadAction<string | null>) => {
             state.selectedExamId = action.payload;
         },
+
     },
 });
 

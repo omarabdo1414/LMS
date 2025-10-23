@@ -1,4 +1,4 @@
-//>>>>>forms
+//>>>>> forms
 
 // Signup form
 export interface ISignupForm {
@@ -86,17 +86,23 @@ export interface ILessonForm {
 }
 
 // Quiz Question Types (UI Display)
-export type QuestionType = "Multiple Choice" | "True/False" | "Short Answer";
+export type QuestionType =
+  | "Multiple Choice"
+  | "True/False"
+  | "Short Answer"
+  | "Essay";
 
 // API Question Types
-export type ApiQuestionType = "multiple-choice" | "true-false" | "short-answer";
+export type ApiQuestionType = "multiple-choice" | "true-false" | "short-answer" | "essay";
 
+// Quiz Option
 export interface QuestionOption {
   id: string;
   text: string;
   isCorrect?: boolean;
 }
 
+// Quiz Question
 export interface QuizQuestion {
   id: string;
   questionText: string;
@@ -109,6 +115,19 @@ export interface QuizQuestion {
   createdAt: number;
 }
 
+// ✅ Quiz Settings (added)
+export interface QuizSettings {
+  timeLimit: number; // in minutes
+  attempts: number;
+  shuffleQuestions: boolean;
+  showCorrectAnswers: boolean;
+  allowReview: boolean;
+  passPercentage: number;
+  dueDate: string;
+  instructions: string;
+}
+
+// ✅ Quiz Interface
 export interface Quiz {
   id: string;
   title: string;
@@ -116,9 +135,10 @@ export interface Quiz {
   questions: QuizQuestion[];
   createdAt: number;
   updatedAt: number;
+  settings?: QuizSettings; // Added to fix Redux/usage issues
 }
 
-// Quiz State
+// ✅ Quiz State
 export interface QuizState {
   currentQuiz: Quiz | null;
   questions: QuizQuestion[];
@@ -127,7 +147,7 @@ export interface QuizState {
   selectedExamId: string | null;
 }
 
-// Exam Interfaces
+// ✅ Exam Interfaces
 export interface ExamAnswer {
   questionId: string;
   answer: string | number;
@@ -167,12 +187,12 @@ export interface ExamResult {
   completedAt: number;
 }
 
-export interface ExamData{
-  title: string,
-  description: string,
-  duration: string,
-  classLevel: string,
-  startDate: string,
-  endDate: string,
-  isPublished: boolean,
+export interface ExamData {
+  title: string;
+  description: string;
+  duration: string;
+  classLevel: string;
+  startDate: string;
+  endDate: string;
+  isPublished: boolean;
 }
