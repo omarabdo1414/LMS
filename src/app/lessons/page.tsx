@@ -1,7 +1,7 @@
 import { getLessons } from "@/Apis/lessons/getLessons";
 import ProtectedRoute from "@/components/guard/ProtectPages";
 import LessonCard from "@/components/Lessons/LessonCard/LessonCard";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import {
   Pagination,
   PaginationContent,
@@ -22,19 +22,20 @@ export const metadata: Metadata = {
   description: "lms edu education Forget Password ",
 };
 type TLessonsProps = {
-  searchParams?: {
-    page: string;
-  };
+  searchParams: Promise<{
+    page?: string;
+  }>;
 };
 export default async function LessonsPage({ searchParams }: TLessonsProps) {
+  const resolvedSearchParams = await searchParams;
   // currentPage
-  let currentPage = Number(searchParams?.page || 1);
+  let currentPage = Number(resolvedSearchParams?.page || 1);
   // get lessons from api
   const lessons = await getLessons(currentPage);
   //get my lessons
   const myLessons = await getMyLessons();
 
-  let lessonsList: Ilesson[] = lessons.data;
+  let lessonsList: ILesson[] = lessons.data;
   let totalPages = lessons.pagination?.totalPages;
 
   // // pagesLsit
@@ -77,8 +78,8 @@ export default async function LessonsPage({ searchParams }: TLessonsProps) {
                 
                 className={`flex items-center px-3 py-2 rounded-md border text-sm font-medium transition ${
                   currentPage === 1
-                    ? "pointer-events-none opacity-50"
-                    : "hover:bg-accent/40"
+                    ? " opacity-50 cursor-not-allowed"
+                    : "hover:bg-accent/40 "
                 }`} 
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
@@ -117,7 +118,7 @@ export default async function LessonsPage({ searchParams }: TLessonsProps) {
                 
                 className={`flex items-center px-3 py-2 rounded-md border text-sm font-medium transition ${
                   currentPage === totalPages
-                    ? "pointer-events-none opacity-50"
+                    ? "cursor-not-allowed opacity-50"
                     : "hover:bg-accent/40"
                 }`}
               >

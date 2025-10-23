@@ -1,6 +1,10 @@
+
 import { cookies } from "next/headers";
+
 import { redirect } from "next/navigation";
 import GetUser from "../GetUser/GetUser";
+
+
 /*
 protect all routes in application except auth and welcome page
  */

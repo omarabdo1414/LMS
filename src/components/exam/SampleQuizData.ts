@@ -1,0 +1,66 @@
+import { Quiz } from '@/constants/interfaces';
+
+export const sampleQuiz: Quiz = {
+  id: 'sample-quiz-1',
+  title: 'History of Ancient Civilizations',
+  description: 'This quiz covers the key aspects of ancient civilizations, including their rise, culture, and decline. Good luck!',
+  questions: [
+    {
+      id: 'q1',
+      questionText: 'Which river is most associated with the development of ancient Egyptian civilization?',
+      questionType: 'Multiple Choice',
+      options: [
+        { id: 'o1', text: 'Tigris', isCorrect: false },
+        { id: 'o2', text: 'Euphrates', isCorrect: false },
+        { id: 'o3', text: 'Nile', isCorrect: true },
+        { id: 'o4', text: 'Indus', isCorrect: false },
+      ],
+      correctAnswer: 2,
+      points: 10,
+      required: true,
+      createdAt: Date.now(),
+    },
+    {
+      id: 'q2',
+      questionText: 'What was the primary writing system used in ancient Mesopotamia?',
+      questionType: 'Multiple Choice',
+      options: [
+        { id: 'o5', text: 'Hieroglyphics', isCorrect: false },
+        { id: 'o6', text: 'Cuneiform', isCorrect: true },
+        { id: 'o7', text: 'Linear B', isCorrect: false },
+        { id: 'o8', text: 'Phoenician', isCorrect: false },
+      ],
+      correctAnswer: 1,
+      points: 10,
+      required: true,
+      createdAt: Date.now(),
+    },
+    {
+      id: 'q3',
+      questionText: 'The Great Wall of China was primarily built during which dynasty?',
+      questionType: 'Multiple Choice',
+      options: [
+        { id: 'o9', text: 'Han Dynasty', isCorrect: false },
+        { id: 'o10', text: 'Ming Dynasty', isCorrect: true },
+        { id: 'o11', text: 'Tang Dynasty', isCorrect: false },
+        { id: 'o12', text: 'Qin Dynasty', isCorrect: false },
+      ],
+      correctAnswer: 1,
+      points: 15,
+      required: true,
+      createdAt: Date.now(),
+    },
+    {
+      id: 'q4',
+      questionText: 'The Roman Empire reached its greatest territorial extent under Emperor Trajan.',
+      questionType: 'True/False',
+      options: [],
+      correctAnswer: 'true',
+      points: 10,
+      required: true,
+      createdAt: Date.now(),
+    },
+  ],
+  createdAt: Date.now(),
+  updatedAt: Date.now(),
+};

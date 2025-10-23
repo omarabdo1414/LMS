@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
+
 export async function getLessons(page: number = 1) {
   try {
     const token = (await cookies()).get("token")?.value;
-    let res = await fetch(
+    const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/lesson/?limit=12&page=${page}`,
       {
         method: "GET",
@@ -14,7 +15,7 @@ export async function getLessons(page: number = 1) {
       }
     );
 
-    let data = await res.json();
+    const data = await res.json();
     return data;
   } catch (error) {
     console.error(error);

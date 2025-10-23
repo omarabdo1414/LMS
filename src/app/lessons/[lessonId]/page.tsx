@@ -1,7 +1,7 @@
 import { getLessonByID } from "@/Apis/lessons/getLessonDetails";
 import ProtectedRoute from "@/components/guard/ProtectPages";
 import NotFound from "@/components/ui/NotFound/NotFound";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import { Metadata } from "next";
 import React from "react";
 type TLessonProps = {
@@ -13,14 +13,14 @@ export async function generateMetadata({
   params,
 }: TLessonProps): Promise<Metadata> {
   const lessonData = await getLessonByID(params?.lessonId);
-  const lesson: Ilesson = lessonData.data;
+  const lesson: ILesson = lessonData.data;
   return {
     title: lesson?.title || "Course Details",
   };
 }
 export default async function LessonDetailsPage({ params }: TLessonProps) {
   let lessonData = await getLessonByID(params?.lessonId);
-  let lesson: Ilesson = lessonData.data;
+  let lesson: ILesson = lessonData.data;
 
   return (
     <>
