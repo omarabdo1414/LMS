@@ -3,18 +3,30 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 
+// ✅ TypeScript interface for the form state
+type AdminForm = {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  cpassword: string;
+};
+
 export default function CreateAdminForm() {
-  const [form, setForm] = useState({
+  // ✅ Properly typed state
+  const [form, setForm] = useState<AdminForm>({
     fullName: "",
     email: "",
     phoneNumber: "",
     password: "",
     cpassword: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
+  // ✅ Properly typed form event
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
@@ -80,24 +92,28 @@ export default function CreateAdminForm() {
           Create New Admin
         </motion.h2>
 
+        {/* ✅ Full Name & Phone Number */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {["fullName", "phoneNumber"].map((field, index) => (
-            <motion.input
-              key={field}
-              type={field === "phoneNumber" ? "text" : "text"}
-              placeholder={
-                field === "fullName" ? "Full Name" : "Phone Number"
-              }
-              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:shadow-md"
-              value={form[field]}
-              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-              required
-              whileFocus={{ scale: 1.02 }}
-              whileHover={{ scale: 1.01 }}
-            />
-          ))}
+          {(["fullName", "phoneNumber"] as (keyof AdminForm)[]).map(
+            (field, index) => (
+              <motion.input
+                key={field}
+                type={field === "phoneNumber" ? "text" : "text"}
+                placeholder={
+                  field === "fullName" ? "Full Name" : "Phone Number"
+                }
+                className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 hover:shadow-md"
+                value={form[field]}
+                onChange={(e) => setForm({ ...form, [field]: e.target.value })}
+                required
+                whileFocus={{ scale: 1.02 }}
+                whileHover={{ scale: 1.01 }}
+              />
+            )
+          )}
         </div>
 
+        {/* ✅ Email */}
         <motion.input
           type="email"
           placeholder="Email"
@@ -109,8 +125,9 @@ export default function CreateAdminForm() {
           whileHover={{ scale: 1.01 }}
         />
 
+        {/* ✅ Password & Confirm Password */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {["password", "cpassword"].map((field) => (
+          {(["password", "cpassword"] as (keyof AdminForm)[]).map((field) => (
             <motion.input
               key={field}
               type="password"
@@ -127,6 +144,7 @@ export default function CreateAdminForm() {
           ))}
         </div>
 
+        {/* ✅ Submit Button */}
         <motion.button
           type="submit"
           disabled={loading}
@@ -137,6 +155,7 @@ export default function CreateAdminForm() {
           {loading ? "Creating..." : "Create Admin"}
         </motion.button>
 
+        {/* ✅ Message */}
         {message && (
           <motion.p
             initial={{ opacity: 0 }}
