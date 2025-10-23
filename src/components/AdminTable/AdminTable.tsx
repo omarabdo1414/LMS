@@ -11,9 +11,12 @@ export default function AdminTable() {
   const fetchAdmins = async () => {
     const token = Cookies.get("token");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/all-admin`, {
-        headers: { token: token || "" },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/all-admin`,
+        {
+          headers: { token: token || "" },
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch admins");
 
@@ -63,6 +66,7 @@ export default function AdminTable() {
         No admins found.
       </motion.p>
     );
+  console.log(admins);
 
   return (
     <motion.div
@@ -99,12 +103,15 @@ export default function AdminTable() {
             {admins.map((a, i) => (
               <motion.tr
                 key={i}
-                whileHover={{ scale: 1.02, backgroundColor: "rgba(0,0,0,0.03)" }}
+                whileHover={{
+                  scale: 1.02,
+                  backgroundColor: "rgba(0,0,0,0.03)",
+                }}
                 transition={{ type: "spring", stiffness: 150 }}
                 className="hover:bg-accent/10 transition-colors duration-150"
               >
                 <td className="border border-border p-3">{i + 1}</td>
-                <td className="border border-border p-3">{a.name}</td>
+                <td className="border border-border p-3">{a.fullName}</td>
                 <td className="border border-border p-3">{a.email}</td>
                 <td className="border border-border p-3">{a.role}</td>
               </motion.tr>

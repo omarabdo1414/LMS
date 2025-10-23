@@ -1,9 +1,9 @@
-
 import CreateAdminForm from "@/components/CreateAdminForm/CreateAdminForm";
+import ProtectedRoute from "@/components/guard/ProtectPages";
 
 export default function CreateAdminPage() {
   return (
-   
+    <ProtectedRoute>
       <div className="p-8 min-h-screen bg-background text-foreground">
         <h1 className="text-3xl font-bold text-center text-base-color">
           Create Admin
@@ -12,6 +12,6 @@ export default function CreateAdminPage() {
           <CreateAdminForm />
         </div>
       </div>
-  
+    </ProtectedRoute>
   );
 }
