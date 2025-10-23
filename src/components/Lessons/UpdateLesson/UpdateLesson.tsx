@@ -8,11 +8,9 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { getUserProfile } from "@/redux/userSlice";
 import { classLevel, roles } from "@/constants/enums";
 import LoadingPage from "../../ui/loading/loading";
 import { updateLesson } from "@/Apis/lessons/updateLesson";
-import { TriangleAlert } from "lucide-react";
 import NotAuth from "../../ui/NotAuth/NotAuth";
 type TUpdateLessonProps = {
   lessonId: string;

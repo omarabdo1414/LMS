@@ -1,7 +1,7 @@
 import { getLessons } from "@/Apis/lessons/getLessons";
 import ProtectedRoute from "@/components/guard/ProtectPages";
 import LessonCard from "@/components/Lessons/LessonCard/LessonCard";
-import { Ilesson } from "@/constants/interfaces";
+import { ILesson } from "@/constants/interfaces";
 import {
   Pagination,
   PaginationContent,
@@ -35,7 +35,7 @@ export default async function LessonsPage({ searchParams }: TLessonsProps) {
   //get my lessons
   const myLessons = await getMyLessons();
 
-  let lessonsList: Ilesson[] = lessons.data;
+  let lessonsList: ILesson[] = lessons.data;
   let totalPages = lessons.pagination?.totalPages;
 
   // // pagesLsit
