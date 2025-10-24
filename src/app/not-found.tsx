@@ -8,7 +8,7 @@
  */
 
 import Link from "next/link";
-import notFound from "../../public/404.svg";
+import notFound from "../../public/404-error.png";
 import Image from "next/image";
 export default function NotFoundPage() {
   return (
@@ -17,7 +17,7 @@ export default function NotFoundPage() {
       <p className="mb-6 text-xl">Could not find requested resource</p>
       <Link
         href="#home"
-        className="w-40 h-10 font-semibold text-white  flex justify-center items-center rounded-lg bg-primary hover:bg-primary/90"
+        className="w-40 h-10 font-semibold text-white  flex justify-center items-center rounded-lg bg-accent hover:bg-accent/90"
       >
         Return Home
       </Link>

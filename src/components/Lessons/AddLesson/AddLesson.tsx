@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { getUserProfile } from "@/redux/userSlice";
 import { classLevel, roles } from "@/constants/enums";
 import LoadingPage from "../../ui/loading/loading";
-import { TriangleAlert } from "lucide-react";
+import { Plus, TriangleAlert } from "lucide-react";
 import NotAuth from "../../ui/NotAuth/NotAuth";
 import { ILessonForm } from "@/constants/interfaces";
 type Tlesson = {
@@ -77,10 +77,14 @@ export default function AddLesson() {
         userData?.role === roles.SUPER_ADMIN ? (
           // if user's role admin or super admin
           <form onSubmit={formik.handleSubmit} className="form">
+            <div className="w-16 h-16 bg-accent/15 rounded-full mx-auto flex justify-center items-center text-accent">
+            <Plus className="w-7 h-7"/>
+            </div>
             {/* header */}
-            <h1 className="text-2xl md:text-3xl  font-bold text-center my-3">
-              Add Course
+            <h1 className="text-2xl md:text-3xl  font-bold text-center mt-3">
+              Add New Course
             </h1>
+            <p className="text-center my-1.5">Create a new course for your students</p>
             {/* title */}
             <div className="mt-5">
               <label

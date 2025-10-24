@@ -12,11 +12,12 @@ import { classLevel, roles } from "@/constants/enums";
 import LoadingPage from "../../ui/loading/loading";
 import { updateLesson } from "@/Apis/lessons/updateLesson";
 import NotAuth from "../../ui/NotAuth/NotAuth";
+import { BookOpen } from "lucide-react";
 type TUpdateLessonProps = {
   lessonId: string;
 };
 export default function UpdateLesson({ lessonId }: TUpdateLessonProps) {
-  let { userData , loading } = useSelector((state: RootState) => state.user);
+  let { userData, loading } = useSelector((state: RootState) => state.user);
   let { lessonData } = useSelector((state: RootState) => state.lesson);
   let router = useRouter();
   // loadingBtn
@@ -58,6 +59,9 @@ export default function UpdateLesson({ lessonId }: TUpdateLessonProps) {
         userData?.role === roles.SUPER_ADMIN ? (
           // if user's role admin or super admin
           <form onSubmit={formik.handleSubmit} className="form">
+            <div className="w-16 h-16 bg-accent/15 rounded-full mx-auto flex justify-center items-center text-accent">
+              <BookOpen className="w-7 h-7" />
+            </div>
             {/* header */}
             <h1 className="text-2xl md:text-3xl  font-bold text-center my-3">
               Update Course

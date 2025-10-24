@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import SubmitBtn from "../SubmitBtn/SubmitBtn";
-import { X } from "lucide-react";
+import { LoaderCircle, Trash2, X } from "lucide-react";
 /**
  * service => service name(ex:payment,delete)
  * data => data of item that action it
@@ -71,7 +70,7 @@ export default function Prompt({
             {/* sure */}
             <p className="my-6">
               Sure to {service} to{" "}
-              <span className="text-accent font-semibold capitalize">
+              <span className={submit === "delete"? "text-red-600 font-semibold capitalize":"text-accent font-semibold capitalize"}>
                 {data.title}
               </span>
               ?
@@ -93,11 +92,26 @@ export default function Prompt({
                 }}
                 className="w-24"
               >
-                <SubmitBtn
-                  isLoading={isLoading}
-                  btnName={submit}
-                  className="w-full"
-                />
+                <button
+                  disabled={isLoading ? true : false}
+                  className={
+                    submit === "delete"
+                      ? "bg-red-600 w-full h-10 font-semibold disabled:bg-red-600/60  text-white rounded-lg cursor-pointer hover:bg-red-600/90 flex justify-center items-center space-x-1"
+                      : "w-full h-10 bg-accent font-semibold disabled:bg-accent/60  text-white rounded-lg cursor-pointer hover:bg-accent/90 flex justify-center items-center space-x-1"
+                  }
+                >
+                  {isLoading ? (
+                    <>
+                      <LoaderCircle className="w-5 h-5 animate-spin" />
+                      <span>{submit}</span>
+                    </>
+                  ) : (
+                    <>
+                      {submit === "delete" ? <Trash2 className="w-5 h-5" /> : ""}
+                      <span>{submit}</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </div>

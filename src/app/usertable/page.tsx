@@ -1,9 +1,9 @@
-
+import ProtectedRoute from "@/components/guard/ProtectPages";
 import UserTable from "@/components/UserTable/UserTable";
 
 export default function UserTablePage() {
   return (
-    
+    <ProtectedRoute>
       <div className="p-8 min-h-screen bg-background text-foreground">
         <h1 className="text-3xl font-bold text-center text-base-color">
           User Table
@@ -12,6 +12,6 @@ export default function UserTablePage() {
           <UserTable />
         </div>
       </div>
-    
+    </ProtectedRoute>
   );
 }
