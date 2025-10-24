@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   } else if (userData?.role === "admin") {
     adminPanelChildren.push({
       label: "User Table",
-      path: "/admins",
+      path: "/usertable",
       icon: UserCircleIcon,
     });
   }
