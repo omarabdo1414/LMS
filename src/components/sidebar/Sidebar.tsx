@@ -109,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     adminPanelChildren.push(
       { label: "Create Admin", path: "/createadmin", icon: PlusCircleIcon },
       { label: "Admin Table", path: "/admintable", icon: ShieldCheckIcon },
-      { label: "User Table", path: "/admins", icon: UserCircleIcon }
+      { label: "User Table", path: "/usertable", icon: UserCircleIcon }
     );
   } else if (userData?.role === "admin") {
     adminPanelChildren.push({
