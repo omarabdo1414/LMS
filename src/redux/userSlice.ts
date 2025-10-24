@@ -2,7 +2,7 @@ import { IUser, IUserState } from "@/constants/interfaces";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-// ✅ 1. Get profile
+// 1. Get profile
 async function getProfile() {
   const token = Cookies.get("token");
   try {
@@ -18,7 +18,7 @@ async function getProfile() {
 }
 export const getUserProfile = createAsyncThunk("user/getProfile", getProfile);
 
-// ✅ 2. Update personal info
+//  2. Update personal info
 async function updateUserProfile(updatedData: {
   fullName: string;
   email: string;
@@ -52,7 +52,7 @@ export const updateTheUserProfile = createAsyncThunk(
   updateUserProfile
 );
 
-// ✅ 3. Change password
+//  3. Change password
 async function changePassword({
   oldPassword,
   newPassword,
@@ -85,7 +85,7 @@ export const changeUserPassword = createAsyncThunk(
   changePassword
 );
 
-// ✅ 4. Delete account
+// 4. Delete account
 async function deleteAccount() {
   const token = Cookies.get("token");
   try {
@@ -103,7 +103,7 @@ export const deleteUserAccount = createAsyncThunk(
   deleteAccount
 );
 
-// ✅ 5. Initial state
+// 5. Initial state
 const initialState: IUserState & { role: string | null } = {
   userData: null,
   role: null, 
@@ -111,7 +111,7 @@ const initialState: IUserState & { role: string | null } = {
   error: null,
 };
 
-// ✅ 6. Slice
+// 6. Slice
 const UserSlice = createSlice({
   name: "user",
   initialState,
@@ -173,7 +173,7 @@ const UserSlice = createSlice({
       state.loading = false;
       if (action.payload?.success) {
         state.userData = null;
-        state.role = null; // ✅ clear role
+        state.role = null; 
         Cookies.remove("token");
         Cookies.remove("userId");
       }

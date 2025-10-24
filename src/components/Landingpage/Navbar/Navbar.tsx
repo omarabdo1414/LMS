@@ -4,47 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Cookies from "js-cookie";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getUserProfile } from "@/redux/userSlice";
+
 type User = {
   fullName: string;
   email: string;
 };
 
 export default function Navbar() {
-  const [user, setUser] = useState<User | null>(null);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.userData);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      const token = Cookies.get("token");
-      if (token) {
-        try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/profile`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (res.ok) {
-            const userData = await res.json();
-            setUser(userData.user);
-          } else {
-            Cookies.remove("token");
-            setUser(null);
-          }
-        } catch (error) {
-          console.error("Failed to fetch user profile:", error);
-          setUser(null);
-        }
-      }
+   useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      dispatch(getUserProfile()).finally(() => setIsLoading(false));
+    } else {
       setIsLoading(false);
-    };
+    }
+  }, [dispatch]);
 
-    fetchUserProfile();
-  }, []);
+
   const closeMenu = () => setIsMenuOpen(false);
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-sm">
@@ -71,7 +54,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/#about"
-                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium"
+                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium text-nowrap"
               >
                 About Us
               </Link>
@@ -79,7 +62,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/#details"
-                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium"
+                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium text-nowrap"
               >
                 Program Details
               </Link>
@@ -87,7 +70,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/#benefits"
-                className="text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium"
+                className="text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium text-nowrap"
               >
                 Benefits
               </Link>
@@ -95,7 +78,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/#criteria"
-                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium"
+                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium text-nowrap"
               >
                 Selection Criteria
               </Link>
@@ -103,7 +86,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/#team"
-                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium"
+                className="text-black dark:hover:text-accent dark:text-white hover:text-accent font-medium text-nowrap"
               >
                 Our Team
               </Link>
@@ -115,7 +98,7 @@ export default function Navbar() {
             <div className="w-full h-10 bg-muted rounded-lg animate-pulse"></div>
           ) : user ? (
             <Link href="/profile" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center bg-primary text-primary-foreground rounded-full w-10 h-10 text-lg font-semibold">
+              <div className="flex items-center justify-center bg-[var(--btn)] text-primary-foreground rounded-full w-10 h-10 text-lg font-semibold">
                 {user.fullName?.charAt(0)?.toUpperCase()}
               </div>
               <div className="text-left">
@@ -167,7 +150,7 @@ export default function Navbar() {
                 <Link
                   href="/#about"
                   onClick={closeMenu}
-                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium"
+                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium text-nowrap"
                 >
                   About Us
                 </Link>
@@ -176,7 +159,7 @@ export default function Navbar() {
                 <Link
                   href="/#details"
                   onClick={closeMenu}
-                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium"
+                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium text-nowrap"
                 >
                   Program Details
                 </Link>
@@ -185,7 +168,7 @@ export default function Navbar() {
                 <Link
                   href="/#benefits"
                   onClick={closeMenu}
-                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium"
+                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium text-nowrap"
                 >
                   Benefits
                 </Link>
@@ -194,7 +177,7 @@ export default function Navbar() {
                 <Link
                   href="/#criteria"
                   onClick={closeMenu}
-                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium"
+                  className="block text-black dark:hover:text-accent dark:text-white hover:text-accent  font-medium text-nowrap"
                 >
                   Selection Criteria
                 </Link>
